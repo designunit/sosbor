@@ -1,0 +1,46 @@
+{
+    "name": "frontend",
+    "version": "0.1.0",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start",
+        "lint": "next lint",
+        "api": " cd ../backend && npm run dev"
+    },
+    "dependencies": {
+        "@hookform/resolvers": "^3.3.4",
+        "@mantine/core": "^7.5.1",
+        "@mantine/hooks": "^7.11.1",
+        "@mantine/modals": "^7.5.1",
+        "@types/mapbox-gl": "^3.4.1",
+        "mapbox-gl": "^3.17.0",
+        "maplibre-gl": "^5.7.0",
+        "next": "^16.1.0",
+        "next-seo": "^6.5.0",
+        "qs": "^6.12.1",
+        "react": "^19.2.0",
+        "react-dom": "^19.2.0",
+        "react-hook-form": "^7.50.0",
+        "react-map-gl": "^8.1.0",
+        "react-masonry-css": "^1.0.16",
+        "react-use": "^17.5.0",
+        "swiper": "^8.3.2",
+        "swr": "^2.2.5",
+        "zod": "^3.22.4"
+    },
+    "devDependencies": {
+        "@types/node": "^24",
+        "@types/qs": "^6.9.15",
+        "@types/react": "^19.2.0",
+        "@types/react-dom": "^19.2.0",
+        "eslint": "^9",
+        "eslint-config-next": "^16.1.1",
+        "postcss": "^8.4.33",
+        "postcss-preset-mantine": "^1.13.0",
+        "postcss-simple-vars": "^7.0.1",
+        "typescript": "^5"
+    }
+}

@@ -1,0 +1,27 @@
+.mapButton {
+    font-size: 12px;
+
+    @media (max-width: $mantine-breakpoint-md) {
+        font-size: inherit;
+    }
+}
+
+.mapButtonRoot {
+    padding: .5em 1em !important;
+}
+
+.masonry {
+    --size: 40px;
+    display: flex;
+    margin-left: calc(-1 * var(--size));
+    width: auto;
+}
+
+.masonryCol {
+    padding-left: var(--size);
+    background-clip: padding-box;
+}
+
+.masonryCol>div {
+    margin-bottom: var(--size);
+}

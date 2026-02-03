@@ -1,0 +1,30 @@
+services:
+    app:
+        image: udomlya-app:latest
+        restart: unless-stopped
+        depends_on:
+            - backend
+        ports:
+            - "3000:3000"
+        env_file:
+            - ./frontend/.env
+
+    backend:
+        image: udomlya-backend:latest
+        restart: unless-stopped
+        ports:
+            - "3000:3000"
+        depends_on:
+            - mongo
+        links:
+            - mongo
+        env_file:
+            - .env
+
+    mongo:
+        image: mongo:8-noble
+        restart: unless-stopped
+        ports:
+            - "27017:27017"
+        volumes:
+            - ./data:/data/db

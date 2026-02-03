@@ -1,0 +1,28 @@
+services:
+    payload:
+        build:
+            context: payload
+            dockerfile: Dockerfile
+        restart: unless-stopped
+        environment:
+            DATABASE_URI: mongodb://root:password0@mongo:27017/payload-db?authSource=admin
+            PAYLOAD_SECRET: supersecret0
+        ports:
+            - "5000:3000"
+        depends_on:
+            - mongo
+        links:
+            - mongo
+
+    mongo:
+        image: mongo:8-noble
+        ports:
+            - "27017:27017"
+        volumes:
+            - data:/data/db
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: root
+            MONGO_INITDB_ROOT_PASSWORD: password0
+
+volumes:
+    data:

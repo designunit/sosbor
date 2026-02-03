@@ -1,0 +1,22 @@
+.scrollAreaStack {
+    max-width: calc(400px - var(--mantine-spacing-md) * 2 - 1px);
+
+    @media (max-width: $mantine-breakpoint-md) {
+        max-width: calc(100vw - var(--mantine-spacing-md) * 2 - 1px);
+    }
+}
+
+
+.submitCommentButton {
+    font-size: 18px;
+
+    @media (max-width: $mantine-breakpoint-md) {
+        font-size: inherit;
+    }
+}
+
+.title {
+    @media (max-width: $mantine-breakpoint-md) {
+        font-size: 1.25rem !important;
+    }
+}

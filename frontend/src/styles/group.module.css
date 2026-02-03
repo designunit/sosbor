@@ -1,0 +1,9 @@
+@media (max-width: 768px) {
+    .root {
+        flex-direction: column !important;
+
+        &[data-variant='noflip'] {
+            flex-direction: row !important;
+        }
+    }
+}
