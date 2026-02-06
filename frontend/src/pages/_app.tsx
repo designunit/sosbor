@@ -26,12 +26,13 @@ import { FormContextProvider } from '@/contexts/form'
 
 const theme = createTheme({
     colors: {
-        primary: Array(10).fill('#34488D') as unknown as MantineColorsTuple,
-        secondary: Array(10).fill('#A6CA9F') as unknown as MantineColorsTuple,
-        third: Array(10).fill('#AF404B') as unknown as MantineColorsTuple,
+        primary: Array(10).fill('rgb(233 79 43)') as unknown as MantineColorsTuple,
+        secondary: Array(10).fill('rgb(155 185 98)') as unknown as MantineColorsTuple,
+        third: Array(10).fill('rgb(247 236 209)') as unknown as MantineColorsTuple,
+        dark: Array(10).fill('rgb(4,30,73)') as unknown as MantineColorsTuple,
         black: Array(10).fill('#1E1928') as unknown as MantineColorsTuple,
     },
-    defaultRadius: 40,
+    defaultRadius: 0,
     headings: {
         fontWeight: '600',
         sizes: {
@@ -52,6 +53,9 @@ const theme = createTheme({
             },
         }),
         Title: Title.extend({
+            defaultProps: {
+                c: 'third',
+            },
             styles: {
                 root: {
                     ...fontVar.style,
@@ -74,12 +78,13 @@ const theme = createTheme({
         }),
         Button: Button.extend({
             defaultProps: {
-                radius: 'xl',
                 c: 'white',
             },
             styles: {
                 root: {
                     minHeight: 64,
+                    outline: 'solid 1px var(--mantine-color-secondary-1)',
+                    outlineOffset: 2,
                 },
                 label: {
                     fontSize: '20px',
@@ -124,7 +129,7 @@ const navButtons = [
     },
     {
         text: 'Пройти опрос',
-        href: 'https://anketolog.ru/service/survey/fill/direct/984771/uU1n2c9K',
+        href: null,
     },
 ]
 
@@ -172,12 +177,14 @@ const MapPageLayout = ({ children }: { children: React.ReactNode }) => {
                 mx={'auto'}
             >
                 <Center
-                    bg={'white'}
+                    bg={'secondary'}
                     style={{
                         borderBottomLeftRadius: isMobile ? 35 : 50,
                         borderBottomRightRadius: isMobile ? 35 : 50,
                         boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)',
-                        backgroundColor: 'white',
+                        background: 'var(--mantine-color-secondary-1)',
+                        border: 'solid 2px white',
+                        borderTop: 'solid 2px transparent',
                     }}
                 >
                     <Group
@@ -200,15 +207,14 @@ const MapPageLayout = ({ children }: { children: React.ReactNode }) => {
                                 lh={'27px'}
                                 fw={'700'}
                                 style={{
-                                    fontSize: isMobile ? undefined : 42,
-                                    fontFamily: 'LXGW Marker Gothic, sans-serif',
+                                    fontSize: isMobile ? undefined : 34,
                                 }}
                                 variant='subtle'
                                 component={Link}
                                 href={'/'}
-                                c='primary'
+                                c='white'
                             >
-                                УДОМЛЯ
+                                СОСНОВЫЙ БОР
                             </Text>
                         </Flex>
                         <Burger
@@ -216,7 +222,7 @@ const MapPageLayout = ({ children }: { children: React.ReactNode }) => {
                             onClick={toggleMobile}
                             hiddenFrom='lg' // 'md'
                             size='sm'
-                            color={'black'}
+                            color={'white'}
                             ml={'auto'}
                         />
                         <Group
@@ -226,20 +232,34 @@ const MapPageLayout = ({ children }: { children: React.ReactNode }) => {
                             variant='noflip'
                             wrap='nowrap'
                         >
-                            {navButtons.map(x => (
+                            {navButtons.map(x => x.href ? (
                                 <Button
                                     key={x.text}
                                     component={Link}
                                     href={x.href}
                                     variant='transparent'
-                                    c='primary'
+                                    c='white'
                                     styles={{
                                         label: {
-                                            fontSize: '24px',
-                                            fontFamily: 'BebasNeue, sans-serif',
+                                            fontSize: '20px',
+                                            fontFamily: 'nasalization, sans-serif',
                                         },
                                     }}
-                                    className={buttonStyles.noiseless}
+                                >
+                                    {x.text}
+                                </Button>
+                            ) : (
+                                <Button
+                                    key={x.text}
+                                    onClick={openSurveyModal}
+                                    variant='transparent'
+                                    c='white'
+                                    styles={{
+                                        label: {
+                                            fontSize: '20px',
+                                            fontFamily: 'nasalization, sans-serif',
+                                        },
+                                    }}
                                 >
                                     {x.text}
                                 </Button>
@@ -263,18 +283,15 @@ const MapPageLayout = ({ children }: { children: React.ReactNode }) => {
                 onClick={() => setDrawer(!drawer)}
                 hiddenFrom='lg' // 'md'
                 size='compact-xs'
-                c='primary'
+                c='secondary'
                 bg='white'
                 style={{
                     position: 'absolute',
                     top: '8rem',
                     left: 0,
                     zIndex: 10,
-                    borderTopLeftRadius: 0,
-                    borderBottomLeftRadius: 0,
                     boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)',
                 }}
-                className={buttonStyles.noiseless}
             >
                 Предложения
             </Button>
@@ -297,14 +314,32 @@ const MapPageLayout = ({ children }: { children: React.ReactNode }) => {
                         boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)',
                     }}
                 >
-                    {navButtons.map(x => (
+                    {navButtons.map(x => x.href ? (
                         <Button
                             key={x.href}
                             component={Link}
                             href={x.href}
                             variant='subtle'
                             c='primary'
-                            className={buttonStyles.noiseless}
+                            style={{
+                                outline: 'none',
+                            }}
+                            onClick={toggleMobile}
+                        >
+                            {x.text}
+                        </Button>
+                    ) : (
+                        <Button
+                            key={x.href}
+                            onClick={() => {
+                                openSurveyModal()
+                                toggleMobile()
+                            }}
+                            variant='subtle'
+                            c='primary'
+                            style={{
+                                outline: 'none',
+                            }}
                         >
                             {x.text}
                         </Button>
@@ -322,7 +357,7 @@ const MapPageLayout = ({ children }: { children: React.ReactNode }) => {
             >
                 {children}
             </AppShell.Main>
-        </AppShell>
+        </AppShell >
     )
 }
 
@@ -366,7 +401,6 @@ const PageLayout = ({ children }: { children: React.ReactNode }) => {
                 height: 0,
             }}
         >
-
             <AppShell.Header
                 withBorder={false}
                 style={{
@@ -381,7 +415,9 @@ const PageLayout = ({ children }: { children: React.ReactNode }) => {
                         borderBottomLeftRadius: isMobile ? 35 : 50,
                         borderBottomRightRadius: isMobile ? 35 : 50,
                         boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)',
-                        backgroundColor: 'white',
+                        background: 'var(--mantine-color-secondary-1)',
+                        border: 'solid 2px white',
+                        borderTop: 'solid 2px transparent',
                     }}
                 >
                     <Group
@@ -404,15 +440,14 @@ const PageLayout = ({ children }: { children: React.ReactNode }) => {
                                 lh={'27px'}
                                 fw={'700'}
                                 style={{
-                                    fontSize: isMobile ? undefined : 42,
-                                    fontFamily: 'LXGW Marker Gothic, sans-serif',
+                                    fontSize: isMobile ? undefined : 34,
                                 }}
                                 variant='subtle'
                                 component={Link}
                                 href={'/'}
-                                c='primary'
+                                c='white'
                             >
-                                УДОМЛЯ
+                                СОСНОВЫЙ БОР
                             </Text>
                         </Flex>
                         <Burger
@@ -420,7 +455,7 @@ const PageLayout = ({ children }: { children: React.ReactNode }) => {
                             onClick={toggleMobile}
                             hiddenFrom='lg' // 'md'
                             size='sm'
-                            color={'black'}
+                            color={'white'}
                             ml={'auto'}
                         />
                         <Group
@@ -430,20 +465,33 @@ const PageLayout = ({ children }: { children: React.ReactNode }) => {
                             variant='noflip'
                             wrap='nowrap'
                         >
-                            {navButtons.map(x => (
+                            {navButtons.map(x => x.href ? (
                                 <Button
                                     key={x.text}
                                     component={Link}
                                     href={x.href}
                                     variant='transparent'
-                                    c='primary'
+                                    // c='primary'
                                     styles={{
                                         label: {
-                                            fontSize: '24px',
-                                            fontFamily: 'BebasNeue, sans-serif',
+                                            fontSize: '20px',
+                                            fontFamily: 'Nasalization, sans-serif',
                                         },
                                     }}
-                                    className={buttonStyles.noiseless}
+                                >
+                                    {x.text}
+                                </Button>
+                            ) : (
+                                <Button
+                                    key={x.text}
+                                    onClick={openSurveyModal}
+                                    variant='transparent'
+                                    styles={{
+                                        label: {
+                                            fontSize: '20px',
+                                            fontFamily: 'Nasalization, sans-serif',
+                                        },
+                                    }}
                                 >
                                     {x.text}
                                 </Button>
@@ -481,21 +529,21 @@ const PageLayout = ({ children }: { children: React.ReactNode }) => {
                             lh={'27px'}
                             fw={'700'}
                             style={{
-                                fontFamily: 'LXGW Marker Gothic, sans-serif',
+                                fontFamily: 'Nasalization, sans-serif',
                             }}
                             variant='subtle'
                             component={Link}
                             href={'/'}
                             c={'primary'}
                         >
-                            УДОМЛЯ
+                            СОСНОВЫЙ БОР
                         </Text>
                     </Flex>
                     <Drawer.CloseButton />
                 </Drawer.Header>
                 <Drawer.Body>
                     <Stack>
-                        {navButtons.map(x => (
+                        {navButtons.map(x => x.href ? (
                             <Button
                                 key={x.text}
                                 component={Link}
@@ -506,9 +554,28 @@ const PageLayout = ({ children }: { children: React.ReactNode }) => {
                                 onClick={toggleMobile}
                                 // @ts-ignore
                                 {...x.props}
-                                className={buttonStyles.noiseless}
                                 style={{
-                                    fontFamily: 'BebasNeue, sans-serif',
+                                    fontFamily: 'Nasalization, sans-serif',
+                                    outline: 'none',
+                                }}
+                            >
+                                {x.text}
+                            </Button>
+                        ) : (
+                            <Button
+                                key={x.text}
+                                variant='subtle'
+                                c='primary'
+                                size='md'
+                                onClick={() => {
+                                    toggleMobile()
+                                    openSurveyModal()
+                                }}
+                                // @ts-ignore
+                                {...x.props}
+                                style={{
+                                    fontFamily: 'Nasalization, sans-serif',
+                                    outline: 'none',
                                 }}
                             >
                                 {x.text}
@@ -561,8 +628,7 @@ const PageLayout = ({ children }: { children: React.ReactNode }) => {
                             fw={'500'}
                             c='white'
                         >
-                            @Udomla-masterplan
-
+                            Мастер-план Сосновоборского городского округа
                         </Text>
                         <Text
                             fs={'16px'}
@@ -573,7 +639,7 @@ const PageLayout = ({ children }: { children: React.ReactNode }) => {
                                 textAlign: isMobile ? 'center' : undefined,
                             }}
                         >
-                            Copyright © 2025 design unit 4 & creators
+                            Copyright © 2026 design unit 4 & creators
                         </Text>
                     </Group>
                 </Center>
@@ -597,8 +663,8 @@ export default function App({ Component, pageProps }: AppProps) {
     return (
         <>
             <NextSeo
-                title="МАСТЕР-ПЛАН РАЗВИТИЯ УДОМЛИ"
-                description="Приветствуем вас на сайте, посвящённом разработке мастер-плана города Удомля."
+                title="Мастер-план Сосновоборского городского округа"
+                description="Приветствуем вас на сайте, посвящённом разработке мастер-плана Соснового бора."
             />
             <SWRConfig
                 value={{

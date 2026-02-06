@@ -143,8 +143,8 @@ export const Map: React.FC<MapProps> = ({ initialCoords }) => {
                                         }}
                                     >
                                         <g clipPath="url(#clip0_113_61)">
-                                            <circle cx="32" cy="32" r="32" fill="#34488D" />
-                                            <path d="M32 62L32 98" stroke="#34488D" strokeWidth="8" />
+                                            <circle cx="32" cy="32" r="32" fill="var(--mantine-color-primary-1)" />
+                                            <path d="M32 62L32 98" stroke="var(--mantine-color-primary-1)" strokeWidth="8" />
                                         </g>
                                         <defs>
                                             <clipPath id="clip0_113_61">

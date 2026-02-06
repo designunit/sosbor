@@ -27,11 +27,10 @@ export const Item: React.FC<ItemProps> = ({ data }) => {
         <Card
             withBorder
             padding='md'
-            radius={12}
+            bg={'secondary'}
             style={{
-                borderColor: 'var(--mantine-color-secondary-text)',
-                borderWidth: '2px',
-                boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)',
+                // border: 'solid 2px var(--mantine-color-secondary-text)',
+                // boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)',
             }}
         >
             <Stack>
@@ -39,7 +38,9 @@ export const Item: React.FC<ItemProps> = ({ data }) => {
                     type='auto'
                     mah={200}
                 >
-                    <Text>
+                    <Text
+                        c='white'
+                    >
                         {data.content}
                     </Text>
                 </ScrollArea.Autosize>
@@ -53,6 +54,7 @@ export const Item: React.FC<ItemProps> = ({ data }) => {
                             radius='xl'
                             bd={'2px solid var(--mantine-color-primary-text)'}
                             ml={'auto'}
+                            bg={'white'}
                             onClick={() => {
                                 setDrawer(false)
                                 map.flyTo({

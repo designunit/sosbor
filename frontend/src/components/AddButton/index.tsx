@@ -55,10 +55,8 @@ export const AddButton: React.FC<{ style?: React.CSSProperties }> = ({ style = {
                     ) : (
                         <Box
                             p={4}
-                            bg={'white'}
                             style={{
-                                boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)',
-                                borderRadius: 40,
+                                // boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)',
                             }}
                         >
 
@@ -67,6 +65,10 @@ export const AddButton: React.FC<{ style?: React.CSSProperties }> = ({ style = {
                                 onClick={() => onClick({})}
                                 bg='secondary'
                                 c='primary'
+                                style={{
+                                    outlineOffset: '2px',
+                                    outline: '1px solid var(--mantine-color-secondary-1)',
+                                }}
                             >
                                 Предложить идею
                             </Button>

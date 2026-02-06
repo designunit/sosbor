@@ -21,8 +21,8 @@ const PageComponent: React.FC = () => {
             latitude: Number(coords[1]),
         }
         : {
-            longitude: 35.00760462108934,
-            latitude: 57.877114118070324,
+            longitude: 29.076903,
+            latitude: 59.896869,
         }
     )
 

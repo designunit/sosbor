@@ -1,5 +1,5 @@
 import { Fieldset, CheckboxGroup, Stack, Checkbox, TextInput, Text } from '@mantine/core'
-import { FC, useState, useEffect } from 'react'
+import { FC, useState, useEffect, useCallback } from 'react'
 import { FieldValues, UseFormSetValue, UseFormWatch } from 'react-hook-form'
 
 
@@ -16,9 +16,9 @@ export const CheckboxWithOther: FC<{
     const [inputValue, setInputValue] = useState('Другое: ')
     const selectedOptions: string[] = watch(field.name, []) || []
 
-    const handleCheckboxChange = (event) => {
+    const handleCheckboxChange = useCallback((event) => {
         setIsShowOtherInput(event.currentTarget.checked)
-    }
+    }, [])
     const handleOtherInputChange = (event) => {
         const filteredValue = selectedOptions.filter((x) => !x.includes('Другое'))
         setInputValue(`Другое: ${event.currentTarget.value}`)
@@ -44,6 +44,11 @@ export const CheckboxWithOther: FC<{
                             value={x}
                             label={x}
                             disabled={getDisabled(x)}
+                            styles={{
+                                input: {
+                                    '--checkbox-color': 'var(--mantine-color-secondary-0)',
+                                }
+                            }}
                         />
                     ))}
                     <Checkbox
@@ -51,11 +56,21 @@ export const CheckboxWithOther: FC<{
                         label={'Другое'}
                         onChange={handleCheckboxChange}
                         disabled={getDisabled(inputValue)}
+                        styles={{
+                            input: {
+                                '--checkbox-color': 'var(--mantine-color-secondary-0)',
+                            }
+                        }}
                     />
                     {isShowOtherInput && (
                         <TextInput
                             placeholder='Ваш ответ'
                             onChange={handleOtherInputChange}
+                            styles={{
+                                wrapper: {
+                                    '--input-bd-focus': 'var(--mantine-color-secondary-0)',
+                                }
+                            }}
                         />
                     )}
                 </Stack>

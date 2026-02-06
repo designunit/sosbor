@@ -1,3 +1,13 @@
+@font-face {
+    font-family: 'CRC55';
+    src: url('/font/CRC55.otf') format('opentype');
+}
+
+.root {
+    font-family: 'CRC55';
+    font-weight: normal;
+}
+
 @media (max-width: 768px) {
     .root {
         /* line-height: 18px !important; */

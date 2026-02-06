@@ -34,6 +34,11 @@ export const CheckboxList: FC<{
                             value={x}
                             label={x}
                             disabled={getDisabled(x)}
+                            styles={{
+                                input: {
+                                    '--checkbox-color': 'var(--mantine-color-secondary-0)',
+                                }
+                            }}
                         />
                     ))}
                 </Stack>

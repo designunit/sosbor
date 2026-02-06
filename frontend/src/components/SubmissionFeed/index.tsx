@@ -109,14 +109,14 @@ export const SubmissionFeed: React.FC = () => {
                     justify='space-between'
                     variant='noflip'
                 >
-                    <Title
-                        order={3}
+                    <Text
+                        // order={3}
                         fw='bold'
-                        component={Text}
+                        // component={Text}
                         className={s.title}
                     >
                         Предложения жителей
-                    </Title>
+                    </Text>
                     <ActionIcon
                         hiddenFrom='lg' // 'md'
                         onClick={() => setDrawer(drawer => !drawer)}

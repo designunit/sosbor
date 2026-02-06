@@ -1,7 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=LXGW+Marker+Gothic&display=swap');
+@font-face {
+    font-family: 'Nasalization';
+    src: url('/font/nasalization.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
 
 .root {
-    font-family: 'LXGW Marker Gothic', sans-serif !important;
+    font-family: 'Nasalization' !important;
     font-weight: normal;
 }
 

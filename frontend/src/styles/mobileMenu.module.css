@@ -1,5 +1,5 @@
 .close>svg>path {
-    fill: #354990;
+    fill: var(--mantine-color-primary-0);
 }
 
 .header {
