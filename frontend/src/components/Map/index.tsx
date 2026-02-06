@@ -87,16 +87,16 @@ export const Map: React.FC<MapProps> = ({ initialCoords }) => {
                     type='fill'
                     id='border-fill'
                     paint={{
-                        'fill-color': '#354990',
+                        'fill-color': '#9bb962',
                         'fill-opacity': 0.1,
-                        'fill-outline-color': '#354990',
+                        'fill-outline-color': '#9bb962',
                     }}
                 />
                 <Layer
                     type='line'
                     id='border-line'
                     paint={{
-                        'line-color': '#354990',
+                        'line-color': '#9bb962',
                         'line-width': 1,
                         'line-opacity': 1,
                     }}
