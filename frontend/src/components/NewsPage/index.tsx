@@ -1,7 +1,7 @@
 import { Stack, Title, Image, Box } from '@mantine/core'
 import s from './index.module.css'
 
-export const NewsPage = ({ data }) => {
+export const NewsPage = ({ data }: { data: any }) => {
     return (
         <Stack>
             <Box>

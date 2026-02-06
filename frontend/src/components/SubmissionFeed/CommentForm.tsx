@@ -5,10 +5,11 @@ import { Controller, useForm } from 'react-hook-form'
 import { KeyedMutator } from 'swr'
 import { z } from 'zod'
 import s from './index.module.css'
+import { Submission } from '@/types/submission'
 
 type CommentFormProps = {
     id: string
-    mutate: KeyedMutator<any[]>
+    mutate: KeyedMutator<Submission[]>
 }
 
 const states = {

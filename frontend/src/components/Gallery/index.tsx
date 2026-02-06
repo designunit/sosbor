@@ -25,7 +25,7 @@ const PrevButton = () => {
     )
 }
 
-export const Gallery = ({ galleryImages }) => {
+export const Gallery = ({ galleryImages }: { galleryImages: any[] }) => {
     const [imageOpened, { toggle: close, open }] = useDisclosure()
     const [image, setImage] = useState(0)
     const isMobile = useMedia('(max-width: 576px)', false)
@@ -44,7 +44,7 @@ export const Gallery = ({ galleryImages }) => {
                     open()
                 }}
             >
-                {galleryImages.map((x, i) => (
+                {galleryImages.map((x: any, i: number) => (
                     <SwiperSlide
                         key={x.src}
                     >

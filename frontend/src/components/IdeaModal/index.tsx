@@ -8,9 +8,10 @@ import { z } from 'zod'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useSWRConfig } from 'swr'
 import buttonStyles from '@/styles/button.module.css'
+import { IdeaModalDefaultValues } from '@/types'
 
 export type IdeaModalProps = {
-    defaultValues?: { [key: string]: any }
+    defaultValues?: IdeaModalDefaultValues
 }
 
 const states = {

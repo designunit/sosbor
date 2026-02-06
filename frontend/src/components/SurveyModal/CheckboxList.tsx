@@ -13,7 +13,7 @@ export const CheckboxList: FC<{
     const selectedOptions: string[] = watch(field.name, []) || []
 
 
-    const getDisabled = (value) => !selectedOptions.includes(value) && selectedOptions.length >= maxValues
+    const getDisabled = (value: string) => !selectedOptions.includes(value) && selectedOptions.length >= maxValues
 
     return (
         <Fieldset

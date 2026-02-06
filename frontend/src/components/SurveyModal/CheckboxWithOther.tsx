@@ -16,16 +16,16 @@ export const CheckboxWithOther: FC<{
     const [inputValue, setInputValue] = useState('Другое: ')
     const selectedOptions: string[] = watch(field.name, []) || []
 
-    const handleCheckboxChange = useCallback((event) => {
+    const handleCheckboxChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         setIsShowOtherInput(event.currentTarget.checked)
     }, [])
-    const handleOtherInputChange = (event) => {
+    const handleOtherInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const filteredValue = selectedOptions.filter((x) => !x.includes('Другое'))
         setInputValue(`Другое: ${event.currentTarget.value}`)
         setValue(field.name, [...filteredValue, `Другое: ${event.currentTarget.value}`], { shouldValidate: true })
     }
 
-    const getDisabled = (value) => !selectedOptions.includes(value) && selectedOptions.length >= maxValues
+    const getDisabled = (value: string) => !selectedOptions.includes(value) && selectedOptions.length >= maxValues
 
     return (
         <Fieldset

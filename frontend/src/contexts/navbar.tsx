@@ -1,14 +1,14 @@
 import { Context, createContext, useState } from 'react'
+import { NavbarContextValue } from '@/types'
 
-export const NavbarContext: Context<any> = createContext({
+export const NavbarContext: Context<NavbarContextValue> = createContext<NavbarContextValue>({
     selected: false,
     setSelected: () => null,
-
     drawer: false,
     setDrawer: () => null,
 })
 
-export const NavbarContextProvider = ({ children }: { children: any }) => {
+export const NavbarContextProvider = ({ children }: { children: React.ReactNode }) => {
     const [selected, setSelected] = useState(false)
     const [drawer, setDrawer] = useState(false)
 
@@ -17,7 +17,6 @@ export const NavbarContextProvider = ({ children }: { children: any }) => {
             value={{
                 selected,
                 setSelected,
-
                 drawer,
                 setDrawer,
             }}

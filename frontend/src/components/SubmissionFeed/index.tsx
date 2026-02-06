@@ -9,37 +9,9 @@ import { useRouter } from 'next/router'
 import { useEffectOnce } from 'react-use'
 import { AddButton } from '../AddButton'
 import { useMediaQuery } from '@mantine/hooks'
+import type { Feature, Submission, SubmissionResponse } from '@/types/submission'
 
-export type Feature = {
-    type: 'Feature',
-    properties: {},
-    geometry: {
-        type: 'Point',
-        coordinates: [
-            number,
-            number,
-        ]
-    }
-}
-
-export type Submission = {
-    id: string
-    content: string
-    feature: Feature
-    collectionId?: string
-    collectionName?: string
-    created?: string
-    isBanned?: boolean
-    updated?: string
-}
-
-export type SubmissionResponse = {
-    page: number
-    perPage: number
-    totalPages: number
-    totalItems: number
-    items: Submission[]
-}
+export type { Feature, Submission, SubmissionResponse }
 
 export const SubmissionFeed: React.FC = () => {
     const router = useRouter()
@@ -57,7 +29,7 @@ export const SubmissionFeed: React.FC = () => {
             }
         ).then(async res => await res.json()),
     )
-    const dataFlat = (isLoading || error)
+    const dataFlat = (isLoading || error || !data)
         ? []
         : data
             .flatMap(x => x.items)
@@ -165,7 +137,7 @@ export const SubmissionFeed: React.FC = () => {
                             data={x}
                         />
                     ))}
-                    {!isLoading && data[0]?.totalItems != dataFlat.length && (
+                    {!isLoading && data && data[0]?.totalItems != dataFlat.length && (
                         <Button
                             onClick={() => setSize(size + 1)}
                             bg='primary'

@@ -32,7 +32,7 @@ export const Map: React.FC<MapProps> = ({ initialCoords }) => {
     const modals = useModals()
     const { data: formData, setData, addMode, setAddMode } = useContext(FormContext)
 
-    const onClick = useCallback((event) => {
+    const onClick = useCallback((event: any) => {
         if (!addMode) return
 
         const { lngLat } = event
@@ -66,7 +66,7 @@ export const Map: React.FC<MapProps> = ({ initialCoords }) => {
     const isPreview = Boolean(router.query?.preview) == true
 
     const features = (data?.items ?? [])
-        .filter(x => x?.feature && JSON.stringify(x?.feature) !== '{}')
+        .filter((x: any) => x?.feature && JSON.stringify(x?.feature) !== '{}')
 
     return (
         <MapMapbox
@@ -103,7 +103,7 @@ export const Map: React.FC<MapProps> = ({ initialCoords }) => {
                 />
             </Source>
             {(!isLoading && !error && data) && (!addMode) && features
-                .map((x, i) => (
+                .map((x: any, i: number) => (
                     <Marker
                         key={i}
                         longitude={x.feature.geometry.coordinates[0]}

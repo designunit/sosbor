@@ -23,14 +23,18 @@ import appShellStyles from '../styles/appShell.module.css'
 
 import '@mantine/core/styles.css'
 import { FormContextProvider } from '@/contexts/form'
+import { MantineColorArray } from '@/types'
+
+const createColorTuple = (color: string): MantineColorArray =>
+    [color, color, color, color, color, color, color, color, color, color]
 
 const theme = createTheme({
     colors: {
-        primary: Array(10).fill('rgb(233 79 43)') as unknown as MantineColorsTuple,
-        secondary: Array(10).fill('rgb(155 185 98)') as unknown as MantineColorsTuple,
-        third: Array(10).fill('rgb(247 236 209)') as unknown as MantineColorsTuple,
-        dark: Array(10).fill('rgb(4,30,73)') as unknown as MantineColorsTuple,
-        black: Array(10).fill('#1E1928') as unknown as MantineColorsTuple,
+        primary: createColorTuple('rgb(233 79 43)'),
+        secondary: createColorTuple('rgb(155 185 98)'),
+        third: createColorTuple('rgb(247 236 209)'),
+        dark: createColorTuple('rgb(4,30,73)'),
+        black: createColorTuple('#1E1928'),
     },
     defaultRadius: 0,
     headings: {
@@ -118,7 +122,13 @@ const theme = createTheme({
     },
 })
 
-const navButtons = [
+type NavButton = {
+    text: string
+    href: string | null
+    props?: React.ComponentPropsWithoutRef<typeof Button>
+}
+
+const navButtons: NavButton[] = [
     {
         text: 'График проекта',
         href: '/#timeline',
@@ -552,7 +562,6 @@ const PageLayout = ({ children }: { children: React.ReactNode }) => {
                                 c='primary'
                                 size='md'
                                 onClick={toggleMobile}
-                                // @ts-ignore
                                 {...x.props}
                                 style={{
                                     fontFamily: 'Nasalization, sans-serif',
@@ -571,7 +580,6 @@ const PageLayout = ({ children }: { children: React.ReactNode }) => {
                                     toggleMobile()
                                     openSurveyModal()
                                 }}
-                                // @ts-ignore
                                 {...x.props}
                                 style={{
                                     fontFamily: 'Nasalization, sans-serif',

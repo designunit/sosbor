@@ -57,7 +57,7 @@ export const Item: React.FC<ItemProps> = ({ data }) => {
                             bg={'white'}
                             onClick={() => {
                                 setDrawer(false)
-                                map.flyTo({
+                                map?.flyTo({
                                     center: data.feature.geometry.coordinates,
                                     zoom: 15,
                                 })

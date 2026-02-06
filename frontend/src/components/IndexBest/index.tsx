@@ -58,7 +58,7 @@ export const IndexBest: React.FC<{ isMobile: boolean }> = ({ isMobile }) => {
                     className={s.masonry}
                     columnClassName={s.masonryCol}
                 >
-                    {data.map(x => (
+                    {data.map((x: any) => (
                         <Card
                             key={x.id}
                             withBorder

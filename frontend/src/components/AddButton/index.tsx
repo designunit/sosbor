@@ -2,6 +2,7 @@ import { FormContext } from '@/contexts/form';
 import { Popover, Button, Center, Box } from '@mantine/core';
 import { useModals } from '@mantine/modals';
 import { useCallback, useContext } from 'react';
+import { FormData } from '@/types';
 
 export const AddButton: React.FC<{ style?: React.CSSProperties }> = ({ style = {
     position: 'absolute',
@@ -13,7 +14,7 @@ export const AddButton: React.FC<{ style?: React.CSSProperties }> = ({ style = {
     const modals = useModals()
     const { data, setData } = useContext(FormContext)
     const { addMode, setAddMode } = useContext(FormContext)
-    const onClick = useCallback((data) => {
+    const onClick = useCallback((data: FormData) => {
         if (Object.keys(data).length == 0) {
             setData({})
         }
