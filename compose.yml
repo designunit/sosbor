@@ -1,6 +1,6 @@
 services:
     app:
-        image: udomlya-app:latest
+        image: sosbor-app:latest
         restart: unless-stopped
         depends_on:
             - backend
@@ -10,7 +10,7 @@ services:
             - ./frontend/.env
 
     backend:
-        image: udomlya-backend:latest
+        image: sosbor-backend:latest
         restart: unless-stopped
         ports:
             - "3000:3000"
