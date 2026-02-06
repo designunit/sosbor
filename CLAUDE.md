@@ -72,7 +72,50 @@ Frontend uses standalone Next.js output for Docker. Build args for map config ar
 ## Key Patterns
 
 - All UI text is hardcoded in Russian (no i18n)
-- TypeScript strict mode is disabled
+- **TypeScript strict mode is enabled** - all code must pass strict type checking
 - No test framework configured
 - Media files served from backend via Next.js redirects (`/media/*`)
 - Markdown tables must have aligned columns (pad cells with spaces)
+
+## TypeScript Patterns
+
+**Strict Mode**: Full strict mode enabled (`"strict": true` in `tsconfig.json`). All code must be fully typed with no implicit `any` and proper null safety.
+
+**Centralized Types**: Shared types live in `src/types/`:
+- `types/index.ts` — Core types (contexts, component props, survey forms, event handlers)
+- `types/submission.ts` — Submission/feature types for map data
+
+**Context Typing**: All React contexts must be fully typed:
+```typescript
+import { Context, createContext } from 'react'
+import { MyContextValue } from '@/types'
+
+export const MyContext: Context<MyContextValue> = createContext<MyContextValue>({
+    // ... default values with proper types
+})
+```
+
+**Component Props**: Explicitly type all component props, preferring imported types from `@/types`:
+```typescript
+import { MyComponentProps } from '@/types'
+export const MyComponent = ({ prop1, prop2 }: MyComponentProps) => { ... }
+```
+
+**Null Safety**: Use optional chaining and nullish coalescing:
+- Prefer `value?.method()` over `value && value.method()`
+- Use `value ?? defaultValue` for null/undefined fallbacks
+- Mantine props: use `undefined` not `null` (e.g., `ta={isMobile ? 'center' : undefined}`)
+
+**Event Handlers**: Type all event handlers explicitly:
+```typescript
+const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => { ... }
+const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => { ... }
+```
+
+**Form Data**: Use `z.infer<typeof schema>` for React Hook Form + Zod type extraction
+
+**When Adding New Code**:
+1. Run `npx tsc --noEmit` to verify types before committing
+2. Never use `any` unless absolutely necessary (e.g., complex third-party types)
+3. Import shared types from `@/types` rather than defining inline
+4. Add return types to exported functions and React components
