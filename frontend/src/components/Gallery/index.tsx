@@ -44,12 +44,12 @@ export function Gallery({ galleryImages }: GalleryProps) {
                 slidesOffsetBefore={isMobile ? 10 : 68 / 2}
                 className={s.swiper}
                 centeredSlides={isMobile}
-                onClick={(swiper, e) => {
+                onClick={(swiper) => {
                     setImage((swiper.clickedIndex) % galleryImages.length)
                     open()
                 }}
             >
-                {galleryImages.map((x, i) => (
+                {galleryImages.map((x) => (
                     <SwiperSlide
                         key={x.src}
                     >

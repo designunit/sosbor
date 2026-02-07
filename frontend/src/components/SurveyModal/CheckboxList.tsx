@@ -1,5 +1,4 @@
 import { Fieldset, CheckboxGroup, Stack, Checkbox, Text } from '@mantine/core'
-import { FC } from 'react'
 import { FieldValues, UseFormWatch } from 'react-hook-form'
 
 export type CheckboxListProps = {

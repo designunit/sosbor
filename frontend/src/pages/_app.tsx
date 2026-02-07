@@ -1,5 +1,5 @@
 import type { AppProps } from 'next/app'
-import { AppShell, Box, Burger, Button, Center, createTheme, Drawer, Fieldset, Flex, Group, MantineColorsTuple, MantineProvider, Space, Stack, Text, Title } from '@mantine/core'
+import { AppShell, Box, Burger, Button, Center, createTheme, Drawer, Fieldset, Flex, Group, MantineProvider, Stack, Text, Title } from '@mantine/core'
 import Link from 'next/link'
 import { NextSeo } from 'next-seo'
 import { useDisclosure, useMediaQuery } from '@mantine/hooks'
@@ -12,7 +12,7 @@ import { SWRConfig } from 'swr'
 import { NavbarContext, NavbarContextProvider } from '@/contexts/navbar'
 import { useContext } from 'react'
 import { SubmissionFeed } from '@/components/SubmissionFeed'
-import { Golos_Text, Manrope } from 'next/font/google'
+import { Golos_Text } from 'next/font/google'
 const fontVar = Golos_Text({ weight: ['400', '700'], subsets: ['latin', 'cyrillic'] })
 import mobileMenu from '../styles/mobileMenu.module.css'
 import groupStyles from '../styles/group.module.css'
@@ -376,7 +376,6 @@ const PageLayout = ({ children }: { children: React.ReactNode }) => {
     const router = useRouter()
 
     const isMapPage = router.pathname == '/map'
-    const isIndexPage = router.pathname == '/'
 
     const isMobile = useMediaQuery('(max-width: 768px)')
     const modals = useModals()

@@ -1,4 +1,4 @@
-import { Stack, ScrollArea, Skeleton, Box, Button, ActionIcon, Group, Text, Alert, Title } from '@mantine/core'
+import { Stack, ScrollArea, Skeleton, Box, Button, ActionIcon, Group, Text, Alert } from '@mantine/core'
 import { useHasMounted } from '@/contexts/hasMounted'
 import { Item } from './Item'
 import useSWRInfinite from 'swr/infinite'
@@ -17,7 +17,7 @@ export function SubmissionFeed() {
     const router = useRouter()
     const hasMounted = useHasMounted()
     const isMobile = useMediaQuery('(max-width: 768px)', true)
-    const { data, error, isLoading, mutate, size, setSize } = useSWRInfinite(
+    const { data, error, isLoading, size, setSize } = useSWRInfinite(
         (pageIndex, previousPageData) => {
             if (previousPageData && !previousPageData.hasNextPage) return null
             return `/api/collections/features/records?page=${pageIndex + 1}` // swr starts at 0, pb at 1
@@ -131,7 +131,7 @@ export function SubmissionFeed() {
                     pb={12}
                     className={s.scrollAreaStack}
                 >
-                    {dataFlat.map((x, i) => (
+                    {dataFlat.map((x) => (
                         <Item
                             key={x.id}
                             data={x}

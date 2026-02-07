@@ -1,6 +1,6 @@
 import { Text, Select, Button, Textarea, Tabs, Group, Fieldset, Title, Stack, Center, Space, CloseButton, Slider, Box } from '@mantine/core'
-import { ContextModalProps, useModals } from '@mantine/modals'
-import { FC, useCallback, useRef, useState } from 'react'
+import { useModals } from '@mantine/modals'
+import { useCallback, useRef, useState } from 'react'
 import { Controller, useForm, useWatch, UseFormReturn } from 'react-hook-form'
 import { CheckboxWithOther } from './CheckboxWithOther'
 import { CheckboxList } from './CheckboxList'
@@ -659,7 +659,7 @@ function SchemaToComponents({ schema, formHook, renderFilter = {} }: SchemaToCom
     const { control, setValue, watch, register } = formHook // passed from parent cause it needed for filter
     return schema
         .filter((item) => renderFilter?.[item.id] ?? true)
-        .map((item, i) => {
+        .map((item) => {
             switch (item.type) {
                 case 'select': {
                     return (

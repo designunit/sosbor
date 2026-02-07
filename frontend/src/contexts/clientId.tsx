@@ -39,7 +39,7 @@ export const ClientIdProvider = ({ children }: { children: React.ReactNode }) =>
         if (cookie == 'null' || cookie == 'false') {
             updateCookie(clientId ?? '', { expires: new Date(new Date().getTime() + 1000 * 60 * 60 * 24 * 300) })
         }
-    }, [clientId, data, cookie])
+    }, [clientId, data, cookie, setClientId, updateCookie])
 
     const { data: isCookiesAllowed } = useSWR(
         `/api/check`,
@@ -55,7 +55,7 @@ export const ClientIdProvider = ({ children }: { children: React.ReactNode }) =>
         if (isCookiesAllowed === false) {
             updateCookie('')
         }
-    }, [isCookiesAllowed])
+    }, [isCookiesAllowed, updateCookie])
 
     return (
         <ClientIdContext.Provider

@@ -1,7 +1,7 @@
 import { FormContext } from '@/contexts/form';
 import { Popover, Button, Center, Box } from '@mantine/core';
 import { useModals } from '@mantine/modals';
-import { useCallback, useContext } from 'react';
+import { useContext } from 'react';
 import { FormData } from '@/types';
 
 export type AddButtonProps = {
@@ -18,7 +18,7 @@ export function AddButton({ style = {
     const modals = useModals()
     const { data, setData } = useContext(FormContext)
     const { addMode, setAddMode } = useContext(FormContext)
-    const onClick = useCallback((data: FormData) => {
+    const onClick = (data: FormData) => {
         if (Object.keys(data).length == 0) {
             setData({})
         }
@@ -35,7 +35,7 @@ export function AddButton({ style = {
                 },
             }
         )
-    }, [])
+    }
 
     return (
         <div style={style}>

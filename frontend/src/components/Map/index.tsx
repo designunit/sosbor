@@ -1,4 +1,4 @@
-import React, { useCallback, useContext } from 'react'
+import React, { useContext } from 'react'
 import { GeolocateControl, Layer, Marker, NavigationControl, Source } from 'react-map-gl/mapbox'
 import { useModals } from '@mantine/modals'
 import { useRouter } from 'next/router'
@@ -34,7 +34,7 @@ export function Map({ initialCoords }: MapProps) {
     const modals = useModals()
     const { data: formData, setData, addMode, setAddMode } = useContext(FormContext)
 
-    const onClick = useCallback((event: MapClickEvent) => {
+    const onClick = (event: MapClickEvent) => {
         if (!addMode) return
 
         const { lngLat } = event
@@ -59,9 +59,7 @@ export function Map({ initialCoords }: MapProps) {
             }
         )
         setAddMode(false)
-    },
-        [addMode]
-    )
+    }
 
     const isMobile = useMediaQuery('(max-width: 768px)', true, { getInitialValueInEffect: false })
     const router = useRouter()
