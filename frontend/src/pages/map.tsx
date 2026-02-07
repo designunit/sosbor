@@ -86,7 +86,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     return {
         props: {
             fallback: {
-                [`/api/submissions?limit=1000`]: { docs: [] as any[] }
+                [`/api/submissions?limit=1000`]: { docs: [] }
             }
         }
     }

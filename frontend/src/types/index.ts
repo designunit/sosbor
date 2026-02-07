@@ -44,3 +44,61 @@ export type InputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) =>
 
 // Mantine color helper
 export type MantineColorArray = [string, string, string, string, string, string, string, string, string, string]
+
+// Gallery types
+export type GalleryImage = {
+    src: string
+    alt?: string
+}
+
+// News types
+export type NewsData = {
+    id: string
+    title: string
+    content_html: string
+    image: {
+        url: string
+        width: number
+        height: number
+        thumbnail: {
+            url: string
+            width: number
+            height: number
+        }
+        alt?: string
+    }
+}
+
+// Survey schema types
+export type SurveySchemaItem = {
+    id: string
+    type: string
+    text: string
+    description?: string
+    data?: string[]
+    list?: string[]
+    maxValues?: number
+    rows?: number
+    marks?: number[]
+}
+
+// Map types
+export type MapClickEvent = {
+    lngLat: {
+        lng: number
+        lat: number
+    }
+    point: {
+        x: number
+        y: number
+    }
+    originalEvent: MouseEvent
+}
+
+// Best submissions types
+export type BestSubmission = {
+    id: string
+    description: string
+    isPoint?: [number, number]
+    comments: number
+}

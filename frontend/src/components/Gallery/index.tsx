@@ -5,6 +5,7 @@ import { useDisclosure } from '@mantine/hooks'
 import { useState } from 'react'
 import NextImage from 'next/image'
 import { useMedia } from 'react-use'
+import { GalleryImage } from '@/types'
 
 function PrevButton() {
     const swiper = useSwiper()
@@ -26,7 +27,7 @@ function PrevButton() {
 }
 
 export type GalleryProps = {
-    galleryImages: any[]
+    galleryImages: GalleryImage[]
 }
 
 export function Gallery({ galleryImages }: GalleryProps) {
@@ -48,7 +49,7 @@ export function Gallery({ galleryImages }: GalleryProps) {
                     open()
                 }}
             >
-                {galleryImages.map((x: any, i: number) => (
+                {galleryImages.map((x, i) => (
                     <SwiperSlide
                         key={x.src}
                     >

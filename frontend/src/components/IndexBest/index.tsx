@@ -3,6 +3,7 @@ import useSWR from 'swr'
 import s from './index.module.css'
 import Link from 'next/link'
 import Masonry from 'react-masonry-css'
+import { BestSubmission } from '@/types'
 
 export type IndexBestProps = {
     isMobile: boolean
@@ -62,7 +63,7 @@ export function IndexBest({ isMobile }: IndexBestProps) {
                     className={s.masonry}
                     columnClassName={s.masonryCol}
                 >
-                    {data.map((x: any) => (
+                    {data.map((x: BestSubmission) => (
                         <Card
                             key={x.id}
                             withBorder

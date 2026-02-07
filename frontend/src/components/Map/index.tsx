@@ -6,6 +6,8 @@ import { FormContext } from '@/contexts/form'
 import useSWR from 'swr'
 import { Popover, ScrollArea, Text } from '@mantine/core'
 import { useMediaQuery } from '@mantine/hooks'
+import { MapClickEvent } from '@/types'
+import { Submission } from '@/types/submission'
 
 import 'mapbox-gl/dist/mapbox-gl.css'
 
@@ -32,7 +34,7 @@ export function Map({ initialCoords }: MapProps) {
     const modals = useModals()
     const { data: formData, setData, addMode, setAddMode } = useContext(FormContext)
 
-    const onClick = useCallback((event: any) => {
+    const onClick = useCallback((event: MapClickEvent) => {
         if (!addMode) return
 
         const { lngLat } = event
@@ -65,8 +67,8 @@ export function Map({ initialCoords }: MapProps) {
     const router = useRouter()
     const isPreview = Boolean(router.query?.preview) == true
 
-    const features = (data?.items ?? [])
-        .filter((x: any) => x?.feature && JSON.stringify(x?.feature) !== '{}')
+    const features: Submission[] = (data?.items ?? [])
+        .filter((x: Submission) => x?.feature && JSON.stringify(x?.feature) !== '{}')
 
     return (
         <MapMapbox
@@ -103,7 +105,7 @@ export function Map({ initialCoords }: MapProps) {
                 />
             </Source>
             {(!isLoading && !error && data) && (!addMode) && features
-                .map((x: any, i: number) => (
+                .map((x, i) => (
                     <Marker
                         key={i}
                         longitude={x.feature.geometry.coordinates[0]}

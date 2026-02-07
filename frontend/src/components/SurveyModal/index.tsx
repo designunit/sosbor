@@ -1,11 +1,11 @@
 import { Text, Select, Button, Textarea, Tabs, Group, Fieldset, Title, Stack, Center, Space, CloseButton, Slider, Box } from '@mantine/core'
 import { ContextModalProps, useModals } from '@mantine/modals'
 import { FC, useCallback, useRef, useState } from 'react'
-import { Controller, useForm, useWatch } from 'react-hook-form'
+import { Controller, useForm, useWatch, UseFormReturn } from 'react-hook-form'
 import { CheckboxWithOther } from './CheckboxWithOther'
 import { CheckboxList } from './CheckboxList'
 import Image from 'next/image'
-import { TabProps, SurveyFormData } from '@/types'
+import { TabProps, SurveyFormData, SurveySchemaItem } from '@/types'
 
 const states = {
     start: 'Отправить ответ',
@@ -651,8 +651,8 @@ const schema = [
 ]
 
 type SchemaToComponentsProps = {
-    schema: any[]
-    formHook: any
+    schema: SurveySchemaItem[]
+    formHook: UseFormReturn<SurveyFormData>
     renderFilter?: Record<string, boolean>
 }
 function SchemaToComponents({ schema, formHook, renderFilter = {} }: SchemaToComponentsProps) {
@@ -670,8 +670,9 @@ function SchemaToComponents({ schema, formHook, renderFilter = {} }: SchemaToCom
                             render={({ field }) => (
                                 <Select
                                     {...field}
+                                    value={typeof field.value === 'string' ? field.value : null}
                                     label={item.text}
-                                    data={item.data}
+                                    data={item.data ?? []}
                                     description={item?.description}
                                     styles={{
                                         wrapper: {
@@ -697,7 +698,7 @@ function SchemaToComponents({ schema, formHook, renderFilter = {} }: SchemaToCom
                                     label={item.text}
                                     description={item?.description}
                                     maxValues={item?.maxValues}
-                                    data={item.data}
+                                    data={item.data ?? []}
                                 />
                             )}
                         />
@@ -746,7 +747,7 @@ function SchemaToComponents({ schema, formHook, renderFilter = {} }: SchemaToCom
                             variant='filled'
                         >
                             <Stack>
-                                {item.list.map((listItem: string, index: number) => (
+                                {(item.list ?? []).map((listItem: string, index: number) => (
                                     <Controller
                                         key={listItem}
                                         name={`${item.id}-${index}`}
@@ -755,6 +756,7 @@ function SchemaToComponents({ schema, formHook, renderFilter = {} }: SchemaToCom
                                         render={({ field }) => (
                                             <Select
                                                 {...field}
+                                                value={typeof field.value === 'string' ? field.value : null}
                                                 label={listItem}
                                                 styles={{
                                                     label: {
@@ -764,7 +766,7 @@ function SchemaToComponents({ schema, formHook, renderFilter = {} }: SchemaToCom
                                                         '--input-bd-focus': 'var(--mantine-color-secondary-0)',
                                                     }
                                                 }}
-                                                data={item.data}
+                                                data={item.data ?? []}
                                             />
                                         )}
                                     />
@@ -790,7 +792,7 @@ function SchemaToComponents({ schema, formHook, renderFilter = {} }: SchemaToCom
                                 {item?.description}
                             </Text>
                             <Stack>
-                                {item.list.map((listItem: string, index: number) => (
+                                {(item.list ?? []).map((listItem: string, index: number) => (
                                     <Controller
                                         key={listItem}
                                         name={`${item.id}-${index}`}
@@ -805,11 +807,12 @@ function SchemaToComponents({ schema, formHook, renderFilter = {} }: SchemaToCom
                                                 </Text>
                                                 <Slider
                                                     {...field}
+                                                    value={typeof field.value === 'number' ? field.value : 0}
                                                     step={1}
                                                     min={0}
-                                                    max={item.marks.length - 1}
+                                                    max={(item.marks ?? []).length - 1}
                                                     defaultValue={0}
-                                                    marks={item.marks.map((x: number) => ({ value: x, label: String(x) }))}
+                                                    marks={(item.marks ?? []).map((x: number) => ({ value: x, label: String(x) }))}
                                                     label={null}
                                                     styles={{
                                                         root: {
@@ -838,7 +841,7 @@ function SchemaToComponents({ schema, formHook, renderFilter = {} }: SchemaToCom
                                     label={item.text}
                                     description={item?.description}
                                     maxValues={item?.maxValues}
-                                    data={item.data}
+                                    data={item.data ?? []}
                                 />
                             )}
                         />
@@ -1136,9 +1139,9 @@ export function SurveyModal() {
         const splited = key.split('-')
         const i = splited.pop()
         const id = splited.join('-')
-        const schemaQuestion = schema.find((x: any) => id == x.id)
+        const schemaQuestion = schema.find((x) => id == x.id)
 
-        return schemaQuestion ? `${schemaQuestion.text}: ${schemaQuestion.list?.[i as any]}` : ''
+        return schemaQuestion ? `${schemaQuestion.text}: ${schemaQuestion.list?.[Number(i)]}` : ''
     }, [])
 
     const onSubmitData = async (data: SurveyFormData) => {

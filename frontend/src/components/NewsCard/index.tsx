@@ -1,8 +1,9 @@
 import { Card, Text, Image } from '@mantine/core'
 import Link from 'next/link'
+import { NewsData } from '@/types'
 
 export type NewsCardProps = {
-    x: any
+    x: NewsData
 }
 
 export function NewsCard({ x }: NewsCardProps) {

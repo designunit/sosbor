@@ -1,6 +1,6 @@
 import { IndexPage } from '@/components/IndexPage'
 
-export default function Page({ data }: { data?: any }) {
+export default function Page() {
     return (
         <IndexPage
         // data={data}
