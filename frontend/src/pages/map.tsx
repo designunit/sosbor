@@ -15,7 +15,7 @@ const PageComponent: React.FC = () => {
     const previewFeature = Boolean(router.query?.preview) == true
     const coords = (router.query?.preview as string | undefined)?.split(',')
 
-    const [initalCoords, setInitalCoords] = useState(previewFeature && coords
+    const [initalCoords] = useState(previewFeature && coords
         ? {
             longitude: Number(coords[0]),
             latitude: Number(coords[1]),
@@ -43,13 +43,13 @@ const PageComponent: React.FC = () => {
                 }
             )
         }
-    }, [autoOpenModal])
+    }, [autoOpenModal, modals])
 
     useEffect(() => {
         if (router.pathname == '/map') {
             setDrawer(false)
         }
-    }, [router.pathname])
+    }, [router.pathname, setDrawer])
 
     return (
         <>
@@ -82,7 +82,7 @@ const MapPage: NextPage<MapPageProps> = ({ fallback }) => {
     )
 }
 
-export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
+export const getServerSideProps = async (_ctx: GetServerSidePropsContext) => {
     return {
         props: {
             fallback: {

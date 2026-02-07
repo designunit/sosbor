@@ -2,7 +2,7 @@ import { FormContext } from '@/contexts/form'
 import { Text, Stack, Button, Title, Center, Textarea, Tooltip } from '@mantine/core'
 import { ContextModalProps, useModals } from '@mantine/modals'
 import { useRouter } from 'next/router'
-import { useCallback, useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -29,7 +29,7 @@ const formSchema = z.object({
     }, { message: 'Добавьте точку' }),
 })
 
-export function IdeaModal({ context, id: modalId, innerProps }: ContextModalProps<IdeaModalProps>) {
+export function IdeaModal({ id: modalId, innerProps }: ContextModalProps<IdeaModalProps>) {
     const { mutate } = useSWRConfig()
     const modals = useModals()
     const formContext = useContext(FormContext)
@@ -43,7 +43,6 @@ export function IdeaModal({ context, id: modalId, innerProps }: ContextModalProp
         }
     })
     const [text, setText] = useState(states.start)
-    const [coordReq, setCoordReq] = useState(false)
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         const { coords } = formContext.data
@@ -120,17 +119,14 @@ export function IdeaModal({ context, id: modalId, innerProps }: ContextModalProp
             })
     }
 
-    const onClickCoords = useCallback(
-        () => {
-            formContext.setData({
-                ...formContext.data,
-                ...getValues(),
-            })
-            modals.closeModal(modalId)
-            formContext.setAddMode(true)
-        },
-        [formContext.data]
-    )
+    const onClickCoords = () => {
+        formContext.setData({
+            ...formContext.data,
+            ...getValues(),
+        })
+        modals.closeModal(modalId)
+        formContext.setAddMode(true)
+    }
 
     // close modal on route
     const router = useRouter()
@@ -138,7 +134,7 @@ export function IdeaModal({ context, id: modalId, innerProps }: ContextModalProp
         if (router.pathname == '/') {
             modals.closeAll()
         }
-    }, [router.pathname])
+    }, [router.pathname, modals])
 
     return (
         <form

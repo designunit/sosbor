@@ -144,8 +144,7 @@ const navButtons: NavButton[] = [
 ]
 
 const MapPageLayout = ({ children }: { children: React.ReactNode }) => {
-    const [opened, { toggle }] = useDisclosure()
-    const { selected, drawer, setDrawer } = useContext(NavbarContext)
+    const { drawer, setDrawer } = useContext(NavbarContext)
     const isMobile = useMediaQuery('(max-width: 768px)', true)
     const isTablet = useMediaQuery('(max-width: 1024px)', true)
     const [mobileOpened, { toggle: toggleMobile }] = useDisclosure()

@@ -13,7 +13,7 @@ type ItemProps = {
 
 export function Item({ data }: ItemProps) {
     const router = useRouter()
-    const [opened, { toggle }] = useDisclosure(false)
+    const [, { toggle }] = useDisclosure(false)
     const { setDrawer } = useContext(NavbarContext)
     const { default: map } = useMap()
 
