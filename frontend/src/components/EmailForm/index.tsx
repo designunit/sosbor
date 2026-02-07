@@ -19,7 +19,7 @@ const formSchema = z.object({
     text: z.string().min(1, 'Сообщение обязательно').max(999, 'Слишком длинное сообщение'),
 })
 
-export const EmailForm = () => {
+export function EmailForm() {
     const isMobile = useMedia('(max-width: 1024px)', false)
     const { handleSubmit, control, register, formState } = useForm<z.infer<typeof formSchema>>({
         mode: 'onChange',

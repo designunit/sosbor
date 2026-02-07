@@ -13,7 +13,7 @@ import type { Feature, Submission, SubmissionResponse } from '@/types/submission
 
 export type { Feature, Submission, SubmissionResponse }
 
-export const SubmissionFeed: React.FC = () => {
+export function SubmissionFeed() {
     const router = useRouter()
     const hasMounted = useHasMounted()
     const isMobile = useMediaQuery('(max-width: 768px)', true)

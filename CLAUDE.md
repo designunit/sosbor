@@ -95,10 +95,39 @@ export const MyContext: Context<MyContextValue> = createContext<MyContextValue>(
 })
 ```
 
-**Component Props**: Explicitly type all component props, preferring imported types from `@/types`:
+**Component Props**: Always define a separate type for component props with the naming pattern `ComponentNameProps`:
+```typescript
+export type MyComponentProps = {
+    title: string
+    count: number
+    onSubmit?: () => void
+}
+
+export function MyComponent({ title, count, onSubmit }: MyComponentProps) {
+    // ...
+}
+```
+
+For shared component props, import from `@/types`:
 ```typescript
 import { MyComponentProps } from '@/types'
-export const MyComponent = ({ prop1, prop2 }: MyComponentProps) => { ... }
+
+export function MyComponent({ prop1, prop2 }: MyComponentProps) {
+    // ...
+}
+```
+
+**Component Declarations**: Use regular function declarations instead of arrow functions:
+```typescript
+// Preferred
+export function MyComponent({ prop1, prop2 }: MyComponentProps) {
+    // ...
+}
+
+// Avoid
+export const MyComponent = ({ prop1, prop2 }: MyComponentProps) => {
+    // ...
+}
 ```
 
 **Null Safety**: Use optional chaining and nullish coalescing:

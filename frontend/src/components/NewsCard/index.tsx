@@ -1,7 +1,11 @@
 import { Card, Text, Image } from '@mantine/core'
 import Link from 'next/link'
 
-export const NewsCard = ({ x }: { x: any }) => {
+export type NewsCardProps = {
+    x: any
+}
+
+export function NewsCard({ x }: NewsCardProps) {
     return (
         <Card
             key={x.id}

@@ -2,16 +2,17 @@ import { Fieldset, CheckboxGroup, Stack, Checkbox, TextInput, Text } from '@mant
 import { FC, useState, useEffect, useCallback } from 'react'
 import { FieldValues, UseFormSetValue, UseFormWatch } from 'react-hook-form'
 
-
-export const CheckboxWithOther: FC<{
-    field: FieldValues,
-    data: string[],
+export type CheckboxWithOtherProps = {
+    field: FieldValues
+    data: string[]
     setValue: UseFormSetValue<FieldValues>
     watch: UseFormWatch<FieldValues>
     label: string
     description?: string
     maxValues?: number
-}> = ({ field, data, watch, setValue, label, description, maxValues = data.length }) => {
+}
+
+export function CheckboxWithOther({ field, data, watch, setValue, label, description, maxValues = data.length }: CheckboxWithOtherProps) {
     const [isShowOtherInput, setIsShowOtherInput] = useState(false)
     const [inputValue, setInputValue] = useState('Другое: ')
     const selectedOptions: string[] = watch(field.name, []) || []

@@ -655,7 +655,7 @@ type SchemaToComponentsProps = {
     formHook: any
     renderFilter?: Record<string, boolean>
 }
-const SchemaToComponents: FC<SchemaToComponentsProps> = ({ schema, formHook, renderFilter = {} }) => {
+function SchemaToComponents({ schema, formHook, renderFilter = {} }: SchemaToComponentsProps) {
     const { control, setValue, watch, register } = formHook // passed from parent cause it needed for filter
     return schema
         .filter((item) => renderFilter?.[item.id] ?? true)
@@ -852,7 +852,7 @@ const SchemaToComponents: FC<SchemaToComponentsProps> = ({ schema, formHook, ren
         })
 }
 
-const Tab1 = ({ onSubmit, submitText, onSubmitData }: TabProps): React.ReactElement => {
+function Tab1({ onSubmit, submitText, onSubmitData }: TabProps): React.ReactElement {
     const formHook = useForm()
     const { handleSubmit, control } = formHook
     const onSubmitWrapped = async (data: SurveyFormData) => {
@@ -894,7 +894,7 @@ const Tab1 = ({ onSubmit, submitText, onSubmitData }: TabProps): React.ReactElem
     )
 }
 
-const Tab2 = ({ onSubmit = () => {}, setTabIndex }: TabProps): React.ReactElement => {
+function Tab2({ onSubmit = () => {}, setTabIndex }: TabProps): React.ReactElement {
     const formHook = useForm()
     const { handleSubmit } = formHook
     return (
@@ -920,7 +920,7 @@ const Tab2 = ({ onSubmit = () => {}, setTabIndex }: TabProps): React.ReactElemen
     )
 }
 
-const Tab3 = ({ onSubmit = () => {}, setTabIndex }: TabProps): React.ReactElement => {
+function Tab3({ onSubmit = () => {}, setTabIndex }: TabProps): React.ReactElement {
     const formHook = useForm()
     const { handleSubmit } = formHook
     return (
@@ -946,7 +946,7 @@ const Tab3 = ({ onSubmit = () => {}, setTabIndex }: TabProps): React.ReactElemen
     )
 }
 
-const Tab4 = ({ onSubmit = () => {}, setTabIndex }: TabProps): React.ReactElement => {
+function Tab4({ onSubmit = () => {}, setTabIndex }: TabProps): React.ReactElement {
     const formHook = useForm()
     const { handleSubmit, control } = formHook
 
@@ -983,7 +983,7 @@ const Tab4 = ({ onSubmit = () => {}, setTabIndex }: TabProps): React.ReactElemen
     )
 }
 
-const Tab5 = ({ onSubmit = () => {}, setTabIndex }: TabProps): React.ReactElement => {
+function Tab5({ onSubmit = () => {}, setTabIndex }: TabProps): React.ReactElement {
     const formHook = useForm()
     const { handleSubmit, control } = formHook
 
@@ -1026,7 +1026,7 @@ const Tab5 = ({ onSubmit = () => {}, setTabIndex }: TabProps): React.ReactElemen
     )
 }
 
-const Tab6 = ({ onSubmit = () => {}, setTabIndex }: TabProps): React.ReactElement => {
+function Tab6({ onSubmit = () => {}, setTabIndex }: TabProps): React.ReactElement {
     const formHook = useForm()
     const { handleSubmit, control } = formHook
 
@@ -1064,7 +1064,7 @@ const Tab6 = ({ onSubmit = () => {}, setTabIndex }: TabProps): React.ReactElemen
     )
 }
 
-const Tab7 = ({ setTabIndex, globalFormValues, onSubmitData, submitText }: TabProps): React.ReactElement => {
+function Tab7({ setTabIndex, globalFormValues, onSubmitData, submitText }: TabProps): React.ReactElement {
     const formHook = useForm()
     const { handleSubmit, control } = formHook
     const onSubmit = async (data: SurveyFormData) => {
@@ -1105,7 +1105,7 @@ const Tab7 = ({ setTabIndex, globalFormValues, onSubmitData, submitText }: TabPr
     )
 }
 
-export const SurveyModal: FC<ContextModalProps> = () => {
+export function SurveyModal() {
     const modals = useModals()
     const [tabIndex, setTabIndex] = useState(0)
     const [globalFormValues, setGlobalFormValues] = useState<SurveyFormData | null>(null)

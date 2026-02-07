@@ -4,13 +4,17 @@ import { useModals } from '@mantine/modals';
 import { useCallback, useContext } from 'react';
 import { FormData } from '@/types';
 
-export const AddButton: React.FC<{ style?: React.CSSProperties }> = ({ style = {
+export type AddButtonProps = {
+    style?: React.CSSProperties
+}
+
+export function AddButton({ style = {
     position: 'absolute',
     zIndex: 1,
     bottom: '3rem',
     left: '50%',
     transform: 'translateX(-50%)',
-} }) => {
+} }: AddButtonProps) {
     const modals = useModals()
     const { data, setData } = useContext(FormContext)
     const { addMode, setAddMode } = useContext(FormContext)

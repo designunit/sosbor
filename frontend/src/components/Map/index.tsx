@@ -18,7 +18,7 @@ type MapProps = {
     }
 }
 
-export const Map: React.FC<MapProps> = ({ initialCoords }) => {
+export function Map({ initialCoords }: MapProps) {
     const { data, error, isLoading } = useSWR(
         `/api/collections/features/records?perPage=1000`,
         (url) => fetch(

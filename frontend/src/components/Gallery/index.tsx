@@ -6,7 +6,7 @@ import { useState } from 'react'
 import NextImage from 'next/image'
 import { useMedia } from 'react-use'
 
-const PrevButton = () => {
+function PrevButton() {
     const swiper = useSwiper()
 
     return (
@@ -25,7 +25,11 @@ const PrevButton = () => {
     )
 }
 
-export const Gallery = ({ galleryImages }: { galleryImages: any[] }) => {
+export type GalleryProps = {
+    galleryImages: any[]
+}
+
+export function Gallery({ galleryImages }: GalleryProps) {
     const [imageOpened, { toggle: close, open }] = useDisclosure()
     const [image, setImage] = useState(0)
     const isMobile = useMedia('(max-width: 576px)', false)

@@ -22,7 +22,7 @@ const formSchema = z.object({
     comment: z.string().min(0, { message: 'Коментарий не может быть пустым' }).max(200, { message: 'Коментарий не может быть больше 200 символов' }),
 })
 
-export const CommentForm: React.FC<CommentFormProps> = ({ id, mutate }) => {
+export function CommentForm({ id, mutate }: CommentFormProps) {
     const { handleSubmit, control, reset, } = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         mode: 'onChange',

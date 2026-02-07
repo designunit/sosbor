@@ -4,7 +4,11 @@ import s from './index.module.css'
 import Link from 'next/link'
 import Masonry from 'react-masonry-css'
 
-export const IndexBest: React.FC<{ isMobile: boolean }> = ({ isMobile }) => {
+export type IndexBestProps = {
+    isMobile: boolean
+}
+
+export function IndexBest({ isMobile }: IndexBestProps) {
     const { data, error, isLoading, mutate } = useSWR(
         `/api/submissions/best`,
         (url) => fetch(

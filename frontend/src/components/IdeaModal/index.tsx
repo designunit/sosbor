@@ -29,7 +29,7 @@ const formSchema = z.object({
     }, { message: 'Добавьте точку' }),
 })
 
-export const IdeaModal = ({ context, id: modalId, innerProps }: ContextModalProps<IdeaModalProps>) => {
+export function IdeaModal({ context, id: modalId, innerProps }: ContextModalProps<IdeaModalProps>) {
     const { mutate } = useSWRConfig()
     const modals = useModals()
     const formContext = useContext(FormContext)

@@ -11,7 +11,7 @@ type ItemProps = {
     data: Submission
 }
 
-export const Item: React.FC<ItemProps> = ({ data }) => {
+export function Item({ data }: ItemProps) {
     const router = useRouter()
     const [opened, { toggle }] = useDisclosure(false)
     const { setDrawer } = useContext(NavbarContext)
