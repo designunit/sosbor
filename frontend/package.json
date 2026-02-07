@@ -7,7 +7,10 @@
         "dev": "next dev",
         "build": "next build",
         "start": "next start",
-        "lint": "next lint",
+        "lint": "eslint . --ext .ts,.tsx",
+        "lint:fix": "eslint . --ext .ts,.tsx --fix",
+        "type-check": "tsc --noEmit",
+        "validate": "npm run type-check && npm run lint",
         "api": " cd ../backend && npm run dev"
     },
     "dependencies": {
@@ -36,7 +39,7 @@
         "@types/qs": "^6.9.15",
         "@types/react": "^19.2.0",
         "@types/react-dom": "^19.2.0",
-        "eslint": "^9",
+        "eslint": "^8.57.1",
         "eslint-config-next": "^16.1.1",
         "postcss": "^8.4.33",
         "postcss-preset-mantine": "^1.13.0",
