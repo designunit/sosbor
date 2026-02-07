@@ -6,8 +6,8 @@ import { FormContext } from '@/contexts/form'
 import useSWR from 'swr'
 import { Popover, ScrollArea, Text } from '@mantine/core'
 import { useMediaQuery } from '@mantine/hooks'
-import { MapClickEvent } from '@/types'
-import { Submission } from '@/types/submission'
+import type { MapClickEvent } from '@/types'
+import type { Submission } from '@/types/submission'
 
 import 'mapbox-gl/dist/mapbox-gl.css'
 

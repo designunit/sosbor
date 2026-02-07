@@ -5,7 +5,7 @@ import { useDisclosure } from '@mantine/hooks'
 import { useState } from 'react'
 import NextImage from 'next/image'
 import { useMedia } from 'react-use'
-import { GalleryImage } from '@/types'
+import type { GalleryImage } from '@/types'
 
 function PrevButton() {
     const swiper = useSwiper()

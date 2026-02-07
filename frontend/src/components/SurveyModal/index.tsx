@@ -1,11 +1,12 @@
 import { Text, Select, Button, Textarea, Tabs, Group, Fieldset, Title, Stack, Center, Space, CloseButton, Slider, Box } from '@mantine/core'
 import { useModals } from '@mantine/modals'
 import { useCallback, useRef, useState } from 'react'
-import { Controller, useForm, useWatch, UseFormReturn } from 'react-hook-form'
+import { Controller, useForm, useWatch } from 'react-hook-form'
+import type { UseFormReturn } from 'react-hook-form'
 import { CheckboxWithOther } from './CheckboxWithOther'
 import { CheckboxList } from './CheckboxList'
 import Image from 'next/image'
-import { TabProps, SurveyFormData, SurveySchemaItem } from '@/types'
+import type { TabProps, SurveyFormData, SurveySchemaItem } from '@/types'
 
 const states = {
     start: 'Отправить ответ',

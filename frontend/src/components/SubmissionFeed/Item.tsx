@@ -1,6 +1,6 @@
 import { Card, Stack, Text, Group, ScrollArea, ActionIcon } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
-import { Submission } from '.'
+import type { Submission } from '.'
 import { useMap } from 'react-map-gl/maplibre'
 import { NavbarContext } from '@/contexts/navbar'
 import { useContext } from 'react'

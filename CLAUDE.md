@@ -21,7 +21,7 @@ All frontend commands run from `frontend/`:
 cd frontend
 npm run dev      # Start Next.js dev server
 npm run build    # Production build
-npm run lint     # ESLint (next lint)
+npm run lint     # ESLint 9 (flat config)
 ```
 
 Docker-based dev environment (requires mise):
@@ -87,8 +87,9 @@ Frontend uses standalone Next.js output for Docker. Build args for map config ar
 
 **Context Typing**: All React contexts must be fully typed:
 ```typescript
-import { Context, createContext } from 'react'
-import { MyContextValue } from '@/types'
+import { createContext } from 'react'
+import type { Context } from 'react'
+import type { MyContextValue } from '@/types'
 
 export const MyContext: Context<MyContextValue> = createContext<MyContextValue>({
     // ... default values with proper types
@@ -110,7 +111,7 @@ export function MyComponent({ title, count, onSubmit }: MyComponentProps) {
 
 For shared component props, import from `@/types`:
 ```typescript
-import { MyComponentProps } from '@/types'
+import type { MyComponentProps } from '@/types'
 
 export function MyComponent({ prop1, prop2 }: MyComponentProps) {
     // ...
@@ -143,16 +144,37 @@ const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => { ... }
 
 **Form Data**: Use `z.infer<typeof schema>` for React Hook Form + Zod type extraction
 
+**Type Imports**: Always use separate `import type` statements for type-only imports. This is enforced by both `verbatimModuleSyntax` in tsconfig and `@typescript-eslint/consistent-type-imports` ESLint rule:
+```typescript
+// Correct — separate import type statement
+import { useModals } from '@mantine/modals'
+import type { ContextModalProps } from '@mantine/modals'
+
+// Wrong — inline type keyword
+import { type ContextModalProps, useModals } from '@mantine/modals'
+
+// Wrong — type imported as value
+import { ContextModalProps, useModals } from '@mantine/modals'
+```
+
 **Explicit `any` is Forbidden**: Never use explicit `any` types in the codebase:
 - Use proper type definitions from `@/types` or create new ones
 - For complex types, use `unknown` and narrow with type guards, or define proper interfaces
 - For truly dynamic data, use `Record<string, unknown>` instead of `any`
 - Third-party library types should use their exported types or be properly typed
-- Note: TypeScript's strict mode catches implicit `any`, but explicit `any` must be avoided manually
-- To enforce with tooling: Consider ESLint with `@typescript-eslint/no-explicit-any` rule
+- Enforced by ESLint `@typescript-eslint/no-explicit-any` rule
 
 **When Adding New Code**:
 1. Run `npx tsc --noEmit` to verify types before committing
-2. NEVER use explicit `any` - see "Explicit `any` is Forbidden" section above
-3. Import shared types from `@/types` rather than defining inline
-4. Add return types to exported functions and React components
+2. Run `npm run lint` to check ESLint rules
+3. NEVER use explicit `any` - see "Explicit `any` is Forbidden" section above
+4. Import shared types from `@/types` using `import type` syntax
+5. Add return types to exported functions and React components
+
+## Linting
+
+**ESLint 9** with flat config (`eslint.config.mjs`). Key rules:
+- `@typescript-eslint/no-explicit-any: error` — no `any` types
+- `@typescript-eslint/consistent-type-imports: error` — enforce `import type` on separate lines
+- `@typescript-eslint/no-unused-vars: warn` — unused variables (prefix with `_` to ignore)
+- `react-hooks/exhaustive-deps` — complete dependency arrays in hooks

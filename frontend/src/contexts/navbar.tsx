@@ -1,5 +1,6 @@
-import { Context, createContext, useState } from 'react'
-import { NavbarContextValue } from '@/types'
+import { createContext, useState } from 'react'
+import type { Context } from 'react'
+import type { NavbarContextValue } from '@/types'
 
 export const NavbarContext: Context<NavbarContextValue> = createContext<NavbarContextValue>({
     selected: false,

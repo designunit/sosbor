@@ -1,4 +1,5 @@
-import { Context, createContext, useContext, useEffect } from 'react'
+import { createContext, useContext, useEffect } from 'react'
+import type { Context } from 'react'
 import { useCookie, useLocalStorage } from 'react-use'
 import useSWR from 'swr'
 

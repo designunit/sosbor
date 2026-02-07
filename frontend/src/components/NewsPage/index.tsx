@@ -1,6 +1,6 @@
 import { Stack, Title, Image, Box } from '@mantine/core'
 import s from './index.module.css'
-import { NewsData } from '@/types'
+import type { NewsData } from '@/types'
 
 export type NewsPageProps = {
     data: NewsData

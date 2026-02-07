@@ -1,5 +1,5 @@
 import { NewsPage } from '@/components/NewsPage'
-import { GetStaticPaths, GetStaticProps } from 'next'
+import type { GetStaticPaths, GetStaticProps } from 'next'
 
 export default function Page({ data }: { data: any }) {
 

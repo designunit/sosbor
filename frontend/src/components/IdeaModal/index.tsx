@@ -1,6 +1,7 @@
 import { FormContext } from '@/contexts/form'
 import { Text, Stack, Button, Title, Center, Textarea, Tooltip } from '@mantine/core'
-import { ContextModalProps, useModals } from '@mantine/modals'
+import { useModals } from '@mantine/modals'
+import type { ContextModalProps } from '@mantine/modals'
 import { useRouter } from 'next/router'
 import { useContext, useEffect, useState } from 'react'
 import { useForm, Controller } from 'react-hook-form'
@@ -8,7 +9,7 @@ import { z } from 'zod'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useSWRConfig } from 'swr'
 import buttonStyles from '@/styles/button.module.css'
-import { IdeaModalDefaultValues } from '@/types'
+import type { IdeaModalDefaultValues } from '@/types'
 
 export type IdeaModalProps = {
     defaultValues?: IdeaModalDefaultValues

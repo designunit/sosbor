@@ -1,6 +1,6 @@
 import { Fieldset, CheckboxGroup, Stack, Checkbox, TextInput, Text } from '@mantine/core'
 import { useState, useCallback } from 'react'
-import { FieldValues, UseFormSetValue, UseFormWatch } from 'react-hook-form'
+import type { FieldValues, UseFormSetValue, UseFormWatch } from 'react-hook-form'
 
 export type CheckboxWithOtherProps = {
     field: FieldValues

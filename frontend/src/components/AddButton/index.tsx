@@ -2,7 +2,7 @@ import { FormContext } from '@/contexts/form';
 import { Popover, Button, Center, Box } from '@mantine/core';
 import { useModals } from '@mantine/modals';
 import { useContext } from 'react';
-import { FormData } from '@/types';
+import type { FormData } from '@/types';
 
 export type AddButtonProps = {
     style?: React.CSSProperties

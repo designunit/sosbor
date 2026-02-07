@@ -3,7 +3,7 @@ import useSWR from 'swr'
 import s from './index.module.css'
 import Link from 'next/link'
 import Masonry from 'react-masonry-css'
-import { BestSubmission } from '@/types'
+import type { BestSubmission } from '@/types'
 
 export function IndexBest() {
     const { data, error, isLoading } = useSWR(

@@ -2,10 +2,10 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Stack, Button, Textarea } from '@mantine/core'
 import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
-import { KeyedMutator } from 'swr'
+import type { KeyedMutator } from 'swr'
 import { z } from 'zod'
 import s from './index.module.css'
-import { Submission } from '@/types/submission'
+import type { Submission } from '@/types/submission'
 
 type CommentFormProps = {
     id: string

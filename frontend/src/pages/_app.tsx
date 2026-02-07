@@ -23,7 +23,7 @@ import appShellStyles from '../styles/appShell.module.css'
 
 import '@mantine/core/styles.css'
 import { FormContextProvider } from '@/contexts/form'
-import { MantineColorArray } from '@/types'
+import type { MantineColorArray } from '@/types'
 
 const createColorTuple = (color: string): MantineColorArray =>
     [color, color, color, color, color, color, color, color, color, color]
