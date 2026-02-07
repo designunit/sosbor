@@ -1,5 +1,5 @@
-import React, { useContext } from 'react'
-import { GeolocateControl, Layer, Marker, NavigationControl, Source } from 'react-map-gl/mapbox'
+import { useContext } from 'react'
+import { Layer, Marker, Source } from 'react-map-gl/mapbox'
 import { useModals } from '@mantine/modals'
 import { useRouter } from 'next/router'
 import { FormContext } from '@/contexts/form'

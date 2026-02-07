@@ -1,6 +1,6 @@
-import { BackgroundImage, Box, Group, Space, Stack, Text, Title, Image, Button, Overlay } from '@mantine/core'
+import { BackgroundImage, Box, Group, Space, Stack, Text, Title, Image, Button } from '@mantine/core'
 import Link from 'next/link'
-import s from '../../styles/index.module.css'
+import _ from '../../styles/index.module.css'
 import { useMedia } from 'react-use'
 import { useModals } from '@mantine/modals'
 

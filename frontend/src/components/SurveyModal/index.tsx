@@ -1147,7 +1147,7 @@ export function SurveyModal() {
     const onSubmitData = async (data: SurveyFormData) => {
         const body = JSON.stringify({
             data: Object.entries(data)
-                .filter(([key, value]) => !!value)
+                .filter(([_, value]) => !!value)
                 .map(([key, value]) => ({
                     id: key,
                     text: schema.find(x => x.id == key)?.text ?? getSelectListText(key),
