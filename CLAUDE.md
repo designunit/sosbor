@@ -143,8 +143,16 @@ const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => { ... }
 
 **Form Data**: Use `z.infer<typeof schema>` for React Hook Form + Zod type extraction
 
+**Explicit `any` is Forbidden**: Never use explicit `any` types in the codebase:
+- Use proper type definitions from `@/types` or create new ones
+- For complex types, use `unknown` and narrow with type guards, or define proper interfaces
+- For truly dynamic data, use `Record<string, unknown>` instead of `any`
+- Third-party library types should use their exported types or be properly typed
+- Note: TypeScript's strict mode catches implicit `any`, but explicit `any` must be avoided manually
+- To enforce with tooling: Consider ESLint with `@typescript-eslint/no-explicit-any` rule
+
 **When Adding New Code**:
 1. Run `npx tsc --noEmit` to verify types before committing
-2. Never use `any` unless absolutely necessary (e.g., complex third-party types)
+2. NEVER use explicit `any` - see "Explicit `any` is Forbidden" section above
 3. Import shared types from `@/types` rather than defining inline
 4. Add return types to exported functions and React components
