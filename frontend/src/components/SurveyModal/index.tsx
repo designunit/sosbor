@@ -1,10 +1,12 @@
 import { Text, Select, Button, Textarea, Tabs, Group, Fieldset, Title, Stack, Center, Space, CloseButton, Slider, Box } from '@mantine/core'
-import { ContextModalProps, useModals } from '@mantine/modals'
-import { FC, useCallback, useRef, useState } from 'react'
+import { useModals } from '@mantine/modals'
+import { useCallback, useRef, useState } from 'react'
 import { Controller, useForm, useWatch } from 'react-hook-form'
+import type { UseFormReturn } from 'react-hook-form'
 import { CheckboxWithOther } from './CheckboxWithOther'
 import { CheckboxList } from './CheckboxList'
 import Image from 'next/image'
+import type { TabProps, SurveyFormData, SurveySchemaItem } from '@/types'
 
 const states = {
     start: 'Отправить ответ',
@@ -650,15 +652,15 @@ const schema = [
 ]
 
 type SchemaToComponentsProps = {
-    schema
-    formHook
-    renderFilter?
+    schema: SurveySchemaItem[]
+    formHook: UseFormReturn<SurveyFormData>
+    renderFilter?: Record<string, boolean>
 }
-const SchemaToComponents: FC<SchemaToComponentsProps> = ({ schema, formHook, renderFilter = {} }) => {
+function SchemaToComponents({ schema, formHook, renderFilter = {} }: SchemaToComponentsProps) {
     const { control, setValue, watch, register } = formHook // passed from parent cause it needed for filter
     return schema
         .filter((item) => renderFilter?.[item.id] ?? true)
-        .map((item, i) => {
+        .map((item) => {
             switch (item.type) {
                 case 'select': {
                     return (
@@ -669,8 +671,9 @@ const SchemaToComponents: FC<SchemaToComponentsProps> = ({ schema, formHook, ren
                             render={({ field }) => (
                                 <Select
                                     {...field}
+                                    value={typeof field.value === 'string' ? field.value : null}
                                     label={item.text}
-                                    data={item.data}
+                                    data={item.data ?? []}
                                     description={item?.description}
                                     styles={{
                                         wrapper: {
@@ -696,7 +699,7 @@ const SchemaToComponents: FC<SchemaToComponentsProps> = ({ schema, formHook, ren
                                     label={item.text}
                                     description={item?.description}
                                     maxValues={item?.maxValues}
-                                    data={item.data}
+                                    data={item.data ?? []}
                                 />
                             )}
                         />
@@ -745,7 +748,7 @@ const SchemaToComponents: FC<SchemaToComponentsProps> = ({ schema, formHook, ren
                             variant='filled'
                         >
                             <Stack>
-                                {item.list.map((listItem, index) => (
+                                {(item.list ?? []).map((listItem: string, index: number) => (
                                     <Controller
                                         key={listItem}
                                         name={`${item.id}-${index}`}
@@ -754,6 +757,7 @@ const SchemaToComponents: FC<SchemaToComponentsProps> = ({ schema, formHook, ren
                                         render={({ field }) => (
                                             <Select
                                                 {...field}
+                                                value={typeof field.value === 'string' ? field.value : null}
                                                 label={listItem}
                                                 styles={{
                                                     label: {
@@ -763,7 +767,7 @@ const SchemaToComponents: FC<SchemaToComponentsProps> = ({ schema, formHook, ren
                                                         '--input-bd-focus': 'var(--mantine-color-secondary-0)',
                                                     }
                                                 }}
-                                                data={item.data}
+                                                data={item.data ?? []}
                                             />
                                         )}
                                     />
@@ -789,7 +793,7 @@ const SchemaToComponents: FC<SchemaToComponentsProps> = ({ schema, formHook, ren
                                 {item?.description}
                             </Text>
                             <Stack>
-                                {item.list.map((listItem, index) => (
+                                {(item.list ?? []).map((listItem: string, index: number) => (
                                     <Controller
                                         key={listItem}
                                         name={`${item.id}-${index}`}
@@ -804,11 +808,12 @@ const SchemaToComponents: FC<SchemaToComponentsProps> = ({ schema, formHook, ren
                                                 </Text>
                                                 <Slider
                                                     {...field}
+                                                    value={typeof field.value === 'number' ? field.value : 0}
                                                     step={1}
                                                     min={0}
-                                                    max={item.marks.length - 1}
+                                                    max={(item.marks ?? []).length - 1}
                                                     defaultValue={0}
-                                                    marks={item.marks.map((x) => ({ value: x, label: String(x) }))}
+                                                    marks={(item.marks ?? []).map((x: number) => ({ value: x, label: String(x) }))}
                                                     label={null}
                                                     styles={{
                                                         root: {
@@ -837,7 +842,7 @@ const SchemaToComponents: FC<SchemaToComponentsProps> = ({ schema, formHook, ren
                                     label={item.text}
                                     description={item?.description}
                                     maxValues={item?.maxValues}
-                                    data={item.data}
+                                    data={item.data ?? []}
                                 />
                             )}
                         />
@@ -851,15 +856,15 @@ const SchemaToComponents: FC<SchemaToComponentsProps> = ({ schema, formHook, ren
         })
 }
 
-const Tab1 = ({ onSubmit, submitText, onSubmitData }) => {
+function Tab1({ onSubmit, submitText, onSubmitData }: TabProps): React.ReactElement {
     const formHook = useForm()
     const { handleSubmit, control } = formHook
-    const onSubmitWrapped = async (data) => {
+    const onSubmitWrapped = async (data: SurveyFormData) => {
         if (questoin0Value == 'Нет') {
-            onSubmitData(data)
+            onSubmitData?.(data)
             return
         }
-        onSubmit(data)
+        onSubmit?.(data)
     }
 
     const [questoin0Value] = useWatch({
@@ -893,7 +898,7 @@ const Tab1 = ({ onSubmit, submitText, onSubmitData }) => {
     )
 }
 
-const Tab2 = ({ onSubmit, setTabIndex }) => {
+function Tab2({ onSubmit = () => {}, setTabIndex }: TabProps): React.ReactElement {
     const formHook = useForm()
     const { handleSubmit } = formHook
     return (
@@ -907,7 +912,7 @@ const Tab2 = ({ onSubmit, setTabIndex }) => {
                 />
 
                 <Group align='flex-start'>
-                    <Button onClick={() => setTabIndex(x => x - 1)} bg='secondary' >
+                    <Button onClick={() => setTabIndex?.(x => x - 1)} bg='secondary' >
                         Предыдущий раздел
                     </Button>
                     <Button type='submit' bg='secondary' >
@@ -919,7 +924,7 @@ const Tab2 = ({ onSubmit, setTabIndex }) => {
     )
 }
 
-const Tab3 = ({ onSubmit, setTabIndex }) => {
+function Tab3({ onSubmit = () => {}, setTabIndex }: TabProps): React.ReactElement {
     const formHook = useForm()
     const { handleSubmit } = formHook
     return (
@@ -933,7 +938,7 @@ const Tab3 = ({ onSubmit, setTabIndex }) => {
                 />
 
                 <Group align='flex-start'>
-                    <Button onClick={() => setTabIndex(x => x - 1)} bg='secondary' >
+                    <Button onClick={() => setTabIndex?.(x => x - 1)} bg='secondary' >
                         Предыдущий раздел
                     </Button>
                     <Button type='submit' bg='secondary' >
@@ -945,7 +950,7 @@ const Tab3 = ({ onSubmit, setTabIndex }) => {
     )
 }
 
-const Tab4 = ({ onSubmit, setTabIndex }) => {
+function Tab4({ onSubmit = () => {}, setTabIndex }: TabProps): React.ReactElement {
     const formHook = useForm()
     const { handleSubmit, control } = formHook
 
@@ -970,7 +975,7 @@ const Tab4 = ({ onSubmit, setTabIndex }) => {
                 />
 
                 <Group align='flex-start'>
-                    <Button onClick={() => setTabIndex(x => x - 1)} bg='secondary' >
+                    <Button onClick={() => setTabIndex?.(x => x - 1)} bg='secondary' >
                         Предыдущий раздел
                     </Button>
                     <Button type='submit' bg='secondary' >
@@ -982,7 +987,7 @@ const Tab4 = ({ onSubmit, setTabIndex }) => {
     )
 }
 
-const Tab5 = ({ onSubmit, setTabIndex }) => {
+function Tab5({ onSubmit = () => {}, setTabIndex }: TabProps): React.ReactElement {
     const formHook = useForm()
     const { handleSubmit, control } = formHook
 
@@ -1013,7 +1018,7 @@ const Tab5 = ({ onSubmit, setTabIndex }) => {
                 />
 
                 <Group align='flex-start'>
-                    <Button onClick={() => setTabIndex(x => x - 1)} bg='secondary' >
+                    <Button onClick={() => setTabIndex?.(x => x - 1)} bg='secondary' >
                         Предыдущий раздел
                     </Button>
                     <Button type='submit' bg='secondary' >
@@ -1025,7 +1030,7 @@ const Tab5 = ({ onSubmit, setTabIndex }) => {
     )
 }
 
-const Tab6 = ({ onSubmit, setTabIndex }) => {
+function Tab6({ onSubmit = () => {}, setTabIndex }: TabProps): React.ReactElement {
     const formHook = useForm()
     const { handleSubmit, control } = formHook
 
@@ -1051,7 +1056,7 @@ const Tab6 = ({ onSubmit, setTabIndex }) => {
                 />
 
                 <Group align='flex-start'>
-                    <Button onClick={() => setTabIndex(x => x - 1)} bg='secondary' >
+                    <Button onClick={() => setTabIndex?.(x => x - 1)} bg='secondary' >
                         Предыдущий раздел
                     </Button>
                     <Button type='submit' bg='secondary' >
@@ -1063,11 +1068,11 @@ const Tab6 = ({ onSubmit, setTabIndex }) => {
     )
 }
 
-const Tab7 = ({ setTabIndex, globalFormValues, onSubmitData, submitText }) => {
+function Tab7({ setTabIndex, globalFormValues, onSubmitData, submitText }: TabProps): React.ReactElement {
     const formHook = useForm()
     const { handleSubmit, control } = formHook
-    const onSubmit = async (data) => {
-        onSubmitData({ ...globalFormValues, ...data })
+    const onSubmit = async (data: SurveyFormData) => {
+        onSubmitData?.({ ...globalFormValues, ...data })
         return
     }
 
@@ -1092,7 +1097,7 @@ const Tab7 = ({ setTabIndex, globalFormValues, onSubmitData, submitText }) => {
                 />
 
                 <Group align='flex-start'>
-                    <Button onClick={() => setTabIndex(x => x - 1)} bg='secondary'>
+                    <Button onClick={() => setTabIndex?.(x => x - 1)} bg='secondary'>
                         Предыдущий раздел
                     </Button>
                     <Button type='submit' disabled={submitText == states.fetch} bg='secondary'>
@@ -1104,16 +1109,16 @@ const Tab7 = ({ setTabIndex, globalFormValues, onSubmitData, submitText }) => {
     )
 }
 
-export const SurveyModal: FC<ContextModalProps> = () => {
+export function SurveyModal() {
     const modals = useModals()
     const [tabIndex, setTabIndex] = useState(0)
-    const [globalFormValues, setGlobalFormValues] = useState(null)
+    const [globalFormValues, setGlobalFormValues] = useState<SurveyFormData | null>(null)
 
     const ref = useRef<HTMLDivElement>(null)
 
     const [text, setText] = useState(states.start)
 
-    const titles = {
+    const titles: Record<number, string> = {
         0: 'Приветствие',
         1: 'Общие вопросы',
         2: 'Идентичность Соснового Бора',
@@ -1124,10 +1129,10 @@ export const SurveyModal: FC<ContextModalProps> = () => {
         7: 'Социально-демографические характеристики',
     }
 
-    const onSubmitStep = async (data) => {
+    const onSubmitStep = async (data: SurveyFormData) => {
         setGlobalFormValues(x => ({ ...x, ...data }))
         setTabIndex(x => x + 1)
-        ref.current.scrollIntoView()
+        ref.current?.scrollIntoView()
     }
 
     const getSelectListText = useCallback((key: string) => {
@@ -1135,15 +1140,15 @@ export const SurveyModal: FC<ContextModalProps> = () => {
         const splited = key.split('-')
         const i = splited.pop()
         const id = splited.join('-')
-        const schemaQuestion = schema.find(x => id == x.id)
+        const schemaQuestion = schema.find((x) => id == x.id)
 
-        return `${schemaQuestion.text}: ${schemaQuestion.list[i]}`
-    }, [schema])
+        return schemaQuestion ? `${schemaQuestion.text}: ${schemaQuestion.list?.[Number(i)]}` : ''
+    }, [])
 
-    const onSubmitData = async (data) => {
+    const onSubmitData = async (data: SurveyFormData) => {
         const body = JSON.stringify({
             data: Object.entries(data)
-                .filter(([key, value]) => !!value)
+                .filter(([_, value]) => !!value)
                 .map(([key, value]) => ({
                     id: key,
                     text: schema.find(x => x.id == key)?.text ?? getSelectListText(key),
@@ -1249,7 +1254,7 @@ export const SurveyModal: FC<ContextModalProps> = () => {
                             bg='secondary'
                             onClick={() => {
                                 setTabIndex(x => x + 1)
-                                ref.current.scrollIntoView()
+                                ref.current?.scrollIntoView()
                             }}
                         >
                             Начать опрос
@@ -1297,7 +1302,7 @@ export const SurveyModal: FC<ContextModalProps> = () => {
             <Tabs.Panel value='7'>
                 <Tab7
                     setTabIndex={setTabIndex}
-                    globalFormValues={globalFormValues}
+                    globalFormValues={globalFormValues ?? undefined}
                     onSubmitData={onSubmitData}
                     submitText={text}
                 />

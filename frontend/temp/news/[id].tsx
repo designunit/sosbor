@@ -1,7 +1,7 @@
 import { NewsPage } from '@/components/NewsPage'
-import { GetStaticPaths, GetStaticProps } from 'next'
+import type { GetStaticPaths, GetStaticProps } from 'next'
 
-export default function Page({ data }) {
+export default function Page({ data }: { data: any }) {
 
     return (
         <>
@@ -23,7 +23,7 @@ export const getStaticPaths = (async () => {
 
 
     return {
-        paths: data.docs.map(x => ({
+        paths: data.docs.map((x: any) => ({
             params: {
                 id: x.id,
             }
@@ -34,7 +34,7 @@ export const getStaticPaths = (async () => {
 
 export const getStaticProps = (async (ctx) => {
     let data = await fetch(
-        `${process.env.BACKEND_URL}/api/news/${ctx.params.id}`,
+        `${process.env.BACKEND_URL}/api/news/${ctx.params?.id}`,
         {
             method: 'get',
         },

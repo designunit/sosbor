@@ -1,6 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Button, Center, Group, Image, Overlay, Stack, Text, TextInput, Textarea, Title } from '@mantine/core'
-import Link from 'next/link'
+import { Button, Center, Group, Overlay, Stack, Text, TextInput, Textarea, Title } from '@mantine/core'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useMedia } from 'react-use'
@@ -19,9 +18,9 @@ const formSchema = z.object({
     text: z.string().min(1, 'Сообщение обязательно').max(999, 'Слишком длинное сообщение'),
 })
 
-export const EmailForm = () => {
+export function EmailForm() {
     const isMobile = useMedia('(max-width: 1024px)', false)
-    const { handleSubmit, control, register, formState } = useForm<z.infer<typeof formSchema>>({
+    const { handleSubmit, register, formState } = useForm<z.infer<typeof formSchema>>({
         mode: 'onChange',
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -35,7 +34,7 @@ export const EmailForm = () => {
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         setText(states.fetch)
 
-        let dataFormatted = JSON.stringify(data)
+        const dataFormatted = JSON.stringify(data)
 
         await fetch(
             `/api/indexFeedback`,

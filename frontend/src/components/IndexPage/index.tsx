@@ -1,6 +1,6 @@
-import { BackgroundImage, Box, Group, Space, Stack, Text, Title, Image, Button, Overlay } from '@mantine/core'
+import { BackgroundImage, Box, Group, Space, Stack, Text, Title, Image, Button } from '@mantine/core'
 import Link from 'next/link'
-import s from '../../styles/index.module.css'
+import _ from '../../styles/index.module.css'
 import { useMedia } from 'react-use'
 import { useModals } from '@mantine/modals'
 
@@ -98,7 +98,7 @@ export function IndexPage() {
                 >
                     <Title
                         order={1}
-                        ta={isMobile ? 'center' : null}
+                        ta={isMobile ? 'center' : undefined}
                         c='primary'
                         style={{
                             fontSize: isMobile ? 32 : '80px',
@@ -127,7 +127,7 @@ export function IndexPage() {
                         <Group
                             gap={30}
                             p={isMobile ? '24px 16px' : 2}
-                            variant={isMobile ? null : 'noflip'}
+                            variant={isMobile ? undefined : 'noflip'}
                             style={{
                                 // boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)',
                             }}
@@ -178,7 +178,7 @@ export function IndexPage() {
                 />
                 <Title
                     order={2}
-                    ta={isMobile ? 'center' : null}
+                    ta={isMobile ? 'center' : undefined}
                 >
                     ГРАФИК ПРОЕКТА
                 </Title>
@@ -246,7 +246,7 @@ export function IndexPage() {
                     // pl={isMobile ? 8 : 19}
                     style={{
                         width: '100%',
-                        aspectRatio: !isMobile && '1240 / 762',
+                        aspectRatio: !isMobile ? '1240 / 762' : undefined,
                         backgroundSize: isMobile ? 'auto' : 'contain',
                     }}
                 >
@@ -266,7 +266,7 @@ export function IndexPage() {
                             order={2}
                             c={'primary'}
                             mb={24}
-                            ta={isTablet ? 'center' : null}
+                            ta={isTablet ? 'center' : undefined}
                             w={'100%'}
                             style={{
                                 fontSize: isMobile ? undefined : '42px',
@@ -369,7 +369,7 @@ export function IndexPage() {
                         zIndex: 0,
                         overflow: 'visible',
                     }}
-                    pb={!isTablet && 100}
+                    pb={!isTablet ? 100 : undefined}
                 >
                     {/* {!isTablet && (
                         <div style={{ // картинка
@@ -404,7 +404,7 @@ export function IndexPage() {
                         >
                             <Title
                                 order={1}
-                                ta={isMobile ? 'center' : null}
+                                ta={isMobile ? 'center' : undefined}
                             >
                                 ЧТО ВЫ ХОТИТЕ <br /> ИЗМЕНИТЬ?
                             </Title>

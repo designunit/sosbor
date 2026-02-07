@@ -1,5 +1,5 @@
 import type { AppProps } from 'next/app'
-import { AppShell, Box, Burger, Button, Center, createTheme, Drawer, Fieldset, Flex, Group, MantineColorsTuple, MantineProvider, Space, Stack, Text, Title } from '@mantine/core'
+import { AppShell, Box, Burger, Button, Center, createTheme, Drawer, Fieldset, Flex, Group, MantineProvider, Stack, Text, Title } from '@mantine/core'
 import Link from 'next/link'
 import { NextSeo } from 'next-seo'
 import { useDisclosure, useMediaQuery } from '@mantine/hooks'
@@ -12,7 +12,7 @@ import { SWRConfig } from 'swr'
 import { NavbarContext, NavbarContextProvider } from '@/contexts/navbar'
 import { useContext } from 'react'
 import { SubmissionFeed } from '@/components/SubmissionFeed'
-import { Golos_Text, Manrope } from 'next/font/google'
+import { Golos_Text } from 'next/font/google'
 const fontVar = Golos_Text({ weight: ['400', '700'], subsets: ['latin', 'cyrillic'] })
 import mobileMenu from '../styles/mobileMenu.module.css'
 import groupStyles from '../styles/group.module.css'
@@ -23,14 +23,18 @@ import appShellStyles from '../styles/appShell.module.css'
 
 import '@mantine/core/styles.css'
 import { FormContextProvider } from '@/contexts/form'
+import type { MantineColorArray } from '@/types'
+
+const createColorTuple = (color: string): MantineColorArray =>
+    [color, color, color, color, color, color, color, color, color, color]
 
 const theme = createTheme({
     colors: {
-        primary: Array(10).fill('rgb(233 79 43)') as unknown as MantineColorsTuple,
-        secondary: Array(10).fill('rgb(155 185 98)') as unknown as MantineColorsTuple,
-        third: Array(10).fill('rgb(247 236 209)') as unknown as MantineColorsTuple,
-        dark: Array(10).fill('rgb(4,30,73)') as unknown as MantineColorsTuple,
-        black: Array(10).fill('#1E1928') as unknown as MantineColorsTuple,
+        primary: createColorTuple('rgb(233 79 43)'),
+        secondary: createColorTuple('rgb(155 185 98)'),
+        third: createColorTuple('rgb(247 236 209)'),
+        dark: createColorTuple('rgb(4,30,73)'),
+        black: createColorTuple('#1E1928'),
     },
     defaultRadius: 0,
     headings: {
@@ -118,7 +122,13 @@ const theme = createTheme({
     },
 })
 
-const navButtons = [
+type NavButton = {
+    text: string
+    href: string | null
+    props?: React.ComponentPropsWithoutRef<typeof Button>
+}
+
+const navButtons: NavButton[] = [
     {
         text: 'График проекта',
         href: '/#timeline',
@@ -134,8 +144,7 @@ const navButtons = [
 ]
 
 const MapPageLayout = ({ children }: { children: React.ReactNode }) => {
-    const [opened, { toggle }] = useDisclosure()
-    const { selected, drawer, setDrawer } = useContext(NavbarContext)
+    const { drawer, setDrawer } = useContext(NavbarContext)
     const isMobile = useMediaQuery('(max-width: 768px)', true)
     const isTablet = useMediaQuery('(max-width: 1024px)', true)
     const [mobileOpened, { toggle: toggleMobile }] = useDisclosure()
@@ -366,7 +375,6 @@ const PageLayout = ({ children }: { children: React.ReactNode }) => {
     const router = useRouter()
 
     const isMapPage = router.pathname == '/map'
-    const isIndexPage = router.pathname == '/'
 
     const isMobile = useMediaQuery('(max-width: 768px)')
     const modals = useModals()
@@ -552,7 +560,6 @@ const PageLayout = ({ children }: { children: React.ReactNode }) => {
                                 c='primary'
                                 size='md'
                                 onClick={toggleMobile}
-                                // @ts-ignore
                                 {...x.props}
                                 style={{
                                     fontFamily: 'Nasalization, sans-serif',
@@ -571,7 +578,6 @@ const PageLayout = ({ children }: { children: React.ReactNode }) => {
                                     toggleMobile()
                                     openSurveyModal()
                                 }}
-                                // @ts-ignore
                                 {...x.props}
                                 style={{
                                     fontFamily: 'Nasalization, sans-serif',

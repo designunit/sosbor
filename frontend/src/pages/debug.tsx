@@ -1,5 +1,3 @@
-import { useEffect } from 'react'
-
 function useDebug() {
     const log = [
         `NEXT_PUBLIC_MAPLIBRE_STYLE=${process.env.NEXT_PUBLIC_MAPLIBRE_STYLE}`

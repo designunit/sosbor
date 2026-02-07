@@ -1,19 +1,20 @@
 import { Fieldset, CheckboxGroup, Stack, Checkbox, Text } from '@mantine/core'
-import { FC } from 'react'
-import { FieldValues, UseFormWatch } from 'react-hook-form'
+import type { FieldValues, UseFormWatch } from 'react-hook-form'
 
-export const CheckboxList: FC<{
-    field: FieldValues,
-    data: string[],
+export type CheckboxListProps = {
+    field: FieldValues
+    data: string[]
     watch: UseFormWatch<FieldValues>
     label: string
     description?: string
     maxValues?: number
-}> = ({ field, data, watch, label, description, maxValues = data.length }) => {
+}
+
+export function CheckboxList({ field, data, watch, label, description, maxValues = data.length }: CheckboxListProps) {
     const selectedOptions: string[] = watch(field.name, []) || []
 
 
-    const getDisabled = (value) => !selectedOptions.includes(value) && selectedOptions.length >= maxValues
+    const getDisabled = (value: string) => !selectedOptions.includes(value) && selectedOptions.length >= maxValues
 
     return (
         <Fieldset

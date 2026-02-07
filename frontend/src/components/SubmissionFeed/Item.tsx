@@ -1,6 +1,6 @@
 import { Card, Stack, Text, Group, ScrollArea, ActionIcon } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
-import { Submission } from '.'
+import type { Submission } from '.'
 import { useMap } from 'react-map-gl/maplibre'
 import { NavbarContext } from '@/contexts/navbar'
 import { useContext } from 'react'
@@ -11,9 +11,9 @@ type ItemProps = {
     data: Submission
 }
 
-export const Item: React.FC<ItemProps> = ({ data }) => {
+export function Item({ data }: ItemProps) {
     const router = useRouter()
-    const [opened, { toggle }] = useDisclosure(false)
+    const [, { toggle }] = useDisclosure(false)
     const { setDrawer } = useContext(NavbarContext)
     const { default: map } = useMap()
 
@@ -57,7 +57,7 @@ export const Item: React.FC<ItemProps> = ({ data }) => {
                             bg={'white'}
                             onClick={() => {
                                 setDrawer(false)
-                                map.flyTo({
+                                map?.flyTo({
                                     center: data.feature.geometry.coordinates,
                                     zoom: 15,
                                 })

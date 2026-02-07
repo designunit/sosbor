@@ -2,13 +2,14 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Stack, Button, Textarea } from '@mantine/core'
 import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
-import { KeyedMutator } from 'swr'
+import type { KeyedMutator } from 'swr'
 import { z } from 'zod'
 import s from './index.module.css'
+import type { Submission } from '@/types/submission'
 
 type CommentFormProps = {
     id: string
-    mutate: KeyedMutator<any[]>
+    mutate: KeyedMutator<Submission[]>
 }
 
 const states = {
@@ -21,7 +22,7 @@ const formSchema = z.object({
     comment: z.string().min(0, { message: 'Коментарий не может быть пустым' }).max(200, { message: 'Коментарий не может быть больше 200 символов' }),
 })
 
-export const CommentForm: React.FC<CommentFormProps> = ({ id, mutate }) => {
+export function CommentForm({ id, mutate }: CommentFormProps) {
     const { handleSubmit, control, reset, } = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         mode: 'onChange',

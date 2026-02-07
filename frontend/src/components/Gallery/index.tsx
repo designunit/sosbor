@@ -5,8 +5,9 @@ import { useDisclosure } from '@mantine/hooks'
 import { useState } from 'react'
 import NextImage from 'next/image'
 import { useMedia } from 'react-use'
+import type { GalleryImage } from '@/types'
 
-const PrevButton = () => {
+function PrevButton() {
     const swiper = useSwiper()
 
     return (
@@ -25,7 +26,11 @@ const PrevButton = () => {
     )
 }
 
-export const Gallery = ({ galleryImages }) => {
+export type GalleryProps = {
+    galleryImages: GalleryImage[]
+}
+
+export function Gallery({ galleryImages }: GalleryProps) {
     const [imageOpened, { toggle: close, open }] = useDisclosure()
     const [image, setImage] = useState(0)
     const isMobile = useMedia('(max-width: 576px)', false)
@@ -39,12 +44,12 @@ export const Gallery = ({ galleryImages }) => {
                 slidesOffsetBefore={isMobile ? 10 : 68 / 2}
                 className={s.swiper}
                 centeredSlides={isMobile}
-                onClick={(swiper, e) => {
+                onClick={(swiper) => {
                     setImage((swiper.clickedIndex) % galleryImages.length)
                     open()
                 }}
             >
-                {galleryImages.map((x, i) => (
+                {galleryImages.map((x) => (
                     <SwiperSlide
                         key={x.src}
                     >

@@ -1,11 +1,13 @@
-import React, { useCallback, useContext } from 'react'
-import { GeolocateControl, Layer, Marker, NavigationControl, Source } from 'react-map-gl/mapbox'
+import { useContext } from 'react'
+import { Layer, Marker, Source } from 'react-map-gl/mapbox'
 import { useModals } from '@mantine/modals'
 import { useRouter } from 'next/router'
 import { FormContext } from '@/contexts/form'
 import useSWR from 'swr'
 import { Popover, ScrollArea, Text } from '@mantine/core'
 import { useMediaQuery } from '@mantine/hooks'
+import type { MapClickEvent } from '@/types'
+import type { Submission } from '@/types/submission'
 
 import 'mapbox-gl/dist/mapbox-gl.css'
 
@@ -18,7 +20,7 @@ type MapProps = {
     }
 }
 
-export const Map: React.FC<MapProps> = ({ initialCoords }) => {
+export function Map({ initialCoords }: MapProps) {
     const { data, error, isLoading } = useSWR(
         `/api/collections/features/records?perPage=1000`,
         (url) => fetch(
@@ -32,7 +34,7 @@ export const Map: React.FC<MapProps> = ({ initialCoords }) => {
     const modals = useModals()
     const { data: formData, setData, addMode, setAddMode } = useContext(FormContext)
 
-    const onClick = useCallback((event) => {
+    const onClick = (event: MapClickEvent) => {
         if (!addMode) return
 
         const { lngLat } = event
@@ -57,16 +59,14 @@ export const Map: React.FC<MapProps> = ({ initialCoords }) => {
             }
         )
         setAddMode(false)
-    },
-        [addMode]
-    )
+    }
 
     const isMobile = useMediaQuery('(max-width: 768px)', true, { getInitialValueInEffect: false })
     const router = useRouter()
     const isPreview = Boolean(router.query?.preview) == true
 
-    const features = (data?.items ?? [])
-        .filter(x => x?.feature && JSON.stringify(x?.feature) !== '{}')
+    const features: Submission[] = (data?.items ?? [])
+        .filter((x: Submission) => x?.feature && JSON.stringify(x?.feature) !== '{}')
 
     return (
         <MapMapbox

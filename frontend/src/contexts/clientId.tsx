@@ -1,4 +1,5 @@
-import { Context, createContext, useContext, useEffect } from 'react'
+import { createContext, useContext, useEffect } from 'react'
+import type { Context } from 'react'
 import { useCookie, useLocalStorage } from 'react-use'
 import useSWR from 'swr'
 
@@ -9,7 +10,7 @@ type ClientIdContextType = {
 
 export const ClientIdContext: Context<ClientIdContextType> = createContext({
     clientId: 'false',
-    clientIdCookie: null,
+    clientIdCookie: '',
 })
 
 export const ClientIdProvider = ({ children }: { children: React.ReactNode }) => {
@@ -37,9 +38,9 @@ export const ClientIdProvider = ({ children }: { children: React.ReactNode }) =>
         }
 
         if (cookie == 'null' || cookie == 'false') {
-            updateCookie(clientId, { expires: new Date(new Date().getTime() + 1000 * 60 * 60 * 24 * 300) })
+            updateCookie(clientId ?? '', { expires: new Date(new Date().getTime() + 1000 * 60 * 60 * 24 * 300) })
         }
-    }, [clientId, data, cookie])
+    }, [clientId, data, cookie, setClientId, updateCookie])
 
     const { data: isCookiesAllowed } = useSWR(
         `/api/check`,
@@ -53,15 +54,15 @@ export const ClientIdProvider = ({ children }: { children: React.ReactNode }) =>
     )
     useEffect(() => {
         if (isCookiesAllowed === false) {
-            updateCookie(null)
+            updateCookie('')
         }
-    }, [isCookiesAllowed])
+    }, [isCookiesAllowed, updateCookie])
 
     return (
         <ClientIdContext.Provider
             value={{
-                clientId,
-                clientIdCookie: cookie,
+                clientId: clientId ?? '',
+                clientIdCookie: cookie ?? '',
             }}
         >
             {children}

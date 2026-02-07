@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useModals } from '@mantine/modals'
 import { useRouter } from 'next/router'
 import { SWRConfig } from 'swr'
-import { NextPage } from 'next/types'
+import type { NextPage, GetServerSidePropsContext } from 'next/types'
 import { Map } from '@/components/Map'
 import { AddButton } from '@/components/AddButton'
 import { NavbarContext } from '@/contexts/navbar'
@@ -15,7 +15,7 @@ const PageComponent: React.FC = () => {
     const previewFeature = Boolean(router.query?.preview) == true
     const coords = (router.query?.preview as string | undefined)?.split(',')
 
-    const [initalCoords, setInitalCoords] = useState(previewFeature
+    const [initalCoords] = useState(previewFeature && coords
         ? {
             longitude: Number(coords[0]),
             latitude: Number(coords[1]),
@@ -43,13 +43,13 @@ const PageComponent: React.FC = () => {
                 }
             )
         }
-    }, [autoOpenModal])
+    }, [autoOpenModal, modals])
 
     useEffect(() => {
         if (router.pathname == '/map') {
             setDrawer(false)
         }
-    }, [router.pathname])
+    }, [router.pathname, setDrawer])
 
     return (
         <>
@@ -66,7 +66,11 @@ const PageComponent: React.FC = () => {
     )
 }
 
-const MapPage: NextPage<{ fallback: { [key: string]: any } }> = ({ fallback }) => {
+type MapPageProps = {
+    fallback: Record<string, unknown>
+}
+
+const MapPage: NextPage<MapPageProps> = ({ fallback }) => {
     return (
         <SWRConfig
             value={{
@@ -78,7 +82,7 @@ const MapPage: NextPage<{ fallback: { [key: string]: any } }> = ({ fallback }) =
     )
 }
 
-export const getServerSideProps = async (ctx) => {
+export const getServerSideProps = async (_ctx: GetServerSidePropsContext) => {
     return {
         props: {
             fallback: {
