@@ -3,7 +3,8 @@
 import { AppShell, Burger, Button, Center, Flex, Group, Text } from '@mantine/core'
 import Link from 'next/link'
 import { useMediaQuery } from '@mantine/hooks'
-import { navButtons } from '@/lib/navigation'
+import { navButtons, scrollToHash } from '@/lib/navigation'
+import type { MouseEvent } from 'react'
 
 export type HeaderProps = {
     height: number
@@ -84,6 +85,7 @@ export function Header({ height, position, mobileOpened, toggleMobile, onSurveyC
                                 key={x.text}
                                 component={Link}
                                 href={x.href}
+                                onClick={x.href.includes('#') ? (e: MouseEvent) => scrollToHash(x.href!, e) : undefined}
                                 variant='transparent'
                                 c={navButtonColor}
                                 styles={{

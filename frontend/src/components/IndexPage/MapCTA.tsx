@@ -1,5 +1,6 @@
-import { BackgroundImage, Box, Button, Group, Space, Stack, Text, Title } from '@mantine/core'
+import { BackgroundImage, Box, Group, Space, Stack, Text, Title } from '@mantine/core'
 import classes from './MapCTA.module.css'
+import { MapCTAButton } from './MapCTAButton'
 
 export function MapCTA() {
     return (
@@ -105,24 +106,7 @@ export function MapCTA() {
                             p={6}
                             mx={'auto'}
                         >
-                            <Button
-                                component='a'
-                                href='/map'
-                                size='sm'
-                                bg={'secondary'}
-                                visibleFrom='sm'
-                            >
-                                Карта идей
-                            </Button>
-                            <Button
-                                component='a'
-                                href='/map'
-                                size='xl'
-                                bg={'secondary'}
-                                hiddenFrom='sm'
-                            >
-                                Карта идей
-                            </Button>
+                            <MapCTAButton />
                         </Group>
                     </Stack>
                 </BackgroundImage>

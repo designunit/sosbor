@@ -6,7 +6,8 @@ import { useDisclosure, useMediaQuery } from '@mantine/hooks'
 import { useOpenSurveyModal } from '@/hooks/useOpenSurveyModal'
 import { Header } from '@/components/Header'
 import { mobileMenu, appShellStyles } from '@/theme'
-import { navButtons } from '@/lib/navigation'
+import { navButtons, scrollToHash } from '@/lib/navigation'
+import type { MouseEvent } from 'react'
 
 export default function DefaultLayout({ children }: { children: React.ReactNode }) {
     const [mobileOpened, { toggle: toggleMobile }] = useDisclosure()
@@ -71,7 +72,12 @@ export default function DefaultLayout({ children }: { children: React.ReactNode 
                                 variant='subtle'
                                 c='primary'
                                 size='md'
-                                onClick={toggleMobile}
+                                onClick={(e: MouseEvent) => {
+                                    toggleMobile()
+                                    if (x.href!.includes('#')) {
+                                        scrollToHash(x.href!, e)
+                                    }
+                                }}
                                 {...x.props}
                                 style={{
                                     fontFamily: 'Nasalization, sans-serif',

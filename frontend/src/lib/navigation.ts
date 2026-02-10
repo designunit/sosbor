@@ -1,4 +1,5 @@
 import type { Button } from '@mantine/core'
+import type { MouseEvent } from 'react'
 
 export type NavButton = {
     text: string
@@ -20,3 +21,13 @@ export const navButtons: NavButton[] = [
         href: null,
     },
 ]
+
+export function scrollToHash(href: string, e: MouseEvent) {
+    const hash = href.split('#')[1]
+    if (!hash) return
+    const el = document.getElementById(hash)
+    if (el) {
+        e.preventDefault()
+        el.scrollIntoView({ behavior: 'smooth' })
+    }
+}
