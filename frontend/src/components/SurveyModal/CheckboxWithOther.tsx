@@ -1,3 +1,5 @@
+'use client'
+
 import { Fieldset, CheckboxGroup, Stack, Checkbox, TextInput, Text } from '@mantine/core'
 import { useState, useCallback } from 'react'
 import type { FieldValues, UseFormSetValue, UseFormWatch } from 'react-hook-form'

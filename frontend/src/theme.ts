@@ -1,6 +1,6 @@
 import { AppShell, Button, Fieldset, Group, Text, Title, createTheme } from '@mantine/core'
-import { Golos_Text } from 'next/font/google'
 import type { MantineColorArray } from '@/types'
+import { fontVar } from '@/fonts'
 
 import mobileMenu from './styles/mobileMenu.module.css'
 import groupStyles from './styles/group.module.css'
@@ -9,9 +9,7 @@ import titleStyles from './styles/title.module.css'
 import buttonStyles from './styles/button.module.css'
 import appShellStyles from './styles/appShell.module.css'
 
-export { mobileMenu, groupStyles, textStyles, titleStyles, buttonStyles, appShellStyles }
-
-export const fontVar = Golos_Text({ weight: ['400', '700'], subsets: ['latin', 'cyrillic'] })
+export { fontVar, mobileMenu, groupStyles, textStyles, titleStyles, buttonStyles, appShellStyles }
 
 export const createColorTuple = (color: string): MantineColorArray =>
     [color, color, color, color, color, color, color, color, color, color]

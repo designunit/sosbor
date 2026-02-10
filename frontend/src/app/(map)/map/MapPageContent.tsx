@@ -1,13 +1,13 @@
-import React, { useContext, useEffect, useState } from 'react'
+'use client'
+
+import { useContext, useEffect, useState } from 'react'
 import { useModals } from '@mantine/modals'
 import { useSearchParams } from 'next/navigation'
-import { SWRConfig } from 'swr'
-import type { NextPage, GetServerSidePropsContext } from 'next/types'
 import { Map } from '@/components/Map'
 import { AddButton } from '@/components/AddButton'
 import { NavbarContext } from '@/contexts/navbar'
 
-const PageComponent: React.FC = () => {
+export function MapPageContent() {
     const modals = useModals()
     const searchParams = useSearchParams()
     const { setDrawer } = useContext(NavbarContext)
@@ -37,9 +37,7 @@ const PageComponent: React.FC = () => {
                     centered: true,
                     size: 'min(100%, 650px)',
                     withCloseButton: false,
-                    innerProps: {
-
-                    },
+                    innerProps: {},
                 }
             )
         }
@@ -50,44 +48,14 @@ const PageComponent: React.FC = () => {
     }, [setDrawer])
 
     return (
-        <>
-            <div style={{
-                flex: '1 0 100%',
-                position: 'relative',
-            }}>
-                <Map
-                    initialCoords={initalCoords}
-                />
-                <AddButton />
-            </div>
-        </>
+        <div style={{
+            flex: '1 0 100%',
+            position: 'relative',
+        }}>
+            <Map
+                initialCoords={initalCoords}
+            />
+            <AddButton />
+        </div>
     )
 }
-
-type MapPageProps = {
-    fallback: Record<string, unknown>
-}
-
-const MapPage: NextPage<MapPageProps> = ({ fallback }) => {
-    return (
-        <SWRConfig
-            value={{
-                fallback,
-            }}
-        >
-            <PageComponent />
-        </SWRConfig>
-    )
-}
-
-export const getServerSideProps = async (_ctx: GetServerSidePropsContext) => {
-    return {
-        props: {
-            fallback: {
-                [`/api/submissions?limit=1000`]: { docs: [] }
-            }
-        }
-    }
-}
-
-export default MapPage
