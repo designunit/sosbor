@@ -3,7 +3,7 @@
 import { Card, Stack, Text, Group, ScrollArea, ActionIcon } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import type { Submission } from '.'
-import { useMap } from 'react-map-gl/maplibre'
+import { useMap } from 'react-map-gl/mapbox'
 import { NavbarContext } from '@/contexts/navbar'
 import { useContext } from 'react'
 import { useSearchParams } from 'next/navigation'

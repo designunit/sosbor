@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useCallback, useState } from 'react'
 import { Map, GeolocateControl, NavigationControl } from 'react-map-gl/mapbox'
 import type { MapProps } from 'react-map-gl/mapbox'
 
@@ -11,6 +11,9 @@ type MapMapboxProps = {
 }
 
 export default function MapMapbox({ children, onClick, initialViewState }: MapMapboxProps) {
+    const [isStyleLoaded, setIsStyleLoaded] = useState(false)
+    const handleLoad = useCallback(() => setIsStyleLoaded(true), [])
+
     return (
         <Map
             hash
@@ -20,6 +23,7 @@ export default function MapMapbox({ children, onClick, initialViewState }: MapMa
             mapStyle={process.env.NEXT_PUBLIC_MAPBOX_STYLE}
             onClick={onClick}
             initialViewState={initialViewState}
+            onLoad={handleLoad}
         >
             <NavigationControl
                 showZoom
@@ -32,7 +36,7 @@ export default function MapMapbox({ children, onClick, initialViewState }: MapMa
                 }}
             />
             <GeolocateControl style={{ marginRight: 16 }} />
-            { children }
+            {isStyleLoaded && children}
         </Map>
     )
 }
