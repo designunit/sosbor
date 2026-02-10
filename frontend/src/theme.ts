@@ -79,7 +79,6 @@ export const theme = createTheme({
                 label: {
                     fontSize: '20px',
                     lineHeight: '20px',
-                    padding: '0px 30px',
                     fontWeight: 700,
                 },
             },
