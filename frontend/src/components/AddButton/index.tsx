@@ -1,3 +1,5 @@
+'use client'
+
 import { FormContext } from '@/contexts/form';
 import { Popover, Button, Center, Box } from '@mantine/core';
 import { useModals } from '@mantine/modals';

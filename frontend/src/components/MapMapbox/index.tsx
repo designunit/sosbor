@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react'
 import { Map, GeolocateControl, NavigationControl } from 'react-map-gl/mapbox'
 import type { MapProps } from 'react-map-gl/mapbox'

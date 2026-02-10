@@ -1,8 +1,10 @@
+'use client'
+
 import { FormContext } from '@/contexts/form'
 import { Text, Stack, Button, Title, Center, Textarea, Tooltip } from '@mantine/core'
 import { useModals } from '@mantine/modals'
 import type { ContextModalProps } from '@mantine/modals'
-import { useRouter } from 'next/router'
+import { usePathname } from 'next/navigation'
 import { useContext, useEffect, useState } from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import { z } from 'zod'
@@ -130,12 +132,12 @@ export function IdeaModal({ id: modalId, innerProps }: ContextModalProps<IdeaMod
     }
 
     // close modal on route
-    const router = useRouter()
+    const pathname = usePathname()
     useEffect(() => {
-        if (router.pathname == '/') {
+        if (pathname == '/') {
             modals.closeAll()
         }
-    }, [router.pathname, modals])
+    }, [pathname, modals])
 
     return (
         <form

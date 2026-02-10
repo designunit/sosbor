@@ -1,3 +1,5 @@
+'use client'
+
 import { createContext, useContext, useEffect } from 'react'
 import type { Context } from 'react'
 import { useCookie, useLocalStorage } from 'react-use'

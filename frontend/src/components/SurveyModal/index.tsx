@@ -1,3 +1,5 @@
+'use client'
+
 import { Text, Select, Button, Textarea, Tabs, Group, Fieldset, Title, Stack, Center, Space, CloseButton, Slider, Box } from '@mantine/core'
 import { useModals } from '@mantine/modals'
 import { useCallback, useRef, useState } from 'react'

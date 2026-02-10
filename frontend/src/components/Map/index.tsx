@@ -1,7 +1,9 @@
+'use client'
+
 import { useContext } from 'react'
 import { Layer, Marker, Source } from 'react-map-gl/mapbox'
 import { useModals } from '@mantine/modals'
-import { useRouter } from 'next/router'
+import { useSearchParams } from 'next/navigation'
 import { FormContext } from '@/contexts/form'
 import useSWR from 'swr'
 import { Popover, ScrollArea, Text } from '@mantine/core'
@@ -62,8 +64,8 @@ export function Map({ initialCoords }: MapProps) {
     }
 
     const isMobile = useMediaQuery('(max-width: 768px)', true, { getInitialValueInEffect: false })
-    const router = useRouter()
-    const isPreview = Boolean(router.query?.preview) == true
+    const searchParams = useSearchParams()
+    const isPreview = Boolean(searchParams.get('preview'))
 
     const features: Submission[] = (data?.items ?? [])
         .filter((x: Submission) => x?.feature && JSON.stringify(x?.feature) !== '{}')

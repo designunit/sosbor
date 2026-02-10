@@ -1,3 +1,5 @@
+'use client'
+
 import { createContext, useState } from 'react'
 import type { Context } from 'react'
 import type { NavbarContextValue } from '@/types'

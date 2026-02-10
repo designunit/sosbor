@@ -1,3 +1,5 @@
+'use client'
+
 import { Stack, ScrollArea, Skeleton, Box, Button, ActionIcon, Group, Text, Alert } from '@mantine/core'
 import { useHasMounted } from '@/contexts/hasMounted'
 import { Item } from './Item'
@@ -5,7 +7,7 @@ import useSWRInfinite from 'swr/infinite'
 import { NavbarContext } from '@/contexts/navbar'
 import { useContext } from 'react'
 import s from './index.module.css'
-import { useRouter } from 'next/router'
+import { useSearchParams } from 'next/navigation'
 import { useEffectOnce } from 'react-use'
 import { AddButton } from '../AddButton'
 import { useMediaQuery } from '@mantine/hooks'
@@ -14,7 +16,8 @@ import type { Feature, Submission, SubmissionResponse } from '@/types/submission
 export type { Feature, Submission, SubmissionResponse }
 
 export function SubmissionFeed() {
-    const router = useRouter()
+    const searchParams = useSearchParams()
+    const pointId = searchParams.get('pointId')
     const hasMounted = useHasMounted()
     const isMobile = useMediaQuery('(max-width: 768px)', true)
     const { data, error, isLoading, size, setSize } = useSWRInfinite(
@@ -34,16 +37,16 @@ export function SubmissionFeed() {
         : data
             .flatMap(x => x.items)
             .sort((a, b) => {
-                if (!router.query?.pointId) return 0
-                if (a.id == router.query?.pointId) return -1
-                if (b.id == router.query?.pointId) return 1
+                if (!pointId) return 0
+                if (a.id == pointId) return -1
+                if (b.id == pointId) return 1
                 return 0
             })
 
     // on query.pointId fetch up to amount of items in /index
     useEffectOnce(() => {
-        if (router.query?.pointId) {
-            if (!dataFlat.find(x => x.id == router.query?.pointId)) {
+        if (pointId) {
+            if (!dataFlat.find(x => x.id == pointId)) {
                 setSize(10)
             }
         }

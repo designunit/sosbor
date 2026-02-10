@@ -1,8 +1,10 @@
+'use client'
+
 import { BackgroundImage, Box, Group, Space, Stack, Text, Title, Image, Button } from '@mantine/core'
 import Link from 'next/link'
 import _ from '../../styles/index.module.css'
 import { useMedia } from 'react-use'
-import { useModals } from '@mantine/modals'
+import { useOpenSurveyModal } from '@/hooks/useOpenSurveyModal'
 
 const sponsors = [
     {
@@ -34,22 +36,7 @@ const sponsors = [
 export function IndexPage() {
     const isMobile = useMedia('(max-width: 768px)', true)
     const isTablet = useMedia('(max-width: 1024px)', true)
-    const modals = useModals()
-    const openSurveyModal = () => {
-        modals.openContextModal(
-            'survey',
-            {
-                centered: true,
-                size: 'min(100%, 900px)',
-                withCloseButton: false,
-                closeOnEscape: false,
-                closeOnClickOutside: false,
-                innerProps: {
-                    defaultValues: {},
-                },
-            }
-        )
-    }
+    const openSurveyModal = useOpenSurveyModal()
     return (
         <>
             <Space h={20} />
