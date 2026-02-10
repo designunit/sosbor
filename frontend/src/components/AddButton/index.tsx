@@ -82,9 +82,6 @@ export function AddButton({ style = {
                 </Popover.Target>
                 <Popover.Dropdown
                     maw='calc(100vw - 2rem)'
-                    style={{
-                        borderRadius: 40,
-                    }}
                 >
                     <Center ta='center'>
                         Выберите место на карте для своего предложения
