@@ -96,11 +96,21 @@ export function Map({ initialCoords }: MapProps) {
                 />
                 <Layer
                     type='line'
+                    id='border-line-contrast'
+                    paint={{
+                        'line-color': '#ffffff',
+                        'line-width': 4,
+                        'line-opacity': 0.8,
+                    }}
+                />
+                <Layer
+                    type='line'
                     id='border-line'
                     paint={{
-                        'line-color': '#e94f2b',
-                        'line-width': 1,
+                        'line-color': '#b5301a',
+                        'line-width': 2,
                         'line-opacity': 1,
+                        'line-dasharray': [4, 3],
                     }}
                 />
             </Source>
