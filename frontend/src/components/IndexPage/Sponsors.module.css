@@ -1,0 +1,8 @@
+.sponsors {
+    gap: 40px;
+}
+@media (max-width: $mantine-breakpoint-sm) {
+    .sponsors {
+        gap: 80px;
+    }
+}

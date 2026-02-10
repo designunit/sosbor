@@ -1,8 +1,6 @@
-'use client'
-
 import { Group, Image } from '@mantine/core'
 import Link from 'next/link'
-import { useMediaQuery } from '@mantine/hooks'
+import classes from './Sponsors.module.css'
 
 const sponsors = [
     {
@@ -32,11 +30,9 @@ const sponsors = [
 ]
 
 export function Sponsors() {
-    const isMobile = useMediaQuery('(max-width: 768px)', true)
-
     return (
         <Group
-            p={isMobile ? 50 : 70}
+            p={{ base: 50, sm: 70 }}
             align={'center'}
             justify='space-between'
             bg={'secondary'}
@@ -47,7 +43,7 @@ export function Sponsors() {
                 overflow: 'visible'
             }}
             wrap={'nowrap'}
-            gap={isMobile ? '80px' : '40px'}
+            className={classes.sponsors}
         >
             {sponsors.map(x => (
                 <Link

@@ -1,16 +1,10 @@
-'use client'
-
 import { BackgroundImage, Box, Button, Group, Space, Stack, Text, Title } from '@mantine/core'
-import Link from 'next/link'
-import { useMediaQuery } from '@mantine/hooks'
+import classes from './MapCTA.module.css'
 
 export function MapCTA() {
-    const isMobile = useMediaQuery('(max-width: 768px)', true)
-    const isTablet = useMediaQuery('(max-width: 1024px)', true)
-
     return (
         <>
-            <Space h={isMobile ? 80 : 60} />
+            <Space h={{ base: 80, sm: 60 }} />
             <Box
                 style={{
                     position: 'relative',
@@ -20,60 +14,54 @@ export function MapCTA() {
                     outline: 'solid 2px var(--mantine-color-secondary-1)',
                 }}
             >
-                {!isTablet && (
-                    <>
-                        <div style={{
-                            position: 'absolute',
-                            top: '0%',
-                            right: '100%',
-                            width: '100%',
-                            height: '100%',
-                            background: 'url(/star.svg)',
-                            backgroundRepeat: 'no-repeat',
-                            aspectRatio: '153 / 150',
-                            transform: 'scale(3)',
-                            backgroundSize: 'contain',
-                            backgroundPosition: 'right bottom',
-                            maxWidth: '153px',
-                            maxHeight: '150px',
-                            zIndex: -1,
-                            opacity: .25,
-                        }} />
-                        <div style={{
-                            position: 'absolute',
-                            top: '50%',
-                            right: '-10%',
-                            width: '100%',
-                            height: '100%',
-                            background: 'url(/star.svg)',
-                            backgroundRepeat: 'no-repeat',
-                            aspectRatio: '153 / 150',
-                            backgroundSize: 'contain',
-                            backgroundPosition: 'right bottom',
-                            maxWidth: '153px',
-                            maxHeight: '150px',
-                            zIndex: -1,
-                            opacity: .25,
-                        }} />
-                    </>
-                )}
+                <Box visibleFrom='md'>
+                    <div style={{
+                        position: 'absolute',
+                        top: '0%',
+                        right: '100%',
+                        width: '100%',
+                        height: '100%',
+                        background: 'url(/star.svg)',
+                        backgroundRepeat: 'no-repeat',
+                        aspectRatio: '153 / 150',
+                        transform: 'scale(3)',
+                        backgroundSize: 'contain',
+                        backgroundPosition: 'right bottom',
+                        maxWidth: '153px',
+                        maxHeight: '150px',
+                        zIndex: -1,
+                        opacity: .25,
+                    }} />
+                    <div style={{
+                        position: 'absolute',
+                        top: '50%',
+                        right: '-10%',
+                        width: '100%',
+                        height: '100%',
+                        background: 'url(/star.svg)',
+                        backgroundRepeat: 'no-repeat',
+                        aspectRatio: '153 / 150',
+                        backgroundSize: 'contain',
+                        backgroundPosition: 'right bottom',
+                        maxWidth: '153px',
+                        maxHeight: '150px',
+                        zIndex: -1,
+                        opacity: .25,
+                    }} />
+                </Box>
                 <BackgroundImage
                     src={'/indexMap.jpg'}
                     bgr={'no-repeat'}
                     pos={'relative'}
-                    style={{
-                        width: '100%',
-                        aspectRatio: !isMobile ? '1240 / 762' : undefined,
-                        backgroundSize: isMobile ? 'auto' : 'contain',
-                    }}
+                    className={classes.backgroundImage}
                 >
                     <Stack
                         align='flex-start'
                         justify='center'
                         variant='noflip'
                         h='100%'
-                        maw={isTablet ? '100%' : 'min(100%, 500px)'}
-                        p={isTablet ? 24 : 38}
+                        maw={{ base: '100%', md: 'min(100%, 500px)' }}
+                        p={{ base: 24, md: 38 }}
                         bg={'rgba(255,255,255, 0.9)'}
                         style={{
                             boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)',
@@ -83,11 +71,9 @@ export function MapCTA() {
                             order={2}
                             c={'primary'}
                             mb={24}
-                            ta={isTablet ? 'center' : undefined}
+                            ta={{ base: 'center', md: undefined }}
                             w={'100%'}
-                            style={{
-                                fontSize: isMobile ? undefined : '42px',
-                            }}
+                            className={classes.mapTitle}
                         >
                             ПОДЕЛИТЕСЬ<br /> СВОИМ МНЕНИЕМ
                         </Title>
@@ -120,10 +106,20 @@ export function MapCTA() {
                             mx={'auto'}
                         >
                             <Button
-                                component={Link}
+                                component='a'
                                 href='/map'
-                                size={isMobile ? 'xl' : 'sm'}
+                                size='sm'
                                 bg={'secondary'}
+                                visibleFrom='sm'
+                            >
+                                Карта идей
+                            </Button>
+                            <Button
+                                component='a'
+                                href='/map'
+                                size='xl'
+                                bg={'secondary'}
+                                hiddenFrom='sm'
                             >
                                 Карта идей
                             </Button>

@@ -1,17 +1,13 @@
-'use client'
-
-import { Image, Space, Stack, Title } from '@mantine/core'
-import { useMediaQuery } from '@mantine/hooks'
+import { Box, Image, Space, Stack, Title } from '@mantine/core'
+import classes from './TimelineSection.module.css'
 
 export function TimelineSection() {
-    const isMobile = useMediaQuery('(max-width: 768px)', true)
-
     return (
         <>
             <Space h={80} />
             <Stack
                 flex={'2 1 auto'}
-                gap={isMobile ? 22 : 0}
+                className={classes.stack}
                 style={{
                     position: 'relative',
                 }}
@@ -25,14 +21,22 @@ export function TimelineSection() {
                 />
                 <Title
                     order={2}
-                    ta={isMobile ? 'center' : undefined}
+                    ta={{ base: 'center', sm: undefined }}
                 >
                     ГРАФИК ПРОЕКТА
                 </Title>
-                <Image
-                    src={isMobile ? 'indexRoadmapMobile.svg' : 'indexRoadmap.svg'}
-                    alt=''
-                />
+                <Box hiddenFrom='sm'>
+                    <Image
+                        src='indexRoadmapMobile.svg'
+                        alt=''
+                    />
+                </Box>
+                <Box visibleFrom='sm'>
+                    <Image
+                        src='indexRoadmap.svg'
+                        alt=''
+                    />
+                </Box>
             </Stack>
         </>
     )

@@ -1,15 +1,8 @@
-'use client'
-
-import { Box, Button, Group, Space, Stack, Text, Title } from '@mantine/core'
-import Link from 'next/link'
-import { useOpenSurveyModal } from '@/hooks/useOpenSurveyModal'
-import { useMediaQuery } from '@mantine/hooks'
+import { Box, Space, Stack, Text, Title } from '@mantine/core'
+import { HeroCTAButtons } from './HeroCTAButtons'
+import classes from './HeroSection.module.css'
 
 export function HeroSection() {
-    const isMobile = useMediaQuery('(max-width: 768px)', true)
-    const isTablet = useMediaQuery('(max-width: 1024px)', true)
-    const openSurveyModal = useOpenSurveyModal()
-
     return (
         <>
             <Space h={20} />
@@ -20,34 +13,36 @@ export function HeroSection() {
                     overflow: 'visible',
                 }}
             >
-                {!isTablet && <div style={{
-                    position: 'absolute',
-                    top: '-20%',
-                    right: '-60%',
-                    width: 'min(1239px * 1, 100vw)',
-                    height: 'min(1320px * 1, 120vw)',
-                    background: 'url(/hero.png)',
-                    aspectRatio: '1239 / 1320',
-                    backgroundRepeat: 'no-repeat',
-                    backgroundSize: 'contain',
-                    borderRadius: '40px',
-                    backgroundPosition: 'bottom center',
-                }} />}
-                {!isTablet && <div style={{
-                    position: 'absolute',
-                    bottom: '0%',
-                    right: '10%',
-                    width: 'min(339px * 1.5, 100vw)',
-                    height: 'min(137px * 1.5, 120vw)',
-                    background: 'url(/wstar.png)',
-                    aspectRatio: '339 / 137',
-                    backgroundRepeat: 'no-repeat',
-                    backgroundSize: 'contain',
-                    borderRadius: '40px',
-                    backgroundPosition: 'bottom center',
-                }} />}
+                <Box visibleFrom='md'>
+                    <div style={{
+                        position: 'absolute',
+                        top: '-20%',
+                        right: '-60%',
+                        width: 'min(1239px * 1, 100vw)',
+                        height: 'min(1320px * 1, 120vw)',
+                        background: 'url(/hero.png)',
+                        aspectRatio: '1239 / 1320',
+                        backgroundRepeat: 'no-repeat',
+                        backgroundSize: 'contain',
+                        borderRadius: '40px',
+                        backgroundPosition: 'bottom center',
+                    }} />
+                    <div style={{
+                        position: 'absolute',
+                        bottom: '0%',
+                        right: '10%',
+                        width: 'min(339px * 1.5, 100vw)',
+                        height: 'min(137px * 1.5, 120vw)',
+                        background: 'url(/wstar.png)',
+                        aspectRatio: '339 / 137',
+                        backgroundRepeat: 'no-repeat',
+                        backgroundSize: 'contain',
+                        borderRadius: '40px',
+                        backgroundPosition: 'bottom center',
+                    }} />
+                </Box>
                 <Stack
-                    pt={isMobile ? '100px' : '150px'}
+                    pt={{ base: '100px', sm: '150px' }}
                     maw={'min(90vw, 1050px)'}
                     justify={'flex-start'}
                     gap={70}
@@ -58,13 +53,9 @@ export function HeroSection() {
                 >
                     <Title
                         order={1}
-                        ta={isMobile ? 'center' : undefined}
+                        ta={{ base: 'center', sm: undefined }}
                         c='primary'
-                        style={{
-                            fontSize: isMobile ? 32 : '80px',
-                            lineHeight: isMobile ? '40px' : '86px',
-                            letterSpacing: '.05em',
-                        }}
+                        className={classes.heroTitle}
                     >
                         МАСТЕР-ПЛАН РАЗВИТИЯ
                         <br />
@@ -83,32 +74,7 @@ export function HeroSection() {
                         <br /><br />
                         Давайте вместе построим город, в котором хочется жить!
                     </Text>
-                    <Group>
-                        <Group
-                            gap={30}
-                            p={isMobile ? '24px 16px' : 2}
-                            variant={isMobile ? undefined : 'noflip'}
-                        >
-                            <Button
-                                component={Link}
-                                href='/map'
-                                size={isMobile ? 'xl' : 'md'}
-                                w={isMobile ? '100%' : 'fit-content'}
-                                bg={'secondary'}
-                            >
-                                Карта идей
-                            </Button>
-                            <Button
-                                onClick={openSurveyModal}
-                                size={isMobile ? 'xl' : 'md'}
-                                w='fit-content'
-                                bg={'secondary'}
-                                c='primary'
-                            >
-                                Пройти опрос
-                            </Button>
-                        </Group>
-                    </Group>
+                    <HeroCTAButtons />
                 </Stack>
             </Box>
         </>

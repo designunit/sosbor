@@ -1,0 +1,8 @@
+.group {
+    gap: 8rem;
+}
+@media (max-width: $mantine-breakpoint-sm) {
+    .group {
+        gap: 4rem;
+    }
+}

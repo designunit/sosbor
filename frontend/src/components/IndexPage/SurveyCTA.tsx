@@ -1,17 +1,11 @@
-'use client'
-
-import { Box, Button, Group, Space, Stack, Text, Title } from '@mantine/core'
-import { useMediaQuery } from '@mantine/hooks'
-import { useOpenSurveyModal } from '@/hooks/useOpenSurveyModal'
+import { Box, Group, Space, Stack, Text, Title } from '@mantine/core'
+import { SurveyButton } from './SurveyButton'
+import classes from './SurveyCTA.module.css'
 
 export function SurveyCTA() {
-    const isMobile = useMediaQuery('(max-width: 768px)', true)
-    const isTablet = useMediaQuery('(max-width: 1024px)', true)
-    const openSurveyModal = useOpenSurveyModal()
-
     return (
         <>
-            <Space h={isMobile ? 80 : 160} />
+            <Space h={{ base: 80, sm: 160 }} />
             <Box
                 style={{
                     position: 'relative',
@@ -19,45 +13,47 @@ export function SurveyCTA() {
                     zIndex: 0,
                 }}
             >
-                {!isTablet && <div style={{
-                    position: 'absolute',
-                    top: '-10%',
-                    right: '0%',
-                    width: 'min(313px * 1, 100vw)',
-                    height: 'min(841px * 1, 150vw)',
-                    background: 'url(/indexSurveyBlock.png)',
-                    aspectRatio: '313 / 841',
-                    transform: 'scale(1.5)',
-                    backgroundRepeat: 'no-repeat',
-                    backgroundSize: 'contain',
-                    borderRadius: '40px',
-                    backgroundPosition: 'bottom center',
-                    borderBottomLeftRadius: 0,
-                    borderTopRightRadius: 0,
-                }} />}
-                {!isTablet && <div style={{
-                    position: 'absolute',
-                    top: '0%',
-                    right: '20%',
-                    width: 'min(276px * 1, 100vw)',
-                    height: 'min(280px * 1, 150vw)',
-                    background: 'url(/dstar.png)',
-                    aspectRatio: '276 / 280',
-                    transform: 'scale(1.25)',
-                    backgroundRepeat: 'no-repeat',
-                    backgroundSize: 'contain',
-                    borderRadius: '40px',
-                    backgroundPosition: 'bottom center',
-                    borderBottomLeftRadius: 0,
-                    borderTopRightRadius: 0,
-                }} />}
+                <Box visibleFrom='md'>
+                    <div style={{
+                        position: 'absolute',
+                        top: '-10%',
+                        right: '0%',
+                        width: 'min(313px * 1, 100vw)',
+                        height: 'min(841px * 1, 150vw)',
+                        background: 'url(/indexSurveyBlock.png)',
+                        aspectRatio: '313 / 841',
+                        transform: 'scale(1.5)',
+                        backgroundRepeat: 'no-repeat',
+                        backgroundSize: 'contain',
+                        borderRadius: '40px',
+                        backgroundPosition: 'bottom center',
+                        borderBottomLeftRadius: 0,
+                        borderTopRightRadius: 0,
+                    }} />
+                    <div style={{
+                        position: 'absolute',
+                        top: '0%',
+                        right: '20%',
+                        width: 'min(276px * 1, 100vw)',
+                        height: 'min(280px * 1, 150vw)',
+                        background: 'url(/dstar.png)',
+                        aspectRatio: '276 / 280',
+                        transform: 'scale(1.25)',
+                        backgroundRepeat: 'no-repeat',
+                        backgroundSize: 'contain',
+                        borderRadius: '40px',
+                        backgroundPosition: 'bottom center',
+                        borderBottomLeftRadius: 0,
+                        borderTopRightRadius: 0,
+                    }} />
+                </Box>
                 <Box
                     style={{
                         position: 'relative',
                         zIndex: 0,
                         overflow: 'visible',
                     }}
-                    pb={!isTablet ? 100 : undefined}
+                    pb={{ base: undefined, md: 100 }}
                 >
                     <Stack
                         maw={'min(90vw, 900px)'}
@@ -69,24 +65,16 @@ export function SurveyCTA() {
                         }}
                     >
                         <Group
-                            gap={isMobile ? '4rem' : '8rem'}
+                            className={classes.group}
                             justify='space-between'
                         >
                             <Title
                                 order={1}
-                                ta={isMobile ? 'center' : undefined}
+                                ta={{ base: 'center', sm: undefined }}
                             >
                                 ЧТО ВЫ ХОТИТЕ <br /> ИЗМЕНИТЬ?
                             </Title>
-                            <Group p={6}>
-                                <Button
-                                    onClick={openSurveyModal}
-                                    size={isMobile ? 'xl' : 'sm'}
-                                    bg='secondary'
-                                >
-                                    Пройти опрос
-                                </Button>
-                            </Group>
+                            <SurveyButton />
                         </Group>
                         <Text
                             pb={20}
@@ -104,9 +92,9 @@ export function SurveyCTA() {
                     </Stack>
                 </Box>
 
-                {isTablet && (
-                    <Space h={isMobile ? 80 : 160} />
-                )}
+                <Box hiddenFrom='md'>
+                    <Space h={{ base: 80, sm: 160 }} />
+                </Box>
             </Box>
         </>
     )
