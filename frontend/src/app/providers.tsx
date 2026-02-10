@@ -23,7 +23,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
             <MapProvider>
                 <FormContextProvider>
                     <NavbarContextProvider>
-                        <MantineProvider theme={theme}>
+                        <MantineProvider theme={theme} defaultColorScheme="light">
                             <ModalsProvider
                                 modals={{
                                     idea: IdeaModal,

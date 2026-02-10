@@ -13,9 +13,9 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
-        <html lang="ru">
+        <html lang="ru" data-mantine-color-scheme="light">
             <head>
-                <ColorSchemeScript defaultColorScheme="auto" />
+                <ColorSchemeScript defaultColorScheme="light" />
             </head>
             <body className={fontVar.className}>
                 <Providers>
