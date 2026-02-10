@@ -16,7 +16,7 @@ export function MapPageContent() {
     const previewFeature = Boolean(preview)
     const coords = preview?.split(',')
 
-    const [initalCoords] = useState(previewFeature && coords
+    const [initialCoords] = useState(previewFeature && coords
         ? {
             longitude: Number(coords[0]),
             latitude: Number(coords[1]),
@@ -53,7 +53,7 @@ export function MapPageContent() {
             position: 'relative',
         }}>
             <Map
-                initialCoords={initalCoords}
+                initialCoords={initialCoords}
             />
             <AddButton />
         </div>
