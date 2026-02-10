@@ -50,7 +50,7 @@ export function Item({ data }: ItemProps) {
                 <Group
                     variant='noflip'
                 >
-                    {JSON.stringify(data?.feature) !== '{}' && (
+                    {data?.feature?.geometry?.coordinates?.length === 2 && (
                         <ActionIcon
                             variant='light'
                             size='md'

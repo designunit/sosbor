@@ -5,11 +5,10 @@ import { useHasMounted } from '@/contexts/hasMounted'
 import { Item } from './Item'
 import useSWRInfinite from 'swr/infinite'
 import { NavbarContext } from '@/contexts/navbar'
-import { useCallback, useContext } from 'react'
+import { useContext } from 'react'
 import s from './index.module.css'
 import { useSearchParams } from 'next/navigation'
 import { useEffectOnce } from 'react-use'
-import { AddButton } from '../AddButton'
 import { useMediaQuery } from '@mantine/hooks'
 import type { Feature, Submission, SubmissionResponse } from '@/types/submission'
 import { useModals } from '@mantine/modals'
@@ -32,7 +31,10 @@ export function SubmissionFeed() {
             {
                 method: 'get',
             }
-        ).then(async res => await res.json()),
+        ).then(async res => {
+            if (!res.ok) throw new Error(`HTTP ${res.status}`)
+            return await res.json()
+        }),
     )
     const dataFlat = (isLoading || error || !data)
         ? []
@@ -165,7 +167,7 @@ export function SubmissionFeed() {
                             data={x}
                         />
                     ))}
-                    {!isLoading && data && data[0]?.totalItems != dataFlat.length && (
+                    {!isLoading && data && data[0]?.totalItems !== dataFlat.length && (
                         <Button
                             onClick={() => setSize(size + 1)}
                             bg='primary'

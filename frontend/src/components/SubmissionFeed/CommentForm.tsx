@@ -13,13 +13,13 @@ type CommentFormProps = {
 }
 
 const states = {
-    start: 'Оставить коментарий',
+    start: 'Оставить комментарий',
     fetch: 'Отправка...',
     error: 'Ошибка, еще раз?'
 }
 
 const formSchema = z.object({
-    comment: z.string().min(0, { message: 'Коментарий не может быть пустым' }).max(200, { message: 'Коментарий не может быть больше 200 символов' }),
+    comment: z.string().min(0, { message: 'Комментарий не может быть пустым' }).max(200, { message: 'Комментарий не может быть больше 200 символов' }),
 })
 
 export function CommentForm({ id, mutate }: CommentFormProps) {
@@ -62,7 +62,7 @@ export function CommentForm({ id, mutate }: CommentFormProps) {
             })
             .catch(async e => {
                 setText(states.error)
-                console.log(e)
+                console.error('Comment submission failed:', e)
             })
     }
 
@@ -77,12 +77,12 @@ export function CommentForm({ id, mutate }: CommentFormProps) {
                         <Textarea
                             {...field}
                             required
-                            placeholder='Ваш коментарий'
+                            placeholder='Ваш комментарий'
                             error={formState.errors.comment?.message}
                             radius='lg'
                             styles={{
                                 input: {
-                                    '--input-bd': '#0D7337',
+                                    '--input-bd': 'var(--mantine-color-secondary-filled)',
                                 }
                             }}
                         />

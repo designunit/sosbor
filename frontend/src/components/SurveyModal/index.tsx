@@ -1205,7 +1205,7 @@ export function SurveyModal() {
             })
             .catch(async e => {
                 setText(states.error)
-                console.log(e)
+                console.error('Survey submission failed:', e)
             })
     }
 

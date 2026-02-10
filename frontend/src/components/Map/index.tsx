@@ -30,7 +30,10 @@ export function Map({ initialCoords }: MapProps) {
             {
                 method: 'get',
             }
-        ).then(async res => await res.json())
+        ).then(async res => {
+            if (!res.ok) throw new Error(`HTTP ${res.status}`)
+            return await res.json()
+        })
     )
 
     const modals = useModals()
@@ -68,7 +71,7 @@ export function Map({ initialCoords }: MapProps) {
     const isPreview = Boolean(searchParams.get('preview'))
 
     const features: Submission[] = (data?.items ?? [])
-        .filter((x: Submission) => x?.feature && JSON.stringify(x?.feature) !== '{}')
+        .filter((x: Submission) => x?.feature?.geometry?.coordinates?.length === 2)
 
     return (
         <MapMapbox
@@ -115,9 +118,9 @@ export function Map({ initialCoords }: MapProps) {
                 />
             </Source>
             {(!isLoading && !error && data) && (!addMode) && features
-                .map((x, i) => (
+                .map((x) => (
                     <Marker
-                        key={i}
+                        key={x.id}
                         longitude={x.feature.geometry.coordinates[0]}
                         latitude={x.feature.geometry.coordinates[1]}
                         anchor='center'

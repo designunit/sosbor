@@ -32,7 +32,7 @@ export const ClientIdProvider = ({ children }: { children: React.ReactNode }) =>
         ).then(res => res.json()),
     )
     useEffect(() => {
-        if (!Boolean(clientId)) {
+        if (!clientId) {
             if (!data) return
 
             setClientId(data.doc.id)

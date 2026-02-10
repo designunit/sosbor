@@ -54,7 +54,7 @@ export function IdeaModal({ id: modalId, innerProps }: ContextModalProps<IdeaMod
 
         const body = JSON.stringify({
             content: data.description,
-            feature: !Boolean(coords) ? {} : {
+            feature: !coords ? {} : {
                 type: 'Feature',
                 properties: {},
                 geometry: {
@@ -118,7 +118,7 @@ export function IdeaModal({ id: modalId, innerProps }: ContextModalProps<IdeaMod
             })
             .catch(async e => {
                 setText(states.error)
-                console.log(e)
+                console.error('IdeaModal submission failed:', e)
             })
     }
 
@@ -195,7 +195,7 @@ export function IdeaModal({ id: modalId, innerProps }: ContextModalProps<IdeaMod
                         disabled={Boolean(formContext.data.coords)}
                         color='secondary'
                         c={'black'}
-                        className={buttonStyles.noiseless}
+                        className={buttonStyles.root}
                     >
                         Добавить точку на карте
                     </Button>

@@ -54,7 +54,7 @@ export function EmailForm() {
             })
             .catch(async e => {
                 setText(states.error)
-                console.log(e)
+                console.error('EmailForm submission failed:', e)
             })
     }
 
@@ -123,7 +123,7 @@ export function EmailForm() {
             >
                 {text == states.ok && (
                     <Overlay
-                        color="#0D7337"
+                        color="var(--mantine-color-secondary-filled)"
                         backgroundOpacity={1}
                         style={{
                             borderRadius: 22,
@@ -172,7 +172,7 @@ export function EmailForm() {
                         },
                         input: {
                             height: '100%',
-                            '--input-bd': '#0D7337',
+                            '--input-bd': 'var(--mantine-color-secondary-filled)',
                         },
                     }}
                 />

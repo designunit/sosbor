@@ -14,7 +14,10 @@ export function Providers({ children }: { children: React.ReactNode }) {
     return (
         <SWRConfig
             value={{
-                fetcher: (resource: string, init: RequestInit) => fetch(resource, init).then(res => res.json()),
+                fetcher: (resource: string, init: RequestInit) => fetch(resource, init).then(res => {
+                    if (!res.ok) throw new Error(`HTTP ${res.status}`)
+                    return res.json()
+                }),
             }}
         >
             <MapProvider>

@@ -6,6 +6,7 @@ import { useSearchParams } from 'next/navigation'
 import { Map } from '@/components/Map'
 import { AddButton } from '@/components/AddButton'
 import { NavbarContext } from '@/contexts/navbar'
+import { parseCoords } from '@/lib/coords'
 
 export function MapPageContent() {
     const modals = useModals()
@@ -13,19 +14,8 @@ export function MapPageContent() {
     const { setDrawer } = useContext(NavbarContext)
 
     const preview = searchParams.get('preview')
-    const previewFeature = Boolean(preview)
-    const coords = preview?.split(',')
 
-    const [initialCoords] = useState(previewFeature && coords
-        ? {
-            longitude: Number(coords[0]),
-            latitude: Number(coords[1]),
-        }
-        : {
-            longitude: 29.076903,
-            latitude: 59.896869,
-        }
-    )
+    const [initialCoords] = useState(() => parseCoords(preview))
 
     const autoOpenModal = Boolean(searchParams.get('idea'))
 

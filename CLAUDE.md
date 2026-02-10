@@ -35,9 +35,9 @@ mise run stop    # Stop dev containers and remove volumes
 
 ### Frontend (`frontend/src/`)
 
-**Routing**: Next.js Pages Router (`pages/`). Key pages: `/` (landing), `/map` (interactive map), `/debug` (env debug).
+**Routing**: Next.js App Router (`app/`). Key pages: `(default)/page.tsx` (landing), `(map)/map/page.tsx` (interactive map), `(default)/debug/page.tsx` (env debug).
 
-**Styling**: Mantine UI 7.x component library + CSS Modules. PostCSS configured with `postcss-preset-mantine`. Custom theme defined in `_app.tsx` with project colors (primary orange `rgb(233 79 43)`, secondary green `rgb(155 185 98)`).
+**Styling**: Mantine UI 7.x component library + CSS Modules. PostCSS configured with `postcss-preset-mantine`. Custom theme defined in `theme.ts` with project colors (primary orange `rgb(233 79 43)`, secondary green `rgb(155 185 98)`).
 
 **State Management**: React Context API — `FormContext` (form/map interaction state), `NavbarContext` (sidebar/drawer toggle), `ClientIdContext` (anonymous client fingerprinting).
 
