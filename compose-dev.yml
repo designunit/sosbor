@@ -1,28 +1,30 @@
 services:
-    payload:
+    app:
         build:
-            context: payload
-            dockerfile: Dockerfile
+            context: frontend
+            args:
+                BACKEND_URL: http://backend:8080
+                NEXT_PUBLIC_MAPLIBRE_STYLE: ${NEXT_PUBLIC_MAPLIBRE_STYLE}
+                NEXT_PUBLIC_MAPBOX_STYLE: ${NEXT_PUBLIC_MAPBOX_STYLE:-mapbox://styles/mapbox/standard}
+                NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN: ${NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}
         restart: unless-stopped
         environment:
-            DATABASE_URI: mongodb://root:password0@mongo:27017/payload-db?authSource=admin
-            PAYLOAD_SECRET: supersecret0
+            BACKEND_URL: http://backend:8080
         ports:
-            - "5000:3000"
+            - "3000:3000"
         depends_on:
-            - mongo
-        links:
-            - mongo
+            - backend
+        labels:
+            dev.orbstack.domains: sosbor.local
 
-    mongo:
-        image: mongo:8-noble
+    backend:
+        build:
+            context: pb
+        restart: unless-stopped
         ports:
-            - "27017:27017"
+            - "8080:8080"
         volumes:
-            - data:/data/db
-        environment:
-            MONGO_INITDB_ROOT_USERNAME: root
-            MONGO_INITDB_ROOT_PASSWORD: password0
+            - pb_data:/pb/pb_data
 
 volumes:
-    data:
+    pb_data:
