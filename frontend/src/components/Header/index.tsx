@@ -17,7 +17,6 @@ export type HeaderProps = {
 
 export function Header({ height, position, mobileOpened, toggleMobile, onSurveyClick, navButtonColor = 'white' }: HeaderProps) {
     const isMobile = useMediaQuery('(max-width: 768px)', true)
-    const isTablet = useMediaQuery('(max-width: 1024px)', true)
 
     return (
         <AppShell.Header
@@ -26,7 +25,7 @@ export function Header({ height, position, mobileOpened, toggleMobile, onSurveyC
                 position: position,
                 background: height === 0 ? undefined : 'transparent',
             }}
-            px={isTablet ? 16 : 102}
+            px={{ base: 16, lg: 40, xl: 102 }}
             maw={1440}
             mx={'auto'}
         >
@@ -45,7 +44,7 @@ export function Header({ height, position, mobileOpened, toggleMobile, onSurveyC
                     w={'100%'}
                     px={{ base: 36, sm: 52 }}
                     py={{ base: 14, sm: 30 }}
-                    gap={isMobile ? 20 : 80}
+                    gap={isMobile ? 20 : 40}
                     variant='noflip'
                     justify='space-between'
                     wrap='nowrap'
@@ -62,7 +61,7 @@ export function Header({ height, position, mobileOpened, toggleMobile, onSurveyC
                             href={'/'}
                             c='white'
                         >
-                            СОСНОВЫЙ БОР
+                            СОСНОВЫЙ{'\u00A0'}БОР
                         </Text>
                     </Flex>
                     <Burger
