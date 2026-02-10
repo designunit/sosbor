@@ -3,13 +3,15 @@ import { useHasMounted } from '@/contexts/hasMounted'
 import { Item } from './Item'
 import useSWRInfinite from 'swr/infinite'
 import { NavbarContext } from '@/contexts/navbar'
-import { useContext } from 'react'
+import { useCallback, useContext } from 'react'
 import s from './index.module.css'
 import { useRouter } from 'next/router'
 import { useEffectOnce } from 'react-use'
 import { AddButton } from '../AddButton'
 import { useMediaQuery } from '@mantine/hooks'
 import type { Feature, Submission, SubmissionResponse } from '@/types/submission'
+import { useModals } from '@mantine/modals'
+import { FormContext } from '@/contexts/form'
 
 export type { Feature, Submission, SubmissionResponse }
 
@@ -49,7 +51,9 @@ export function SubmissionFeed() {
         }
     })
 
+    const modals = useModals()
     const { setDrawer } = useContext(NavbarContext)
+    const { addMode } = useContext(FormContext)
 
     if (!hasMounted || isLoading) {
         return (
@@ -118,12 +122,33 @@ export function SubmissionFeed() {
                         <Text style={{ textAlign: 'center' }}>
                             Пока нет предложений. Сделайте первое!
                         </Text>
-                        <AddButton
-                            style={{
-                                width: 'fit-content',
-                                marginBottom: 12,
-                            }}
-                        />
+                        {(modals.modals.length > 0) || addMode ? null : (
+                            <Button
+                                size='md'
+                                onClick={() => {
+                                    modals.openContextModal(
+                                        'idea',
+                                        {
+                                            centered: true,
+                                            size: 'min(100%, 650px)',
+                                            // radius: 'xl',
+                                            withCloseButton: false,
+                                            innerProps: {
+                                                defaultValues: data,
+                                            },
+                                        }
+                                    )
+                                }}
+                                bg='secondary'
+                                c='primary'
+                                style={{
+                                    outlineOffset: '2px',
+                                    outline: '1px solid var(--mantine-color-secondary-1)',
+                                }}
+                            >
+                                Предложить идею
+                            </Button>
+                        )}
                     </Stack>
                 )}
                 <Stack
