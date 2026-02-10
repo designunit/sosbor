@@ -53,7 +53,7 @@ export function HeroSection() {
                 >
                     <Title
                         order={1}
-                        ta={{ base: 'center', sm: undefined }}
+                        ta={{ base: 'center', sm: 'left' }}
                         c='primary'
                         className={classes.heroTitle}
                     >
