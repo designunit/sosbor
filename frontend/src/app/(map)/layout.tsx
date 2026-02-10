@@ -38,7 +38,7 @@ export default function MapLayout({ children }: { children: React.ReactNode }) {
                     overflow: 'hidden',
                 }}
             >
-                <Suspense>
+                <Suspense fallback={null}>
                     <SubmissionFeed />
                 </Suspense>
             </AppShell.Navbar>
@@ -91,7 +91,7 @@ export default function MapLayout({ children }: { children: React.ReactNode }) {
                         </Button>
                     ) : (
                         <Button
-                            key={x.href}
+                            key={x.text}
                             onClick={() => {
                                 openSurveyModal()
                                 toggleMobile()
