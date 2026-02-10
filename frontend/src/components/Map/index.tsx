@@ -77,7 +77,7 @@ export function Map({ initialCoords }: MapProps) {
                 ...initialCoords,
                 zoom: isPreview
                     ? 15
-                    : isMobile ? 11.5 : 13.5,
+                    : isMobile ? 11.5 : 11,
             }}
         >
             <Source
@@ -89,16 +89,16 @@ export function Map({ initialCoords }: MapProps) {
                     type='fill'
                     id='border-fill'
                     paint={{
-                        'fill-color': '#9bb962',
+                        'fill-color': '#e94f2b',
                         'fill-opacity': 0.1,
-                        'fill-outline-color': '#9bb962',
+                        'fill-outline-color': '#e94f2b',
                     }}
                 />
                 <Layer
                     type='line'
                     id='border-line'
                     paint={{
-                        'line-color': '#9bb962',
+                        'line-color': '#e94f2b',
                         'line-width': 1,
                         'line-opacity': 1,
                     }}
