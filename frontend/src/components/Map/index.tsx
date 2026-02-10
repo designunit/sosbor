@@ -75,7 +75,7 @@ export function Map({ initialCoords }: MapProps) {
                 ...initialCoords,
                 zoom: isPreview
                     ? 15
-                    : isMobile ? 11.5 : 13.5,
+                    : isMobile ? 11.5 : 11,
             }}
         >
             <Source
