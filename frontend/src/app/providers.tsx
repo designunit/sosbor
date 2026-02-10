@@ -1,7 +1,7 @@
 'use client'
 
 import { SWRConfig } from 'swr'
-import { MapProvider } from 'react-map-gl/maplibre'
+import { MapProvider } from 'react-map-gl/mapbox'
 import { MantineProvider } from '@mantine/core'
 import { ModalsProvider } from '@mantine/modals'
 import { FormContextProvider } from '@/contexts/form'
