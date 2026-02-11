@@ -1,7 +1,9 @@
+'use client'
+
 import { useContext } from 'react'
 import { Layer, Marker, Source } from 'react-map-gl/mapbox'
 import { useModals } from '@mantine/modals'
-import { useRouter } from 'next/router'
+import { useSearchParams } from 'next/navigation'
 import { FormContext } from '@/contexts/form'
 import useSWR from 'swr'
 import { Popover, ScrollArea, Text } from '@mantine/core'
@@ -28,7 +30,10 @@ export function Map({ initialCoords }: MapProps) {
             {
                 method: 'get',
             }
-        ).then(async res => await res.json())
+        ).then(async res => {
+            if (!res.ok) throw new Error(`HTTP ${res.status}`)
+            return await res.json()
+        })
     )
 
     const modals = useModals()
@@ -62,11 +67,11 @@ export function Map({ initialCoords }: MapProps) {
     }
 
     const isMobile = useMediaQuery('(max-width: 768px)', true, { getInitialValueInEffect: false })
-    const router = useRouter()
-    const isPreview = Boolean(router.query?.preview) == true
+    const searchParams = useSearchParams()
+    const isPreview = Boolean(searchParams.get('preview'))
 
     const features: Submission[] = (data?.items ?? [])
-        .filter((x: Submission) => x?.feature && JSON.stringify(x?.feature) !== '{}')
+        .filter((x: Submission) => x?.feature?.geometry?.coordinates?.length === 2)
 
     return (
         <MapMapbox
@@ -94,18 +99,28 @@ export function Map({ initialCoords }: MapProps) {
                 />
                 <Layer
                     type='line'
+                    id='border-line-contrast'
+                    paint={{
+                        'line-color': '#ffffff',
+                        'line-width': 4,
+                        'line-opacity': 0.8,
+                    }}
+                />
+                <Layer
+                    type='line'
                     id='border-line'
                     paint={{
-                        'line-color': '#e94f2b',
-                        'line-width': 1,
+                        'line-color': '#b5301a',
+                        'line-width': 2,
                         'line-opacity': 1,
+                        'line-dasharray': [4, 3],
                     }}
                 />
             </Source>
             {(!isLoading && !error && data) && (!addMode) && features
-                .map((x, i) => (
+                .map((x) => (
                     <Marker
-                        key={i}
+                        key={x.id}
                         longitude={x.feature.geometry.coordinates[0]}
                         latitude={x.feature.geometry.coordinates[1]}
                         anchor='center'

@@ -1,3 +1,5 @@
+'use client'
+
 import { FormContext } from '@/contexts/form';
 import { Popover, Button, Center, Box } from '@mantine/core';
 import { useModals } from '@mantine/modals';
@@ -16,8 +18,7 @@ export function AddButton({ style = {
     transform: 'translateX(-50%)',
 } }: AddButtonProps) {
     const modals = useModals()
-    const { data, setData } = useContext(FormContext)
-    const { addMode, setAddMode } = useContext(FormContext)
+    const { data, setData, addMode, setAddMode } = useContext(FormContext)
     const onClick = (data: FormData) => {
         if (Object.keys(data).length == 0) {
             setData({})
@@ -52,7 +53,7 @@ export function AddButton({ style = {
                                 onClick(data)
                             }}
                             style={{
-                                background: 'tomato',
+                                background: 'var(--mantine-color-primary-filled)',
                             }}
                         >
                             Отмена

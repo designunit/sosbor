@@ -1,0 +1,17 @@
+.backgroundImage {
+    width: 100%;
+    background-size: contain;
+    aspect-ratio: 1240 / 762;
+}
+@media (max-width: $mantine-breakpoint-sm) {
+    .backgroundImage {
+        background-size: auto;
+        aspect-ratio: unset;
+    }
+}
+
+@media (min-width: $mantine-breakpoint-sm) {
+    .mapTitle {
+        font-size: 42px !important;
+    }
+}

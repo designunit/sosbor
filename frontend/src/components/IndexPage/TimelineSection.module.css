@@ -1,0 +1,8 @@
+.stack {
+    gap: 0;
+}
+@media (max-width: $mantine-breakpoint-sm) {
+    .stack {
+        gap: 22px;
+    }
+}

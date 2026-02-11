@@ -1,8 +1,10 @@
+'use client'
+
 import { FormContext } from '@/contexts/form'
 import { Text, Stack, Button, Title, Center, Textarea, Tooltip } from '@mantine/core'
 import { useModals } from '@mantine/modals'
 import type { ContextModalProps } from '@mantine/modals'
-import { useRouter } from 'next/router'
+import { usePathname } from 'next/navigation'
 import { useContext, useEffect, useState } from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import { z } from 'zod'
@@ -52,7 +54,7 @@ export function IdeaModal({ id: modalId, innerProps }: ContextModalProps<IdeaMod
 
         const body = JSON.stringify({
             content: data.description,
-            feature: !Boolean(coords) ? {} : {
+            feature: !coords ? {} : {
                 type: 'Feature',
                 properties: {},
                 geometry: {
@@ -116,7 +118,7 @@ export function IdeaModal({ id: modalId, innerProps }: ContextModalProps<IdeaMod
             })
             .catch(async e => {
                 setText(states.error)
-                console.log(e)
+                console.error('IdeaModal submission failed:', e)
             })
     }
 
@@ -130,12 +132,12 @@ export function IdeaModal({ id: modalId, innerProps }: ContextModalProps<IdeaMod
     }
 
     // close modal on route
-    const router = useRouter()
+    const pathname = usePathname()
     useEffect(() => {
-        if (router.pathname == '/') {
+        if (pathname == '/') {
             modals.closeAll()
         }
-    }, [router.pathname, modals])
+    }, [pathname, modals])
 
     return (
         <form
@@ -193,7 +195,7 @@ export function IdeaModal({ id: modalId, innerProps }: ContextModalProps<IdeaMod
                         disabled={Boolean(formContext.data.coords)}
                         color='secondary'
                         c={'black'}
-                        className={buttonStyles.noiseless}
+                        className={buttonStyles.root}
                     >
                         Добавить точку на карте
                     </Button>

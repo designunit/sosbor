@@ -1,3 +1,5 @@
+'use client'
+
 import { createContext, useContext, useEffect } from 'react'
 import type { Context } from 'react'
 import { useCookie, useLocalStorage } from 'react-use'
@@ -30,7 +32,7 @@ export const ClientIdProvider = ({ children }: { children: React.ReactNode }) =>
         ).then(res => res.json()),
     )
     useEffect(() => {
-        if (!Boolean(clientId)) {
+        if (!clientId) {
             if (!data) return
 
             setClientId(data.doc.id)

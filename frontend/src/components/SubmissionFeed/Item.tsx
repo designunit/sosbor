@@ -1,10 +1,12 @@
+'use client'
+
 import { Card, Stack, Text, Group, ScrollArea, ActionIcon } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import type { Submission } from '.'
-import { useMap } from 'react-map-gl/maplibre'
+import { useMap } from 'react-map-gl/mapbox'
 import { NavbarContext } from '@/contexts/navbar'
 import { useContext } from 'react'
-import { useRouter } from 'next/router'
+import { useSearchParams } from 'next/navigation'
 import { useEffectOnce } from 'react-use'
 
 type ItemProps = {
@@ -12,13 +14,14 @@ type ItemProps = {
 }
 
 export function Item({ data }: ItemProps) {
-    const router = useRouter()
+    const searchParams = useSearchParams()
+    const pointId = searchParams.get('pointId')
     const [, { toggle }] = useDisclosure(false)
     const { setDrawer } = useContext(NavbarContext)
     const { default: map } = useMap()
 
     useEffectOnce(() => {
-        if (router.query?.pointId == data.id) {
+        if (pointId == data.id) {
             toggle()
         }
     })
@@ -47,7 +50,7 @@ export function Item({ data }: ItemProps) {
                 <Group
                     variant='noflip'
                 >
-                    {JSON.stringify(data?.feature) !== '{}' && (
+                    {data?.feature?.geometry?.coordinates?.length === 2 && (
                         <ActionIcon
                             variant='light'
                             size='md'

@@ -1,20 +1,20 @@
-/* eslint-disable import/no-anonymous-default-export */
-import type { NextApiRequest, NextApiResponse } from 'next'
+import { NextResponse } from 'next/server'
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+export async function POST(request: Request) {
     try {
+        const body = await request.json()
         const reqPayload = await fetch(`${process.env.BACKEND_URL}/api/feedbackQuestions`, {
             method: 'post',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(req.body),
+            body: JSON.stringify(body),
         })
 
         const data = await reqPayload.json()
-        res.status(200).json(data)
+        return NextResponse.json(data)
     } catch (e) {
         console.error('/api/indexFeedback', e)
-        res.status(400)
+        return NextResponse.json({ error: 'Request failed' }, { status: 400 })
     }
 }
