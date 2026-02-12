@@ -1,17 +1,17 @@
-'use client'
+"use client"
 
-import { AppShell, Box, Button, Center, Drawer, Flex, Group, Stack, Text } from '@mantine/core'
-import Link from 'next/link'
-import { useDisclosure, useMediaQuery } from '@mantine/hooks'
-import { useOpenSurveyModal } from '@/hooks/useOpenSurveyModal'
-import { Header } from '@/components/Header'
-import { mobileMenu, appShellStyles } from '@/theme'
-import { navButtons, scrollToHash } from '@/lib/navigation'
-import type { MouseEvent } from 'react'
+import { AppShell, Box, Button, Center, Drawer, Flex, Group, Stack, Text } from "@mantine/core"
+import { useDisclosure, useMediaQuery } from "@mantine/hooks"
+import Link from "next/link"
+import type { MouseEvent } from "react"
+import { Header } from "@/components/Header"
+import { useOpenSurveyModal } from "@/hooks/useOpenSurveyModal"
+import { navButtons, scrollToHash } from "@/lib/navigation"
+import { appShellStyles, mobileMenu } from "@/theme"
 
 export default function DefaultLayout({ children }: { children: React.ReactNode }) {
     const [mobileOpened, { toggle: toggleMobile }] = useDisclosure()
-    const isMobile = useMediaQuery('(max-width: 768px)')
+    const isMobile = useMediaQuery("(max-width: 768px)")
     const openSurveyModal = useOpenSurveyModal()
 
     return (
@@ -22,7 +22,7 @@ export default function DefaultLayout({ children }: { children: React.ReactNode 
         >
             <Header
                 height={0}
-                position='sticky'
+                position="sticky"
                 mobileOpened={mobileOpened}
                 toggleMobile={toggleMobile}
                 onSurveyClick={openSurveyModal}
@@ -39,23 +39,21 @@ export default function DefaultLayout({ children }: { children: React.ReactNode 
                 styles={{
                     body: {
                         padding: 0,
-                    }
+                    },
                 }}
             >
-                <Drawer.Header
-                    p='14px 26px'
-                >
-                    <Flex gap={20} align={'center'}>
+                <Drawer.Header p="14px 26px">
+                    <Flex gap={20} align={"center"}>
                         <Text
-                            lh={'27px'}
-                            fw={'700'}
+                            lh={"27px"}
+                            fw={"700"}
                             style={{
-                                fontFamily: 'Nasalization, sans-serif',
+                                fontFamily: "Nasalization, sans-serif",
                             }}
-                            variant='subtle'
+                            variant="subtle"
                             component={Link}
-                            href={'/'}
-                            c={'primary'}
+                            href={"/"}
+                            c={"primary"}
                         >
                             СОСНОВЫЙ БОР
                         </Text>
@@ -64,64 +62,66 @@ export default function DefaultLayout({ children }: { children: React.ReactNode 
                 </Drawer.Header>
                 <Drawer.Body>
                     <Stack>
-                        {navButtons.map(x => x.href ? (
-                            <Button
-                                key={x.text}
-                                component={Link}
-                                href={x.href}
-                                variant='subtle'
-                                c='primary'
-                                size='md'
-                                onClick={(e: MouseEvent) => {
-                                    toggleMobile()
-                                    if (x.href!.includes('#')) {
-                                        scrollToHash(x.href!, e)
-                                    }
-                                }}
-                                {...x.props}
-                                style={{
-                                    fontFamily: 'Nasalization, sans-serif',
-                                    outline: 'none',
-                                }}
-                            >
-                                {x.text}
-                            </Button>
-                        ) : (
-                            <Button
-                                key={x.text}
-                                variant='subtle'
-                                c='primary'
-                                size='md'
-                                onClick={() => {
-                                    toggleMobile()
-                                    openSurveyModal()
-                                }}
-                                {...x.props}
-                                style={{
-                                    fontFamily: 'Nasalization, sans-serif',
-                                    outline: 'none',
-                                }}
-                            >
-                                {x.text}
-                            </Button>
-                        ))}
+                        {navButtons.map((x) =>
+                            x.href ? (
+                                <Button
+                                    key={x.text}
+                                    component={Link}
+                                    href={x.href}
+                                    variant="subtle"
+                                    c="primary"
+                                    size="md"
+                                    onClick={(e: MouseEvent) => {
+                                        toggleMobile()
+                                        if (x.href?.includes("#")) {
+                                            scrollToHash(x.href!, e)
+                                        }
+                                    }}
+                                    {...x.props}
+                                    style={{
+                                        fontFamily: "Nasalization, sans-serif",
+                                        outline: "none",
+                                    }}
+                                >
+                                    {x.text}
+                                </Button>
+                            ) : (
+                                <Button
+                                    key={x.text}
+                                    variant="subtle"
+                                    c="primary"
+                                    size="md"
+                                    onClick={() => {
+                                        toggleMobile()
+                                        openSurveyModal()
+                                    }}
+                                    {...x.props}
+                                    style={{
+                                        fontFamily: "Nasalization, sans-serif",
+                                        outline: "none",
+                                    }}
+                                >
+                                    {x.text}
+                                </Button>
+                            ),
+                        )}
                     </Stack>
                 </Drawer.Body>
             </Drawer>
 
             <AppShell.Main
                 style={{
-                    position: 'relative',
-                    overflowX: 'hidden',
-                    overflowY: 'hidden',
+                    position: "relative",
+                    overflowX: "hidden",
+                    overflowY: "hidden",
                 }}
                 className={appShellStyles.root}
             >
                 <div className={appShellStyles.filter} />
                 <Box
-                    w={'100%'}
+                    w={"100%"}
                     maw={1440}
-                    mx={'auto'}
+                    mx={"auto"}
                     px={{
                         base: 20,
                         sm: 100,
@@ -129,35 +129,31 @@ export default function DefaultLayout({ children }: { children: React.ReactNode 
                 >
                     {children}
                 </Box>
-                <Center py={36}
+                <Center
+                    py={36}
                     style={{
-                        position: 'relative',
+                        position: "relative",
                         zIndex: 1,
                     }}
                 >
                     <Group
-                        w={'100%'}
+                        w={"100%"}
                         maw={1440}
                         px={{ base: 20, lg: 100 }}
                         py={{ base: 26, lg: 54 }}
-                        justify={'space-between'}
-                        wrap='wrap'
+                        justify={"space-between"}
+                        wrap="wrap"
                     >
-                        <Text
-                            fs={'16px'}
-                            lh={'20px'}
-                            fw={'500'}
-                            c='white'
-                        >
+                        <Text fs={"16px"} lh={"20px"} fw={"500"} c="white">
                             Мастер-план Сосновоборского городского округа
                         </Text>
                         <Text
-                            fs={'16px'}
-                            lh={'20px'}
-                            fw={'500'}
-                            c='white'
+                            fs={"16px"}
+                            lh={"20px"}
+                            fw={"500"}
+                            c="white"
                             style={{
-                                textAlign: isMobile ? 'center' : undefined,
+                                textAlign: isMobile ? "center" : undefined,
                             }}
                         >
                             Copyright © 2026 design unit 4 & creators

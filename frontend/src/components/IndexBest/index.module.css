@@ -11,17 +11,23 @@
 }
 
 .masonry {
-    --size: 40px;
-    display: flex;
-    margin-left: calc(-1 * var(--size));
-    width: auto;
+    columns: 4;
+    column-gap: 40px;
+
+    @media (max-width: $mantine-breakpoint-lg) {
+        columns: 3;
+    }
+
+    @media (max-width: $mantine-breakpoint-sm) {
+        columns: 2;
+    }
+
+    @media (max-width: 450px) {
+        columns: 1;
+    }
 }
 
-.masonryCol {
-    padding-left: var(--size);
-    background-clip: padding-box;
-}
-
-.masonryCol>div {
-    margin-bottom: var(--size);
+.masonry > * {
+    break-inside: avoid;
+    margin-bottom: 40px;
 }

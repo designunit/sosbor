@@ -31,6 +31,7 @@ export type IdeaModalDefaultValues = Partial<{
 export type SurveyFormData = Record<string, string | string[] | number>
 
 export type TabProps = {
+    schema: SurveySchemaItem[]
     onSubmit?: (data: SurveyFormData) => void | Promise<void>
     setTabIndex?: React.Dispatch<React.SetStateAction<number>>
     submitText?: string

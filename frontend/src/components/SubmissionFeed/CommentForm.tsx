@@ -1,11 +1,12 @@
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Stack, Button, Textarea } from '@mantine/core'
-import { useState } from 'react'
-import { Controller, useForm } from 'react-hook-form'
-import type { KeyedMutator } from 'swr'
-import { z } from 'zod'
-import s from './index.module.css'
-import type { Submission } from '@/types/submission'
+import { zodResolver } from "@hookform/resolvers/zod"
+import { Button, Stack, Textarea } from "@mantine/core"
+import { useState } from "react"
+import { Controller, useForm } from "react-hook-form"
+import type { KeyedMutator } from "swr"
+import { z } from "zod"
+import { API } from "@/api"
+import type { Submission } from "@/types/submission"
+import s from "./index.module.css"
 
 type CommentFormProps = {
     id: string
@@ -13,19 +14,22 @@ type CommentFormProps = {
 }
 
 const states = {
-    start: 'Оставить комментарий',
-    fetch: 'Отправка...',
-    error: 'Ошибка, еще раз?'
+    start: "Оставить комментарий",
+    fetch: "Отправка...",
+    error: "Ошибка, еще раз?",
 }
 
 const formSchema = z.object({
-    comment: z.string().min(0, { message: 'Комментарий не может быть пустым' }).max(200, { message: 'Комментарий не может быть больше 200 символов' }),
+    comment: z
+        .string()
+        .min(0, { error: "Комментарий не может быть пустым" })
+        .max(200, { error: "Комментарий не может быть больше 200 символов" }),
 })
 
 export function CommentForm({ id, mutate }: CommentFormProps) {
-    const { handleSubmit, control, reset, } = useForm<z.infer<typeof formSchema>>({
+    const { handleSubmit, control, reset } = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
-        mode: 'onChange',
+        mode: "onChange",
     })
     const [text, setText] = useState(states.start)
 
@@ -35,34 +39,30 @@ export function CommentForm({ id, mutate }: CommentFormProps) {
         const dataFormatted = {
             submission: id,
             content: data.comment,
-            _status: 'published',
+            _status: "published",
         }
 
         const body = JSON.stringify(dataFormatted)
 
-        await fetch(
-            `/api/comments`,
-            {
-                method: 'post',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body,
-            }
-        )
-            .then(async res => {
+        await fetch(API.comments, {
+            method: "post",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body,
+        })
+            .then(async (res) => {
                 if (res.ok) {
                     setText(states.start)
-                    reset({ comment: '' })
+                    reset({ comment: "" })
                     mutate()
-                }
-                else {
+                } else {
                     setText(states.error)
                 }
             })
-            .catch(async e => {
+            .catch(async (e) => {
                 setText(states.error)
-                console.error('Comment submission failed:', e)
+                console.error("Comment submission failed:", e)
             })
     }
 
@@ -71,19 +71,19 @@ export function CommentForm({ id, mutate }: CommentFormProps) {
             <Stack>
                 <Controller
                     control={control}
-                    name='comment'
+                    name="comment"
                     rules={{ required: true }}
                     render={({ field, formState }) => (
                         <Textarea
                             {...field}
                             required
-                            placeholder='Ваш комментарий'
+                            placeholder="Ваш комментарий"
                             error={formState.errors.comment?.message}
-                            radius='lg'
+                            radius="lg"
                             styles={{
                                 input: {
-                                    '--input-bd': 'var(--mantine-color-secondary-filled)',
-                                }
+                                    "--input-bd": "var(--mantine-color-secondary-filled)",
+                                },
                             }}
                         />
                     )}
@@ -92,8 +92,8 @@ export function CommentForm({ id, mutate }: CommentFormProps) {
                 <Button
                     fullWidth
                     disabled={[states.fetch].includes(text)}
-                    type='submit'
-                    c='white'
+                    type="submit"
+                    c="white"
                     classNames={{
                         label: s.submitCommentButton,
                     }}

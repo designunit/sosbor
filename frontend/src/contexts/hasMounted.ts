@@ -1,13 +1,13 @@
-'use client'
+"use client"
 
-import { useSyncExternalStore } from 'react';
+import { useSyncExternalStore } from "react"
 
-const emptySubscribe = () => () => {};
+const emptySubscribe = () => () => {}
 
 export function useHasMounted() {
     return useSyncExternalStore(
         emptySubscribe,
         () => true,
         () => false,
-    );
+    )
 }

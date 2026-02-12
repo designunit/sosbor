@@ -1,5 +1,5 @@
-import { Fieldset, CheckboxGroup, Stack, Checkbox, Text } from '@mantine/core'
-import type { FieldValues, UseFormWatch } from 'react-hook-form'
+import { Checkbox, CheckboxGroup, Fieldset, Stack, Text } from "@mantine/core"
+import type { FieldValues, UseFormWatch } from "react-hook-form"
 
 export type CheckboxListProps = {
     field: FieldValues
@@ -13,32 +13,31 @@ export type CheckboxListProps = {
 export function CheckboxList({ field, data, watch, label, description, maxValues = data.length }: CheckboxListProps) {
     const selectedOptions: string[] = watch(field.name, []) || []
 
-
     const getDisabled = (value: string) => !selectedOptions.includes(value) && selectedOptions.length >= maxValues
 
     return (
-        <Fieldset
-            legend={label}
-            variant='filled'
-        >
-            <Text variant='dimmed' mb='xs' style={{
-                fontSize: 'unset',
-            }}>
+        <Fieldset legend={label} variant="filled">
+            <Text
+                variant="dimmed"
+                mb="xs"
+                style={{
+                    fontSize: "unset",
+                }}
+            >
                 {description}
             </Text>
-            <CheckboxGroup
-                {...field}
-            >
+            <CheckboxGroup {...field}>
                 <Stack>
                     {data.map((x, i) => (
-                        <Checkbox key={i}
+                        <Checkbox
+                            key={i}
                             value={x}
                             label={x}
                             disabled={getDisabled(x)}
                             styles={{
                                 input: {
-                                    '--checkbox-color': 'var(--mantine-color-secondary-0)',
-                                }
+                                    "--checkbox-color": "var(--mantine-color-secondary-0)",
+                                },
                             }}
                         />
                     ))}

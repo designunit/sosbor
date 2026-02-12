@@ -1,50 +1,45 @@
-'use client'
+"use client"
 
-import { FormContext } from '@/contexts/form';
-import { Popover, Button, Center, Box } from '@mantine/core';
-import { useModals } from '@mantine/modals';
-import { useContext } from 'react';
-import type { FormData } from '@/types';
+import { Box, Button, Center, Popover } from "@mantine/core"
+import { useModals } from "@mantine/modals"
+import { useContext } from "react"
+import { FormContext } from "@/contexts/form"
+import type { FormData } from "@/types"
 
 export type AddButtonProps = {
     style?: React.CSSProperties
 }
 
-export function AddButton({ style = {
-    position: 'absolute',
-    zIndex: 1,
-    bottom: '3rem',
-    left: '50%',
-    transform: 'translateX(-50%)',
-} }: AddButtonProps) {
+export function AddButton({
+    style = {
+        position: "absolute",
+        zIndex: 1,
+        bottom: "3rem",
+        left: "50%",
+        transform: "translateX(-50%)",
+    },
+}: AddButtonProps) {
     const modals = useModals()
     const { data, setData, addMode, setAddMode } = useContext(FormContext)
     const onClick = (data: FormData) => {
-        if (Object.keys(data).length == 0) {
+        if (Object.keys(data).length === 0) {
             setData({})
         }
 
-        modals.openContextModal(
-            'idea',
-            {
-                centered: true,
-                size: 'min(100%, 650px)',
-                // radius: 'xl',
-                withCloseButton: false,
-                innerProps: {
-                    defaultValues: data,
-                },
-            }
-        )
+        modals.openContextModal("idea", {
+            centered: true,
+            size: "min(100%, 650px)",
+            // radius: 'xl',
+            withCloseButton: false,
+            innerProps: {
+                defaultValues: data,
+            },
+        })
     }
 
     return (
         <div style={style}>
-            <Popover
-                opened={addMode}
-                position='top'
-                zIndex={0}
-            >
+            <Popover opened={addMode} position="top" zIndex={0}>
                 <Popover.Target>
                     {addMode ? (
                         <Button
@@ -53,7 +48,7 @@ export function AddButton({ style = {
                                 onClick(data)
                             }}
                             style={{
-                                background: 'var(--mantine-color-primary-filled)',
+                                background: "var(--mantine-color-primary-filled)",
                             }}
                         >
                             Отмена
@@ -61,18 +56,19 @@ export function AddButton({ style = {
                     ) : (
                         <Box
                             p={4}
-                            style={{
-                                // boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)',
-                            }}
+                            style={
+                                {
+                                    // boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)',
+                                }
+                            }
                         >
-
                             <Button
-                                size='md'
+                                size="md"
                                 onClick={() => onClick({})}
-                                bg='secondary'
+                                bg="secondary"
                                 style={{
-                                    outlineOffset: '2px',
-                                    outline: '1px solid var(--mantine-color-secondary-1)',
+                                    outlineOffset: "2px",
+                                    outline: "1px solid var(--mantine-color-secondary-1)",
                                 }}
                             >
                                 Предложить идею
@@ -80,12 +76,8 @@ export function AddButton({ style = {
                         </Box>
                     )}
                 </Popover.Target>
-                <Popover.Dropdown
-                    maw='calc(100vw - 2rem)'
-                >
-                    <Center ta='center'>
-                        Выберите место на карте для своего предложения
-                    </Center>
+                <Popover.Dropdown maw="calc(100vw - 2rem)">
+                    <Center ta="center">Выберите место на карте для своего предложения</Center>
                 </Popover.Dropdown>
             </Popover>
         </div>

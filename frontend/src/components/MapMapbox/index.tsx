@@ -1,13 +1,14 @@
-'use client'
+"use client"
 
-import React, { useCallback, useState } from 'react'
-import { Map, GeolocateControl, NavigationControl } from 'react-map-gl/mapbox'
-import type { MapProps } from 'react-map-gl/mapbox'
+import type React from "react"
+import { useCallback, useState } from "react"
+import type { MapProps } from "react-map-gl/mapbox"
+import { GeolocateControl, Map, NavigationControl } from "react-map-gl/mapbox"
 
 type MapMapboxProps = {
     children: React.ReactNode
-    onClick: MapProps["onClick"],
-    initialViewState: MapProps["initialViewState"],
+    onClick: MapProps["onClick"]
+    initialViewState: MapProps["initialViewState"]
 }
 
 export default function MapMapbox({ children, onClick, initialViewState }: MapMapboxProps) {
@@ -19,7 +20,7 @@ export default function MapMapbox({ children, onClick, initialViewState }: MapMa
             hash
             accessToken={process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}
             mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}
-            style={{ width: '100%', height: '100%' }}
+            style={{ width: "100%", height: "100%" }}
             mapStyle={process.env.NEXT_PUBLIC_MAPBOX_STYLE}
             onClick={onClick}
             initialViewState={initialViewState}
@@ -27,11 +28,11 @@ export default function MapMapbox({ children, onClick, initialViewState }: MapMa
         >
             <NavigationControl
                 showZoom
-                position='top-right'
+                position="top-right"
                 showCompass={false}
                 visualizePitch={false}
                 style={{
-                    marginTop: '8rem',
+                    marginTop: "8rem",
                     marginRight: 16,
                 }}
             />

@@ -1,8 +1,8 @@
 export type Feature = {
-    type: 'Feature'
+    type: "Feature"
     properties: Record<string, unknown>
     geometry: {
-        type: 'Point'
+        type: "Point"
         coordinates: [number, number]
     }
 }
