@@ -43,7 +43,7 @@ export function Header({ height, position, mobileOpened, toggleMobile, onSurveyC
                 <Group
                     w={'100%'}
                     px={{ base: 36, sm: 52 }}
-                    py={{ base: 14, sm: 30 }}
+                    py={{ base: 10, sm: 18 }}
                     gap={isMobile ? 20 : 40}
                     variant='noflip'
                     justify='space-between'

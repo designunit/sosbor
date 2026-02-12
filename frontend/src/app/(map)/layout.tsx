@@ -19,13 +19,13 @@ export default function MapLayout({ children }: { children: React.ReactNode }) {
     return (
         <AppShell
             header={{
-                height: isMobile ? 108 : 160,
+                height: isMobile ? 90 : 120,
             }}
             aside={{ width: '100%', breakpoint: 'lg', collapsed: { desktop: true, mobile: !mobileOpened } }}
             navbar={{ width: !drawer ? 400 : 0, breakpoint: 'lg', collapsed: { desktop: false, mobile: !drawer } }}
         >
             <Header
-                height={isMobile ? 108 : 160}
+                height={isMobile ? 90 : 120}
                 mobileOpened={mobileOpened}
                 toggleMobile={toggleMobile}
                 onSurveyClick={openSurveyModal}
