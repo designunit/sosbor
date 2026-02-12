@@ -39,8 +39,8 @@ export function Header({
             <Center
                 bg={"secondary"}
                 style={{
-                    borderBottomLeftRadius: isMobile ? 35 : 50,
-                    borderBottomRightRadius: isMobile ? 35 : 50,
+                    borderBottomLeftRadius: isMobile ? 24 : 35,
+                    borderBottomRightRadius: isMobile ? 24 : 35,
                     boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.25)",
                     background: "var(--mantine-color-secondary-1)",
                     border: "solid 2px white",
@@ -49,9 +49,9 @@ export function Header({
             >
                 <Group
                     w={"100%"}
-                    px={{ base: 36, sm: 52 }}
-                    py={{ base: 10, sm: 18 }}
-                    gap={isMobile ? 20 : 40}
+                    px={{ base: 24, sm: 40 }}
+                    py={{ base: 6, sm: 10 }}
+                    gap={isMobile ? 12 : 24}
                     variant="noflip"
                     justify="space-between"
                     wrap="nowrap"
