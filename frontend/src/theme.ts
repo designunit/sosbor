@@ -1,4 +1,4 @@
-import { AppShell, Button, createTheme, Fieldset, Group, Text, Title } from "@mantine/core"
+import { AppShell, Button, createTheme, Fieldset, Group, Modal, Text, Title } from "@mantine/core"
 import { fontVar } from "@/fonts"
 import type { MantineColorArray } from "@/types"
 import appShellStyles from "./styles/appShell.module.css"
@@ -95,6 +95,11 @@ export const theme = createTheme({
         }),
         Group: Group.extend({
             classNames: groupStyles,
+        }),
+        Modal: Modal.extend({
+            defaultProps: {
+                padding: "xl",
+            },
         }),
         Fieldset: Fieldset.extend({
             styles: {
