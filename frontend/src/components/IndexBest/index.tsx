@@ -1,6 +1,5 @@
 import { Badge, Box, Button, Card, Group, Space, Stack, Text, Title } from "@mantine/core"
 import Link from "next/link"
-import Masonry from "react-masonry-css"
 import useSWR from "swr"
 import type { BestSubmission } from "@/types"
 import s from "./index.module.css"
@@ -31,16 +30,7 @@ export function IndexBest() {
             <Title order={2} pb="md">
                 Лучшие идеи
             </Title>
-            <Masonry
-                breakpointCols={{
-                    default: 4,
-                    1024: 3,
-                    768: 2,
-                    450: 1,
-                }}
-                className={s.masonry}
-                columnClassName={s.masonryCol}
-            >
+            <div className={s.masonry}>
                 {data.map((x: BestSubmission) => (
                     <Card
                         key={x.id}
@@ -113,7 +103,7 @@ export function IndexBest() {
                         </Stack>
                     </Card>
                 ))}
-            </Masonry>
+            </div>
         </Stack>
     )
 }
