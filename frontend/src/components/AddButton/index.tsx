@@ -66,7 +66,6 @@ export function AddButton({
                                 size="md"
                                 onClick={() => onClick({})}
                                 bg="secondary"
-                                c="primary"
                                 style={{
                                     outlineOffset: "2px",
                                     outline: "1px solid var(--mantine-color-secondary-1)",
