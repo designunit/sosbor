@@ -4,8 +4,7 @@ import { ActionIcon, Alert, Box, Button, Group, ScrollArea, Skeleton, Stack, Tex
 import { useMediaQuery } from "@mantine/hooks"
 import { useModals } from "@mantine/modals"
 import { useSearchParams } from "next/navigation"
-import { useContext } from "react"
-import { useEffectOnce } from "react-use"
+import { useContext, useEffect } from "react"
 import useSWRInfinite from "swr/infinite"
 import { FormContext } from "@/contexts/form"
 import { useHasMounted } from "@/contexts/hasMounted"
@@ -47,13 +46,14 @@ export function SubmissionFeed() {
                   })
 
     // on query.pointId fetch up to amount of items in /index
-    useEffectOnce(() => {
+    // biome-ignore lint/correctness/useExhaustiveDependencies: run once on mount
+    useEffect(() => {
         if (pointId) {
             if (!dataFlat.find((x) => x.id === pointId)) {
                 setSize(10)
             }
         }
-    })
+    }, [])
 
     const modals = useModals()
     const { setDrawer } = useContext(NavbarContext)

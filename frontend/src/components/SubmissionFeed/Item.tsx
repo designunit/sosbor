@@ -3,9 +3,8 @@
 import { ActionIcon, Card, Group, ScrollArea, Stack, Text } from "@mantine/core"
 import { useDisclosure } from "@mantine/hooks"
 import { useSearchParams } from "next/navigation"
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
 import { useMap } from "react-map-gl/mapbox"
-import { useEffectOnce } from "react-use"
 import { NavbarContext } from "@/contexts/navbar"
 import type { Submission } from "."
 
@@ -20,11 +19,12 @@ export function Item({ data }: ItemProps) {
     const { setDrawer } = useContext(NavbarContext)
     const { default: map } = useMap()
 
-    useEffectOnce(() => {
+    // biome-ignore lint/correctness/useExhaustiveDependencies: run once on mount
+    useEffect(() => {
         if (pointId === data.id) {
             toggle()
         }
-    })
+    }, [])
 
     return (
         <Card
