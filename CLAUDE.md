@@ -21,7 +21,9 @@ All frontend commands run from `frontend/`:
 cd frontend
 npm run dev      # Start Next.js dev server
 npm run build    # Production build
-npm run lint     # ESLint 9 (flat config)
+npm run lint     # Biome lint
+npm run format   # Biome format
+npm run check    # Biome lint + format
 ```
 
 Docker-based dev environment (requires mise):
@@ -37,7 +39,7 @@ mise run stop    # Stop dev containers and remove volumes
 
 **Routing**: Next.js App Router (`app/`). Key pages: `(default)/page.tsx` (landing), `(map)/map/page.tsx` (interactive map), `(default)/debug/page.tsx` (env debug).
 
-**Styling**: Mantine UI 7.x component library + CSS Modules. PostCSS configured with `postcss-preset-mantine`. Custom theme defined in `theme.ts` with project colors (primary orange `rgb(233 79 43)`, secondary green `rgb(155 185 98)`).
+**Styling**: Mantine UI 8.x component library + CSS Modules. PostCSS configured with `postcss-preset-mantine`. Custom theme defined in `theme.ts` with project colors (primary orange `rgb(233 79 43)`, secondary green `rgb(155 185 98)`).
 
 **State Management**: React Context API — `FormContext` (form/map interaction state), `NavbarContext` (sidebar/drawer toggle), `ClientIdContext` (anonymous client fingerprinting).
 
@@ -144,7 +146,7 @@ const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => { ... }
 
 **Form Data**: Use `z.infer<typeof schema>` for React Hook Form + Zod type extraction
 
-**Type Imports**: Always use separate `import type` statements for type-only imports. This is enforced by both `verbatimModuleSyntax` in tsconfig and `@typescript-eslint/consistent-type-imports` ESLint rule:
+**Type Imports**: Always use separate `import type` statements for type-only imports. This is enforced by both `verbatimModuleSyntax` in tsconfig and Biome `style/useImportType` rule:
 ```typescript
 // Correct — separate import type statement
 import { useModals } from '@mantine/modals'
@@ -162,19 +164,24 @@ import { ContextModalProps, useModals } from '@mantine/modals'
 - For complex types, use `unknown` and narrow with type guards, or define proper interfaces
 - For truly dynamic data, use `Record<string, unknown>` instead of `any`
 - Third-party library types should use their exported types or be properly typed
-- Enforced by ESLint `@typescript-eslint/no-explicit-any` rule
+- Enforced by Biome `suspicious/noExplicitAny` rule
 
 **When Adding New Code**:
 1. Run `npx tsc --noEmit` to verify types before committing
-2. Run `npm run lint` to check ESLint rules
+2. Run `npm run check` to check Biome lint and formatting
 3. NEVER use explicit `any` - see "Explicit `any` is Forbidden" section above
 4. Import shared types from `@/types` using `import type` syntax
 5. Add return types to exported functions and React components
 
-## Linting
+## Linting & Formatting
 
-**ESLint 9** with flat config (`eslint.config.mjs`). Key rules:
-- `@typescript-eslint/no-explicit-any: error` — no `any` types
-- `@typescript-eslint/consistent-type-imports: error` — enforce `import type` on separate lines
-- `@typescript-eslint/no-unused-vars: warn` — unused variables (prefix with `_` to ignore)
-- `react-hooks/exhaustive-deps` — complete dependency arrays in hooks
+**Biome 2.x** (`biome.json`) handles both linting and formatting. CSS files are excluded (PostCSS variables not supported by Biome).
+
+Key lint rules:
+- `suspicious/noExplicitAny: error`          — no `any` types
+- `style/useImportType: error`               — enforce `import type` on separate lines
+- `correctness/noUnusedVariables: warn`      — unused variables (prefix with `_` to ignore)
+- `correctness/noUnusedImports: error`       — remove unused imports
+- `correctness/useExhaustiveDependencies: warn` — complete dependency arrays in hooks
+
+Formatter config: 4-space indent, double quotes, no semicolons, 120 char line width.

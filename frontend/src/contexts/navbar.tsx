@@ -1,8 +1,8 @@
-'use client'
+"use client"
 
-import { createContext, useState } from 'react'
-import type { Context } from 'react'
-import type { NavbarContextValue } from '@/types'
+import type { Context } from "react"
+import { createContext, useState } from "react"
+import type { NavbarContextValue } from "@/types"
 
 export const NavbarContext: Context<NavbarContextValue> = createContext<NavbarContextValue>({
     selected: false,

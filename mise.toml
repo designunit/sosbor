@@ -8,3 +8,7 @@ run = "docker compose -f compose-dev.yml up -d --build --remove-orphans"
 [tasks.stop]
 description = "Stop dev environment and delete all docker volumes"
 run = "docker compose -f compose-dev.yml down --volumes"
+
+[tasks.backend]
+description = "Start PocketBase backend only (for use with local npm run dev)"
+run = "docker compose -f compose-dev.yml up -d backend"
