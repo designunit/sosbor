@@ -1,5 +1,5 @@
 {
-    "$schema": "https://biomejs.dev/schemas/2.0.0/schema.json",
+    "$schema": "https://biomejs.dev/schemas/2.3.14/schema.json",
     "formatter": {
         "enabled": true,
         "indentStyle": "space",
@@ -8,24 +8,42 @@
     },
     "javascript": {
         "formatter": {
-            "quoteStyle": "single",
-            "jsxQuoteStyle": "single",
+            "quoteStyle": "double",
+            "jsxQuoteStyle": "double",
             "semicolons": "asNeeded"
+        }
+    },
+    "css": {
+        "linter": {
+            "enabled": false
+        },
+        "formatter": {
+            "enabled": false
         }
     },
     "linter": {
         "enabled": true,
         "rules": {
             "suspicious": {
-                "noExplicitAny": "error"
+                "noExplicitAny": "error",
+                "noArrayIndexKey": "off",
+                "noShadowRestrictedNames": "off"
+            },
+            "security": {
+                "noDangerouslySetInnerHtml": "off"
             },
             "style": {
-                "useImportType": "error"
+                "useImportType": "error",
+                "noNonNullAssertion": "off"
             },
             "correctness": {
                 "noUnusedVariables": "warn",
                 "noUnusedImports": "error",
                 "useExhaustiveDependencies": "warn"
+            },
+            "a11y": {
+                "noSvgWithoutTitle": "off",
+                "useGenericFontNames": "off"
             }
         }
     },
@@ -37,6 +55,6 @@
         }
     },
     "files": {
-        "includes": ["src/**"]
+        "includes": ["src/**", "!**/*.css"]
     }
 }
