@@ -21,8 +21,8 @@ const states = {
 const formSchema = z.object({
     comment: z
         .string()
-        .min(0, { message: "Комментарий не может быть пустым" })
-        .max(200, { message: "Комментарий не может быть больше 200 символов" }),
+        .min(0, { error: "Комментарий не может быть пустым" })
+        .max(200, { error: "Комментарий не может быть больше 200 символов" }),
 })
 
 export function CommentForm({ id, mutate }: CommentFormProps) {

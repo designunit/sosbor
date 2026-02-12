@@ -31,7 +31,7 @@ const formSchema = z.object({
             lat: z.number(),
             lng: z.number(),
         },
-        { message: "Добавьте точку" },
+        { error: "Добавьте точку" },
     ),
 })
 
