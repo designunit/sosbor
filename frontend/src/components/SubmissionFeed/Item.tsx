@@ -30,10 +30,8 @@ export function Item({ data }: ItemProps) {
         <Card
             withBorder
             padding='md'
-            bg={'secondary'}
             style={{
-                // border: 'solid 2px var(--mantine-color-secondary-text)',
-                // boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)',
+                border: 'solid 1px var(--mantine-color-secondary-1)',
             }}
         >
             <Stack>
@@ -42,7 +40,7 @@ export function Item({ data }: ItemProps) {
                     mah={200}
                 >
                     <Text
-                        c='white'
+                    // c='white'
                     >
                         {data.content}
                     </Text>
