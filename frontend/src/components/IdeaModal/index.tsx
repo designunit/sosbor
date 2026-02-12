@@ -9,6 +9,7 @@ import { useContext, useEffect, useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 import { useSWRConfig } from "swr"
 import { z } from "zod"
+import { API } from "@/api"
 import { FormContext } from "@/contexts/form"
 import buttonStyles from "@/styles/button.module.css"
 import type { IdeaModalDefaultValues } from "@/types"
@@ -75,7 +76,7 @@ export function IdeaModal({ id: modalId, innerProps }: ContextModalProps<IdeaMod
                   },
         })
 
-        await fetch(`/api/collections/features/records`, {
+        await fetch(API.features, {
             method: "post",
             body,
             headers: {
@@ -93,8 +94,8 @@ export function IdeaModal({ id: modalId, innerProps }: ContextModalProps<IdeaMod
 
                 formContext.setData({})
 
-                mutate(`/api/collections/features/records?perPage=1000`) // refetch points on map
-                mutate("$inf$" + `/api/collections/features/records?page=1`) // refetch submission feed
+                mutate(`${API.features}?perPage=1000`) // refetch points on map
+                mutate(`$inf$${API.features}?page=1`) // refetch submission feed
                 modals.closeModal(modalId)
                 modals.openModal({
                     centered: true,

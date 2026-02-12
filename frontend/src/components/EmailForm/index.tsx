@@ -4,6 +4,7 @@ import { useMediaQuery } from "@mantine/hooks"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
+import { API } from "@/api"
 
 const states = {
     start: "Отправить вопрос",
@@ -36,7 +37,7 @@ export function EmailForm() {
 
         const dataFormatted = JSON.stringify(data)
 
-        await fetch(`/api/indexFeedback`, {
+        await fetch(API.indexFeedback, {
             method: "post",
             body: dataFormatted,
             headers: {

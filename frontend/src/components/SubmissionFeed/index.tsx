@@ -6,6 +6,7 @@ import { useModals } from "@mantine/modals"
 import { useSearchParams } from "next/navigation"
 import { useContext, useEffect } from "react"
 import useSWRInfinite from "swr/infinite"
+import { API } from "@/api"
 import { FormContext } from "@/contexts/form"
 import { useHasMounted } from "@/contexts/hasMounted"
 import { NavbarContext } from "@/contexts/navbar"
@@ -23,7 +24,7 @@ export function SubmissionFeed() {
     const { data, error, isLoading, size, setSize } = useSWRInfinite(
         (pageIndex, previousPageData) => {
             if (previousPageData && !previousPageData.hasNextPage) return null
-            return `/api/collections/features/records?page=${pageIndex + 1}` // swr starts at 0, pb at 1
+            return `${API.features}?page=${pageIndex + 1}` // swr starts at 0, pb at 1
         },
         (url) =>
             fetch(url, {

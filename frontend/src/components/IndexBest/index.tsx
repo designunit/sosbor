@@ -1,11 +1,12 @@
 import { Badge, Box, Button, Card, Group, Space, Stack, Text, Title } from "@mantine/core"
 import Link from "next/link"
 import useSWR from "swr"
+import { API } from "@/api"
 import type { BestSubmission } from "@/types"
 import s from "./index.module.css"
 
 export function IndexBest() {
-    const { data, error, isLoading } = useSWR(`/api/submissions/best`, (url) =>
+    const { data, error, isLoading } = useSWR(API.bestSubmissions, (url) =>
         fetch(url, {
             method: "get",
         }).then(async (res) => await res.json()),

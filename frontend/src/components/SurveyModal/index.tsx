@@ -22,6 +22,7 @@ import Image from "next/image"
 import { useCallback, useRef, useState } from "react"
 import type { UseFormReturn } from "react-hook-form"
 import { Controller, useForm, useWatch } from "react-hook-form"
+import { API } from "@/api"
 import type { SurveyFormData, SurveySchemaItem, TabProps } from "@/types"
 import { CheckboxList } from "./CheckboxList"
 import { CheckboxWithOther } from "./CheckboxWithOther"
@@ -519,7 +520,7 @@ export function SurveyModal({ innerProps }: ContextModalProps<SurveyModalProps>)
                 })),
         })
 
-        await fetch(`/api/collections/surveys/records`, {
+        await fetch(API.surveys, {
             method: "post",
             body,
             headers: {

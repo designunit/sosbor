@@ -4,6 +4,7 @@ import { useLocalStorage } from "@mantine/hooks"
 import type { Context } from "react"
 import { createContext, useCallback, useContext, useEffect, useState } from "react"
 import useSWR from "swr"
+import { API } from "@/api"
 
 type ClientIdContextType = {
     clientId: string
@@ -47,7 +48,7 @@ export const ClientIdProvider = ({ children }: { children: React.ReactNode }) =>
         key: "clientId",
         defaultValue: null,
     })
-    const { data } = useSWR(!clientId ? "/api/clients" : null, (url) =>
+    const { data } = useSWR(!clientId ? API.clients : null, (url) =>
         fetch(url, {
             method: "post",
             headers: {
@@ -68,7 +69,7 @@ export const ClientIdProvider = ({ children }: { children: React.ReactNode }) =>
         }
     }, [clientId, data, cookie, setClientId, updateCookie])
 
-    const { data: isCookiesAllowed } = useSWR("/api/check", (url) =>
+    const { data: isCookiesAllowed } = useSWR(API.check, (url) =>
         fetch(url, {
             method: "post",
             credentials: "include",

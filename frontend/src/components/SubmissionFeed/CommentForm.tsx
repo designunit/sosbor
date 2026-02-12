@@ -4,6 +4,7 @@ import { useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 import type { KeyedMutator } from "swr"
 import { z } from "zod"
+import { API } from "@/api"
 import type { Submission } from "@/types/submission"
 import s from "./index.module.css"
 
@@ -43,7 +44,7 @@ export function CommentForm({ id, mutate }: CommentFormProps) {
 
         const body = JSON.stringify(dataFormatted)
 
-        await fetch(`/api/comments`, {
+        await fetch(API.comments, {
             method: "post",
             headers: {
                 "Content-Type": "application/json",
