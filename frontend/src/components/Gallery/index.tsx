@@ -1,8 +1,7 @@
 import { ActionIcon, CloseButton, Image, Modal } from "@mantine/core"
-import { useDisclosure } from "@mantine/hooks"
+import { useDisclosure, useMediaQuery } from "@mantine/hooks"
 import NextImage from "next/image"
 import { useState } from "react"
-import { useMedia } from "react-use"
 import { Swiper, SwiperSlide, useSwiper } from "swiper/react"
 import type { GalleryImage } from "@/types"
 import s from "../../styles/index.module.css"
@@ -38,7 +37,7 @@ export type GalleryProps = {
 export function Gallery({ galleryImages }: GalleryProps) {
     const [imageOpened, { toggle: close, open }] = useDisclosure()
     const [image, setImage] = useState(0)
-    const isMobile = useMedia("(max-width: 576px)", false)
+    const isMobile = useMediaQuery("(max-width: 576px)") ?? false
     return (
         <>
             <Swiper

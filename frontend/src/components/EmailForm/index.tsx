@@ -1,8 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Button, Center, Group, Overlay, Stack, Text, Textarea, TextInput, Title } from "@mantine/core"
+import { useMediaQuery } from "@mantine/hooks"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
-import { useMedia } from "react-use"
 import { z } from "zod"
 
 const states = {
@@ -19,7 +19,7 @@ const formSchema = z.object({
 })
 
 export function EmailForm() {
-    const isMobile = useMedia("(max-width: 1024px)", false)
+    const isMobile = useMediaQuery("(max-width: 1024px)") ?? false
     const { handleSubmit, register, formState } = useForm<z.infer<typeof formSchema>>({
         mode: "onChange",
         resolver: zodResolver(formSchema),
