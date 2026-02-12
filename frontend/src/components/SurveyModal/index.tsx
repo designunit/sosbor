@@ -7,6 +7,7 @@ import {
     CloseButton,
     Fieldset,
     Group,
+    SegmentedControl,
     Select,
     Slider,
     Space,
@@ -233,6 +234,33 @@ function SchemaToComponents({ schema, formHook, renderFilter = {} }: SchemaToCom
                                     maxValues={item?.maxValues}
                                     data={item.data ?? []}
                                 />
+                            )}
+                        />
+                    )
+                }
+                case "toggle": {
+                    return (
+                        <Controller
+                            name={item.id}
+                            control={control}
+                            rules={{ required: true }}
+                            render={({ field }) => (
+                                <Stack gap={2}>
+                                    <Text fw={500} size="sm">
+                                        {item.text}
+                                    </Text>
+                                    {item.description && (
+                                        <Text c="dimmed" size="xs">
+                                            {item.description}
+                                        </Text>
+                                    )}
+                                    <SegmentedControl
+                                        {...field}
+                                        value={typeof field.value === "string" ? field.value : ""}
+                                        data={item.data ?? []}
+                                        color="secondary"
+                                    />
+                                </Stack>
                             )}
                         />
                     )

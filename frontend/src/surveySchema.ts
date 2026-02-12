@@ -5,7 +5,7 @@ export const surveySchema: SurveySchemaItem[] = [
     {
         id: "e431953d-d694-424c-ac88-f47acad9d629",
         text: "Вы проживаете на территории Соснового Бора?",
-        type: "select",
+        type: "toggle",
         data: ["Да", "Нет"],
     },
     {
