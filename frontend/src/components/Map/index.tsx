@@ -7,7 +7,7 @@ import { useSearchParams } from "next/navigation"
 import { useContext } from "react"
 import { Layer, Marker, Source } from "react-map-gl/mapbox"
 import useSWR from "swr"
-import { API } from "@/api"
+import { API, fetcher } from "@/api"
 import { FormContext } from "@/contexts/form"
 import type { MapClickEvent } from "@/types"
 import type { Submission } from "@/types/submission"
@@ -24,14 +24,7 @@ type MapProps = {
 }
 
 export function Map({ initialCoords }: MapProps) {
-    const { data, error, isLoading } = useSWR(`${API.features}?perPage=1000`, (url) =>
-        fetch(url, {
-            method: "get",
-        }).then(async (res) => {
-            if (!res.ok) throw new Error(`HTTP ${res.status}`)
-            return await res.json()
-        }),
-    )
+    const { data, error, isLoading } = useSWR(`${API.features}?perPage=1000`, fetcher)
 
     const modals = useModals()
     const { data: formData, setData, addMode, setAddMode } = useContext(FormContext)

@@ -6,7 +6,7 @@ import { useModals } from "@mantine/modals"
 import { useSearchParams } from "next/navigation"
 import { useContext, useEffect } from "react"
 import useSWRInfinite from "swr/infinite"
-import { API } from "@/api"
+import { API, fetcher } from "@/api"
 import { FormContext } from "@/contexts/form"
 import { useHasMounted } from "@/contexts/hasMounted"
 import { NavbarContext } from "@/contexts/navbar"
@@ -21,19 +21,10 @@ export function SubmissionFeed() {
     const pointId = searchParams.get("pointId")
     const hasMounted = useHasMounted()
     const isMobile = useMediaQuery("(max-width: 768px)", true)
-    const { data, error, isLoading, size, setSize } = useSWRInfinite(
-        (pageIndex, previousPageData) => {
-            if (previousPageData && !previousPageData.hasNextPage) return null
-            return `${API.features}?page=${pageIndex + 1}` // swr starts at 0, pb at 1
-        },
-        (url) =>
-            fetch(url, {
-                method: "get",
-            }).then(async (res) => {
-                if (!res.ok) throw new Error(`HTTP ${res.status}`)
-                return await res.json()
-            }),
-    )
+    const { data, error, isLoading, size, setSize } = useSWRInfinite((pageIndex, previousPageData) => {
+        if (previousPageData && !previousPageData.hasNextPage) return null
+        return `${API.features}?page=${pageIndex + 1}` // swr starts at 0, pb at 1
+    }, fetcher)
     const dataFlat =
         isLoading || error || !data
             ? []

@@ -1,3 +1,9 @@
+export async function fetcher(url: string) {
+    const res = await fetch(url)
+    if (!res.ok) throw new Error(`HTTP ${res.status}`)
+    return res.json()
+}
+
 export const API = {
     features: "/api/collections/features/records",
     surveys: "/api/collections/surveys/records",
