@@ -1,6 +1,7 @@
 "use client"
 
 import { useModals } from "@mantine/modals"
+import { surveySchema } from "@/surveySchema"
 
 export function useOpenSurveyModal() {
     const modals = useModals()
@@ -13,7 +14,7 @@ export function useOpenSurveyModal() {
             closeOnEscape: false,
             closeOnClickOutside: false,
             innerProps: {
-                defaultValues: {},
+                schema: surveySchema,
             },
         })
     }
