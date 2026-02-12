@@ -1,35 +1,38 @@
-'use client'
+"use client"
 
-import { FormContext } from '@/contexts/form'
-import { Text, Stack, Button, Title, Center, Textarea, Tooltip } from '@mantine/core'
-import { useModals } from '@mantine/modals'
-import type { ContextModalProps } from '@mantine/modals'
-import { usePathname } from 'next/navigation'
-import { useContext, useEffect, useState } from 'react'
-import { useForm, Controller } from 'react-hook-form'
-import { z } from 'zod'
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useSWRConfig } from 'swr'
-import buttonStyles from '@/styles/button.module.css'
-import type { IdeaModalDefaultValues } from '@/types'
+import { Button, Center, Stack, Text, Textarea, Title, Tooltip } from "@mantine/core"
+import type { ContextModalProps } from "@mantine/modals"
+import { useModals } from "@mantine/modals"
+import { usePathname } from "next/navigation"
+import { useContext, useEffect, useState } from "react"
+import { Controller, useForm } from "react-hook-form"
+import { useSWRConfig } from "swr"
+import { z } from "zod"
+import { FormContext } from "@/contexts/form"
+import buttonStyles from "@/styles/button.module.css"
+import type { IdeaModalDefaultValues } from "@/types"
 
 export type IdeaModalProps = {
     defaultValues?: IdeaModalDefaultValues
 }
 
 const states = {
-    start: 'Оставить предложение',
-    fetch: 'Отправка...',
-    ok: 'Готово',
-    error: 'Ошибка, еще раз?'
+    start: "Оставить предложение",
+    fetch: "Отправка...",
+    ok: "Готово",
+    error: "Ошибка, еще раз?",
 }
 
 const formSchema = z.object({
     description: z.string().min(0).max(999),
-    coords: z.object({
-        lat: z.number(),
-        lng: z.number(),
-    }, { message: 'Добавьте точку' }),
+    coords: z.object(
+        {
+            lat: z.number(),
+            lng: z.number(),
+        },
+        { message: "Добавьте точку" },
+    ),
 })
 
 export function IdeaModal({ id: modalId, innerProps }: ContextModalProps<IdeaModalProps>) {
@@ -37,13 +40,19 @@ export function IdeaModal({ id: modalId, innerProps }: ContextModalProps<IdeaMod
     const modals = useModals()
     const formContext = useContext(FormContext)
 
-    const { handleSubmit, control, getValues, register, formState: { errors } } = useForm<z.infer<typeof formSchema>>({
-        mode: 'onChange',
+    const {
+        handleSubmit,
+        control,
+        getValues,
+        register,
+        formState: { errors },
+    } = useForm<z.infer<typeof formSchema>>({
+        mode: "onChange",
         resolver: zodResolver(formSchema),
         defaultValues: {
             ...innerProps.defaultValues,
             coords: formContext.data.coords,
-        }
+        },
     })
     const [text, setText] = useState(states.start)
 
@@ -54,40 +63,38 @@ export function IdeaModal({ id: modalId, innerProps }: ContextModalProps<IdeaMod
 
         const body = JSON.stringify({
             content: data.description,
-            feature: !coords ? {} : {
-                type: 'Feature',
-                properties: {},
-                geometry: {
-                    type: 'Point',
-                    coordinates: [
-                        coords?.lng,
-                        coords?.lat,
-                    ]
-                }
-            },
+            feature: !coords
+                ? {}
+                : {
+                      type: "Feature",
+                      properties: {},
+                      geometry: {
+                          type: "Point",
+                          coordinates: [coords?.lng, coords?.lat],
+                      },
+                  },
         })
 
-        await fetch(
-            `/api/collections/features/records`,
-            {
-                method: 'post',
-                body,
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            }
-        )
-            .then(async res => {
+        await fetch(`/api/collections/features/records`, {
+            method: "post",
+            body,
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+            .then(async (res) => {
                 const isResOk = res.status < 300
 
                 setText(isResOk ? states.ok : states.error)
 
-                if (!isResOk) { return }
+                if (!isResOk) {
+                    return
+                }
 
                 formContext.setData({})
 
                 mutate(`/api/collections/features/records?perPage=1000`) // refetch points on map
-                mutate('$inf$' + `/api/collections/features/records?page=1`) // refetch submission feed
+                mutate("$inf$" + `/api/collections/features/records?page=1`) // refetch submission feed
                 modals.closeModal(modalId)
                 modals.openModal({
                     centered: true,
@@ -96,29 +103,22 @@ export function IdeaModal({ id: modalId, innerProps }: ContextModalProps<IdeaMod
                         <Stack>
                             <Center>
                                 <Title order={1}>
-                                    <Text
-                                        inherit
-                                    >
-                                        Спасибо!
-                                    </Text>
+                                    <Text inherit>Спасибо!</Text>
                                 </Title>
                             </Center>
                             <Center>
-                                <Text
-                                    size='xl'
-                                    ta={'center'}
-                                >
+                                <Text size="xl" ta={"center"}>
                                     Ваше предложение принято.
                                 </Text>
                             </Center>
                         </Stack>
                     ),
-                    onClose: () => modals.closeAll()
+                    onClose: () => modals.closeAll(),
                 })
             })
-            .catch(async e => {
+            .catch(async (e) => {
                 setText(states.error)
-                console.error('IdeaModal submission failed:', e)
+                console.error("IdeaModal submission failed:", e)
             })
     }
 
@@ -134,31 +134,23 @@ export function IdeaModal({ id: modalId, innerProps }: ContextModalProps<IdeaMod
     // close modal on route
     const pathname = usePathname()
     useEffect(() => {
-        if (pathname == '/') {
+        if (pathname === "/") {
             modals.closeAll()
         }
     }, [pathname, modals])
 
     return (
-        <form
-            onSubmit={handleSubmit(onSubmit)}
-        >
-            <Stack
-                gap={'lg'}
-            >
+        <form onSubmit={handleSubmit(onSubmit)}>
+            <Stack gap={"lg"}>
                 <Center>
                     <Title order={2}>
-                        <Text
-                            inherit
-                        >
-                            Ваше предложение
-                        </Text>
+                        <Text inherit>Ваше предложение</Text>
                     </Title>
                 </Center>
 
                 <Controller
                     control={control}
-                    name='description'
+                    name="description"
                     rules={{ required: true }}
                     render={({ field, formState }) => (
                         <Textarea
@@ -166,13 +158,13 @@ export function IdeaModal({ id: modalId, innerProps }: ContextModalProps<IdeaMod
                             required
                             rows={4}
                             // radius={'xl'}
-                            size='lg'
-                            color='secondary'
-                            placeholder='Опишите ваше предложение *'
+                            size="lg"
+                            color="secondary"
+                            placeholder="Опишите ваше предложение *"
                             error={formState.errors.description?.message}
                             styles={{
                                 input: {
-                                    '--input-bd': 'var(--mantine-color-secondary-filled)',
+                                    "--input-bd": "var(--mantine-color-secondary-filled)",
                                 },
                             }}
                         />
@@ -180,10 +172,10 @@ export function IdeaModal({ id: modalId, innerProps }: ContextModalProps<IdeaMod
                 />
 
                 <Tooltip
-                    label='Точка добавлена'
+                    label="Точка добавлена"
                     opened={Boolean(formContext.data.coords)}
                     withArrow
-                    bg={'secondary'}
+                    bg={"secondary"}
                     offset={-18}
                     style={{
                         borderRadius: 6,
@@ -191,33 +183,19 @@ export function IdeaModal({ id: modalId, innerProps }: ContextModalProps<IdeaMod
                 >
                     <Button
                         onClick={onClickCoords}
-                        variant='outline'
+                        variant="outline"
                         disabled={Boolean(formContext.data.coords)}
-                        color='secondary'
-                        c={'black'}
+                        color="secondary"
+                        c={"black"}
                         className={buttonStyles.root}
                     >
                         Добавить точку на карте
                     </Button>
                 </Tooltip>
-                {errors.coords && (
-                    <Text
-                        c='red'
-                    >
-                        {errors.coords.message}
-                    </Text>
-                )}
-                <input
-                    type='hidden'
-                    {...register('coords')}
-                />
+                {errors.coords && <Text c="red">{errors.coords.message}</Text>}
+                <input type="hidden" {...register("coords")} />
 
-                <Button
-                    disabled={[states.fetch, states.ok].includes(text)}
-                    type='submit'
-                    bg='secondary'
-                    c={'primary'}
-                >
+                <Button disabled={[states.fetch, states.ok].includes(text)} type="submit" bg="secondary" c={"primary"}>
                     {text}
                 </Button>
             </Stack>

@@ -1,8 +1,8 @@
-'use client'
+"use client"
 
-import { createContext, useState } from 'react'
-import type { Context } from 'react'
-import type { FormContextValue, FormData } from '@/types'
+import type { Context } from "react"
+import { createContext, useState } from "react"
+import type { FormContextValue, FormData } from "@/types"
 
 export const FormContext: Context<FormContextValue> = createContext<FormContextValue>({
     data: {},

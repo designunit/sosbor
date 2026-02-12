@@ -1,8 +1,8 @@
-import { HeroSection } from '@/components/IndexPage/HeroSection'
-import { TimelineSection } from '@/components/IndexPage/TimelineSection'
-import { MapCTA } from '@/components/IndexPage/MapCTA'
-import { SurveyCTA } from '@/components/IndexPage/SurveyCTA'
-import { Sponsors } from '@/components/IndexPage/Sponsors'
+import { HeroSection } from "@/components/IndexPage/HeroSection"
+import { MapCTA } from "@/components/IndexPage/MapCTA"
+import { Sponsors } from "@/components/IndexPage/Sponsors"
+import { SurveyCTA } from "@/components/IndexPage/SurveyCTA"
+import { TimelineSection } from "@/components/IndexPage/TimelineSection"
 
 export default function Page() {
     return (
