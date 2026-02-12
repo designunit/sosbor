@@ -1,8 +1,8 @@
 "use client"
 
+import { useLocalStorage } from "@mantine/hooks"
 import type { Context } from "react"
-import { createContext, useContext, useEffect } from "react"
-import { useCookie, useLocalStorage } from "react-use"
+import { createContext, useCallback, useContext, useEffect, useState } from "react"
 import useSWR from "swr"
 
 type ClientIdContextType = {
@@ -15,11 +15,39 @@ export const ClientIdContext: Context<ClientIdContextType> = createContext({
     clientIdCookie: "",
 })
 
+function getCookie(name: string): string {
+    const match = document.cookie.match(new RegExp(`(?:^|; )${name}=([^;]*)`))
+    return match ? decodeURIComponent(match[1]) : ""
+}
+
+function setCookie(name: string, value: string, expires?: Date) {
+    let cookie = `${name}=${encodeURIComponent(value)}; path=/`
+    if (expires) {
+        cookie += `; expires=${expires.toUTCString()}`
+    }
+    // biome-ignore lint/suspicious/noDocumentCookie: simple cookie helper for client fingerprinting
+    document.cookie = cookie
+}
+
+const COOKIE_EXPIRY_DAYS = 300
+
+function cookieExpiry() {
+    return new Date(Date.now() + 1000 * 60 * 60 * 24 * COOKIE_EXPIRY_DAYS)
+}
+
 export const ClientIdProvider = ({ children }: { children: React.ReactNode }) => {
     // weak id/auth client, similar to fingerprint client id
-    const [cookie, updateCookie] = useCookie("clientId")
-    const [clientId, setClientId] = useLocalStorage("clientId", null)
-    const { data } = useSWR(!clientId ? `/api/clients` : null, (url) =>
+    const [cookie, setCookieState] = useState(() => getCookie("clientId"))
+    const updateCookie = useCallback((value: string) => {
+        setCookie("clientId", value, cookieExpiry())
+        setCookieState(value)
+    }, [])
+
+    const [clientId, setClientId] = useLocalStorage<string | null>({
+        key: "clientId",
+        defaultValue: null,
+    })
+    const { data } = useSWR(!clientId ? "/api/clients" : null, (url) =>
         fetch(url, {
             method: "post",
             headers: {
@@ -32,15 +60,15 @@ export const ClientIdProvider = ({ children }: { children: React.ReactNode }) =>
             if (!data) return
 
             setClientId(data.doc.id)
-            updateCookie(data.doc.id, { expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 300) }) // 300 days
+            updateCookie(data.doc.id)
         }
 
         if (cookie === "null" || cookie === "false") {
-            updateCookie(clientId ?? "", { expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 300) })
+            updateCookie(clientId ?? "")
         }
     }, [clientId, data, cookie, setClientId, updateCookie])
 
-    const { data: isCookiesAllowed } = useSWR(`/api/check`, (url) =>
+    const { data: isCookiesAllowed } = useSWR("/api/check", (url) =>
         fetch(url, {
             method: "post",
             credentials: "include",
