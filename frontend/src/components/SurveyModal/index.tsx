@@ -548,6 +548,8 @@ export function SurveyModal({ innerProps }: ContextModalProps<SurveyModalProps>)
                 })),
         })
 
+        setText(states.fetch)
+
         await fetch(API.surveys, {
             method: "post",
             body,
