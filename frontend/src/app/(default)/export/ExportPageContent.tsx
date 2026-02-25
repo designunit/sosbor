@@ -147,15 +147,13 @@ export function ExportPageContent(): ReactElement {
         setDataState({ status: "loading" })
         try {
             const [rawFeatures, surveys] = await Promise.all([fetchAllFeatures(), fetchAllSurveys()])
-            const features: FeatureRow[] = rawFeatures
-                .filter((r) => !r.isBanned)
-                .map((r) => ({
-                    id: r.id,
-                    content: r.content,
-                    lng: r.feature?.geometry?.coordinates?.[0] ?? null,
-                    lat: r.feature?.geometry?.coordinates?.[1] ?? null,
-                    created: r.created,
-                }))
+            const features: FeatureRow[] = rawFeatures.map((r) => ({
+                id: r.id,
+                content: r.content,
+                lng: r.feature?.geometry?.coordinates?.[0] ?? null,
+                lat: r.feature?.geometry?.coordinates?.[1] ?? null,
+                created: r.created,
+            }))
             setDataState({ status: "ready", features, surveys })
         } catch (err) {
             const message = err instanceof Error ? err.message : "Ошибка загрузки данных"

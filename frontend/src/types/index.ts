@@ -111,7 +111,7 @@ export type FeatureRecord = {
     feature?: {
         type: "Feature"
         properties: Record<string, unknown>
-        geometry: { type: "Point"; coordinates: [number, number] }
+        geometry?: { type: "Point"; coordinates?: [number, number] }
     }
     isBanned: boolean
     created: string
