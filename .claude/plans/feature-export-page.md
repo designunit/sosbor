@@ -80,6 +80,8 @@ export type ExportDataState =
     | { status: "ready"; features: FeatureRow[]; surveys: SurveyRecord[] }
 ```
 
+- [x] Append export page types (FeatureRecord, SurveyAnswerItem, SurveyRecord, FeatureRow, ExportAuthState, ExportDataState) to `frontend/src/types/index.ts`
+
 ---
 
 ### Task 3: Create `src/lib/pocketbase.ts`
