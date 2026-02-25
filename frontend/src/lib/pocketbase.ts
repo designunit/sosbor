@@ -1,3 +1,5 @@
+"use client"
+
 import PocketBase from "pocketbase"
 import type { FeatureRecord, SurveyRecord } from "@/types"
 

@@ -183,14 +183,23 @@ export function ExportPageContent(): ReactElement {
     }
 
     if (dataState.status === "error") {
+        const handleReset = (): void => {
+            setAuthState({ status: "idle" })
+            setDataState({ status: "idle" })
+        }
         return (
             <Stack py={40}>
                 <Alert color="red" title="Ошибка загрузки">
                     {dataState.message}
                 </Alert>
-                <Button onClick={loadData} w="fit-content">
-                    Повторить
-                </Button>
+                <Group>
+                    <Button onClick={loadData} w="fit-content">
+                        Повторить
+                    </Button>
+                    <Button variant="subtle" onClick={handleReset} w="fit-content">
+                        Войти заново
+                    </Button>
+                </Group>
             </Stack>
         )
     }
