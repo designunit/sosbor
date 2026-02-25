@@ -63,5 +63,5 @@ export function downloadCsv(csvContent: string, filename: string): void {
     document.body.appendChild(anchor)
     anchor.click()
     document.body.removeChild(anchor)
-    setTimeout(() => URL.revokeObjectURL(url), 100)
+    setTimeout(() => URL.revokeObjectURL(url), 10000)
 }
