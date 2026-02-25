@@ -21,7 +21,7 @@ export function surveysToCsv(surveys: SurveyRecord[], schema: SurveySchemaItem[]
     // Build column list; expand selectList questions to one column per list item
     const columns: Array<{ key: string; header: string }> = []
     for (const item of schema) {
-        if (item.type === "selectList" && item.list) {
+        if ((item.type === "selectList" || item.type === "sliderList") && item.list) {
             item.list.forEach((label, i) => {
                 columns.push({ key: `${item.id}-${i}`, header: `${item.text}: ${label}` })
             })
@@ -47,6 +47,8 @@ export function downloadCsv(csvContent: string, filename: string): void {
     const anchor = document.createElement("a")
     anchor.href = url
     anchor.download = filename
+    document.body.appendChild(anchor)
     anchor.click()
-    URL.revokeObjectURL(url)
+    document.body.removeChild(anchor)
+    setTimeout(() => URL.revokeObjectURL(url), 100)
 }

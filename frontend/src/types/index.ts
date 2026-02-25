@@ -108,7 +108,7 @@ export type BestSubmission = {
 export type FeatureRecord = {
     id: string
     content: string
-    feature: {
+    feature?: {
         type: "Feature"
         properties: Record<string, unknown>
         geometry: { type: "Point"; coordinates: [number, number] }

@@ -38,6 +38,7 @@ function LoginForm({ onSuccess }: LoginFormProps): ReactElement {
         setError(null)
         try {
             await loginAsSuperuser(data.email, data.password)
+            setLoading(false)
             onSuccess()
         } catch (err) {
             setLoading(false)
