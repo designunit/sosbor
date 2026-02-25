@@ -127,6 +127,8 @@ Notes:
 - `as unknown as T[]` is the canonical strict-mode cast for PocketBase `RecordModel` — avoids `any`, isolated to this module
 - Singleton pattern: one `PocketBase` instance per browser session; SDK stores token in `localStorage`
 
+- [x] Create `frontend/src/lib/pocketbase.ts` with singleton `getPocketBase()`, `loginAsSuperuser()`, `fetchAllFeatures()`, `fetchAllSurveys()`
+
 ---
 
 ### Task 4: Create `src/lib/exportCsv.ts`
