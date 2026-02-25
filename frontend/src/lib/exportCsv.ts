@@ -1,10 +1,15 @@
 import type { FeatureRow, SurveyRecord, SurveySchemaItem } from "@/types"
 
 function escapeCell(value: string): string {
-    if (value.includes(",") || value.includes('"') || value.includes("\n") || value.includes("\r")) {
-        return `"${value.replace(/"/g, '""')}"`
+    // Prevent spreadsheet formula injection: prefix dangerous leading characters with a literal quote.
+    // Numeric values are exempt — they cannot execute formulas and must not be corrupted (e.g. coordinates like -73.9).
+    const isNumeric = value !== "" && Number.isFinite(Number(value))
+    const isFormula = !isNumeric && /^[=+\-@]/.test(value.trimStart())
+    const sanitized = isFormula ? `'${value}` : value
+    if (sanitized.includes(",") || sanitized.includes('"') || sanitized.includes("\n") || sanitized.includes("\r")) {
+        return `"${sanitized.replace(/"/g, '""')}"`
     }
-    return value
+    return sanitized
 }
 
 function buildRow(cells: string[]): string {
@@ -13,7 +18,15 @@ function buildRow(cells: string[]): string {
 
 export function featuresToCsv(features: FeatureRow[]): string {
     const header = buildRow(["id", "content", "lng", "lat", "created"])
-    const rows = features.map((f) => buildRow([f.id, f.content, String(f.lng), String(f.lat), f.created]))
+    const rows = features.map((f) =>
+        buildRow([
+            f.id,
+            f.content,
+            f.lng !== null ? String(f.lng) : "",
+            f.lat !== null ? String(f.lat) : "",
+            f.created,
+        ]),
+    )
     return [header, ...rows].join("\n")
 }
 

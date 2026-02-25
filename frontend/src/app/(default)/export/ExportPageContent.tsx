@@ -143,8 +143,7 @@ export function ExportPageContent(): ReactElement {
     const [authState, setAuthState] = useState<ExportAuthState>({ status: "idle" })
     const [dataState, setDataState] = useState<ExportDataState>({ status: "idle" })
 
-    const handleAuthSuccess = async (): Promise<void> => {
-        setAuthState({ status: "authenticated" })
+    const loadData = async (): Promise<void> => {
         setDataState({ status: "loading" })
         try {
             const [rawFeatures, surveys] = await Promise.all([fetchAllFeatures(), fetchAllSurveys()])
@@ -153,8 +152,8 @@ export function ExportPageContent(): ReactElement {
                 .map((r) => ({
                     id: r.id,
                     content: r.content,
-                    lng: r.feature?.geometry?.coordinates?.[0] ?? 0,
-                    lat: r.feature?.geometry?.coordinates?.[1] ?? 0,
+                    lng: r.feature?.geometry?.coordinates?.[0] ?? null,
+                    lat: r.feature?.geometry?.coordinates?.[1] ?? null,
                     created: r.created,
                 }))
             setDataState({ status: "ready", features, surveys })
@@ -162,6 +161,11 @@ export function ExportPageContent(): ReactElement {
             const message = err instanceof Error ? err.message : "Ошибка загрузки данных"
             setDataState({ status: "error", message })
         }
+    }
+
+    const handleAuthSuccess = async (): Promise<void> => {
+        setAuthState({ status: "authenticated" })
+        await loadData()
     }
 
     if (authState.status !== "authenticated") {
@@ -186,6 +190,9 @@ export function ExportPageContent(): ReactElement {
                 <Alert color="red" title="Ошибка загрузки">
                     {dataState.message}
                 </Alert>
+                <Button onClick={loadData} w="fit-content">
+                    Повторить
+                </Button>
             </Stack>
         )
     }

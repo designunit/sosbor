@@ -134,8 +134,8 @@ export type SurveyRecord = {
 export type FeatureRow = {
     id: string
     content: string
-    lng: number
-    lat: number
+    lng: number | null
+    lat: number | null
     created: string
 }
 
