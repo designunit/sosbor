@@ -202,6 +202,8 @@ Multi-value answers (checkboxes) joined with `;`.
 
 ### Task 5: Create `src/app/(default)/export/page.tsx`
 
+- [x] Create `frontend/src/app/(default)/export/page.tsx` as thin server component with Suspense + Loader fallback
+
 Mirrors `(map)/map/page.tsx` exactly (thin server component + Suspense):
 
 ```typescript
