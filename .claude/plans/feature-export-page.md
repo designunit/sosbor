@@ -224,6 +224,8 @@ export default function ExportPage() {
 
 ### Task 6: Create `src/app/(default)/export/ExportPageContent.tsx`
 
+- [x] Create `frontend/src/app/(default)/export/ExportPageContent.tsx` with LoginForm, FeaturesTable, SurveysTable, and ExportPageContent components
+
 Client component. Three internal sub-components + main export.
 
 **State machine** using `ExportAuthState` and `ExportDataState` discriminated unions.
