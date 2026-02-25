@@ -22,8 +22,8 @@ The project collects citizen feedback via map submissions (`features` collection
 ## Implementation
 
 ### Task 1: Add pocketbase dependency
-- [ ] Add `"pocketbase": "^0.22.0"` to `frontend/package.json` `dependencies`
-- [ ] Run `npm install` from `frontend/`
+- [x] Add `"pocketbase": "^0.22.0"` to `frontend/package.json` `dependencies`
+- [x] Run `npm install` from `frontend/`
 
 ---
 
