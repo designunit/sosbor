@@ -196,6 +196,8 @@ export function downloadCsv(csvContent: string, filename: string): void {
 Note: `selectList` question `dd7afc2c-…` has 13 items → 13 extra columns in surveys CSV.
 Multi-value answers (checkboxes) joined with `;`.
 
+- [x] Create `frontend/src/lib/exportCsv.ts` with `featuresToCsv`, `surveysToCsv`, `downloadCsv`
+
 ---
 
 ### Task 5: Create `src/app/(default)/export/page.tsx`
