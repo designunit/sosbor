@@ -113,7 +113,7 @@ function SchemaToComponents({ schema, formHook, renderFilter = {} }: SchemaToCom
                                 </div>
                             )}
                             <Textarea
-                                {...register(item.id, { required: true })}
+                                {...register(item.id, { required: item?.required ?? true })}
                                 label={item.text}
                                 rows={item?.rows ?? 3}
                                 description={item?.description}

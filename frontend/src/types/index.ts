@@ -81,6 +81,7 @@ export type SurveySchemaItem = {
     maxValues?: number
     rows?: number
     marks?: number[]
+    required?: boolean
 }
 
 // Map types
