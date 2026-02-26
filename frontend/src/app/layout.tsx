@@ -8,7 +8,7 @@ import type { Metadata } from "next"
 
 export const metadata: Metadata = {
     title: "Мастер-план Сосновоборского городского округа",
-    description: "Приветствуем вас на сайте, посвящённом разработке мастер-плана Соснового бора.",
+    description: "Приветствуем вас на сайте, посвящённом разработке мастер-плана Соснового Бора.",
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
