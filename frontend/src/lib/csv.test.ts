@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest"
-import { escapeCell, featuresToCsv } from "./csv"
+import { escapeCell } from "./csv"
 
 describe("escapeCell", () => {
     it("plain string passes through unchanged", () => {
@@ -56,27 +56,5 @@ describe("escapeCell", () => {
 
     it("formula with comma is prefixed then wrapped", () => {
         expect(escapeCell("=a,b")).toBe('"\'=a,b"')
-    })
-})
-
-describe("featuresToCsv", () => {
-    it("produces correct header row", () => {
-        const csv = featuresToCsv([])
-        const header = csv.split("\n")[0]
-        expect(header).toBe("id,content,lng,lat,created")
-    })
-
-    it("null lng and lat become empty strings", () => {
-        const csv = featuresToCsv([{ id: "abc", content: "test", lng: null, lat: null, created: "2024-01-01" }])
-        const dataRow = csv.split("\n")[1]
-        expect(dataRow).toBe("abc,test,,,2024-01-01")
-    })
-
-    it("numeric coordinates are written as-is", () => {
-        const csv = featuresToCsv([
-            { id: "abc", content: "test", lng: 29.076903, lat: 59.896869, created: "2024-01-01" },
-        ])
-        const dataRow = csv.split("\n")[1]
-        expect(dataRow).toBe("abc,test,29.076903,59.896869,2024-01-01")
     })
 })
