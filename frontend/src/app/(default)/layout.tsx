@@ -4,12 +4,13 @@ import { AppShell, Box, Button, Center, Drawer, Flex, Group, Stack, Text } from 
 import { useDisclosure, useMediaQuery } from "@mantine/hooks"
 import Link from "next/link"
 import type { MouseEvent } from "react"
+import { PublicProviders } from "@/app/public-providers"
 import { Header } from "@/components/Header"
 import { useOpenSurveyModal } from "@/hooks/useOpenSurveyModal"
 import { navButtons, scrollToHash } from "@/lib/navigation"
 import { appShellStyles, mobileMenu } from "@/theme"
 
-export default function DefaultLayout({ children }: { children: React.ReactNode }) {
+function DefaultLayoutContent({ children }: { children: React.ReactNode }) {
     const [mobileOpened, { toggle: toggleMobile }] = useDisclosure()
     const isMobile = useMediaQuery("(max-width: 768px)")
     const openSurveyModal = useOpenSurveyModal()
@@ -162,5 +163,13 @@ export default function DefaultLayout({ children }: { children: React.ReactNode 
                 </Center>
             </AppShell.Main>
         </AppShell>
+    )
+}
+
+export default function DefaultLayout({ children }: { children: React.ReactNode }) {
+    return (
+        <PublicProviders>
+            <DefaultLayoutContent>{children}</DefaultLayoutContent>
+        </PublicProviders>
     )
 }
