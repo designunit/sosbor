@@ -139,8 +139,6 @@ export type FeatureRow = {
     created: string
 }
 
-export type ExportAuthState = { status: "idle" } | { status: "authenticated" }
-
 export type ExportDataState =
     | { status: "idle" }
     | { status: "loading" }

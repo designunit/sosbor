@@ -17,6 +17,10 @@ export async function loginAsSuperuser(email: string, password: string): Promise
     await pb.collection("_superusers").authWithPassword(email, password)
 }
 
+export function logoutSuperuser(): void {
+    getPocketBase().authStore.clear()
+}
+
 export async function fetchAllFeatures(): Promise<FeatureRecord[]> {
     const pb = getPocketBase()
     const records = await pb.collection("features").getFullList({ sort: "-created", filter: "isBanned = false" })
