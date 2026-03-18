@@ -12,6 +12,7 @@ export type CheckboxWithOtherProps = {
     label: string
     description?: string
     maxValues?: number
+    hasError?: boolean
 }
 
 export function CheckboxWithOther({
@@ -22,6 +23,7 @@ export function CheckboxWithOther({
     label,
     description,
     maxValues = data.length,
+    hasError,
 }: CheckboxWithOtherProps) {
     const [isShowOtherInput, setIsShowOtherInput] = useState(false)
     const [inputValue, setInputValue] = useState("Другое: ")
@@ -39,7 +41,15 @@ export function CheckboxWithOther({
     const getDisabled = (value: string) => !selectedOptions.includes(value) && selectedOptions.length >= maxValues
 
     return (
-        <Fieldset legend={label} variant="filled">
+        <Fieldset
+            legend={label}
+            variant="filled"
+            style={{
+                border: hasError ? "2px solid tomato" : undefined,
+                borderRadius: "8px",
+                padding: hasError ? "8px" : undefined,
+            }}
+        >
             <Text variant="dimmed" mb="xs" size="xs">
                 {description}
             </Text>

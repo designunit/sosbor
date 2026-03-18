@@ -8,15 +8,32 @@ export type CheckboxListProps = {
     label: string
     description?: string
     maxValues?: number
+    hasError?: boolean
 }
 
-export function CheckboxList({ field, data, watch, label, description, maxValues = data.length }: CheckboxListProps) {
+export function CheckboxList({
+    field,
+    data,
+    watch,
+    label,
+    description,
+    maxValues = data.length,
+    hasError,
+}: CheckboxListProps) {
     const selectedOptions: string[] = watch(field.name, []) || []
 
     const getDisabled = (value: string) => !selectedOptions.includes(value) && selectedOptions.length >= maxValues
 
     return (
-        <Fieldset legend={label} variant="filled">
+        <Fieldset
+            legend={label}
+            variant="filled"
+            style={{
+                border: hasError ? "2px solid tomato" : undefined,
+                borderRadius: "8px",
+                padding: hasError ? "8px" : undefined,
+            }}
+        >
             <Text
                 variant="dimmed"
                 mb="xs"
