@@ -41,12 +41,19 @@ type SchemaToComponentsProps = {
     renderFilter?: Record<string, boolean>
 }
 function SchemaToComponents({ schema, formHook, renderFilter = {} }: SchemaToComponentsProps) {
-    const { control, setValue, watch, register } = formHook // passed from parent cause it needed for filter
+    const {
+        control,
+        setValue,
+        watch,
+        register,
+        formState: { errors },
+    } = formHook // passed from parent cause it needed for filter
     return schema
         .filter((item) => renderFilter?.[item.id] ?? true)
         .map((item) => {
             switch (item.type) {
                 case "select": {
+                    const hasError = !!errors[item.id]
                     return (
                         <Controller
                             name={item.id}
@@ -61,7 +68,11 @@ function SchemaToComponents({ schema, formHook, renderFilter = {} }: SchemaToCom
                                     description={item?.description}
                                     styles={{
                                         wrapper: {
-                                            "--input-bd-focus": "var(--mantine-color-secondary-0)",
+                                            "--input-bd-focus": hasError
+                                                ? "tomato"
+                                                : "var(--mantine-color-secondary-0)",
+                                            "--input-invalid": "tomato",
+                                            border: hasError ? "2px solid tomato" : undefined,
                                         },
                                     }}
                                 />
@@ -70,6 +81,7 @@ function SchemaToComponents({ schema, formHook, renderFilter = {} }: SchemaToCom
                     )
                 }
                 case "checkboxOther": {
+                    const hasError = !!errors[item.id]
                     return (
                         <Controller
                             name={item.id}
@@ -84,12 +96,14 @@ function SchemaToComponents({ schema, formHook, renderFilter = {} }: SchemaToCom
                                     description={item?.description}
                                     maxValues={item?.maxValues}
                                     data={item.data ?? []}
+                                    hasError={hasError}
                                 />
                             )}
                         />
                     )
                 }
                 case "textarea": {
+                    const hasError = !!errors[item.id]
                     return (
                         <Stack>
                             {item.id === "a7b52f44-cc92-4df5-bf26-f45a66fe5cb0" && (
@@ -119,7 +133,9 @@ function SchemaToComponents({ schema, formHook, renderFilter = {} }: SchemaToCom
                                 description={item?.description}
                                 styles={{
                                     wrapper: {
-                                        "--input-bd-focus": "var(--mantine-color-secondary-0)",
+                                        "--input-bd-focus": hasError ? "tomato" : "var(--mantine-color-secondary-0)",
+                                        "--input-invalid": "tomato",
+                                        border: hasError ? "2px solid tomato" : undefined,
                                     },
                                 }}
                             />
@@ -130,30 +146,38 @@ function SchemaToComponents({ schema, formHook, renderFilter = {} }: SchemaToCom
                     return (
                         <Fieldset legend={item.text} variant="filled">
                             <Stack>
-                                {(item.list ?? []).map((listItem: string, index: number) => (
-                                    <Controller
-                                        key={listItem}
-                                        name={`${item.id}-${index}`}
-                                        control={control}
-                                        rules={{ required: true }}
-                                        render={({ field }) => (
-                                            <Select
-                                                {...field}
-                                                value={typeof field.value === "string" ? field.value : null}
-                                                label={listItem}
-                                                styles={{
-                                                    label: {
-                                                        fontWeight: "lighter",
-                                                    },
-                                                    wrapper: {
-                                                        "--input-bd-focus": "var(--mantine-color-secondary-0)",
-                                                    },
-                                                }}
-                                                data={item.data ?? []}
-                                            />
-                                        )}
-                                    />
-                                ))}
+                                {(item.list ?? []).map((listItem: string, index: number) => {
+                                    const fieldName = `${item.id}-${index}`
+                                    const hasError = !!errors[fieldName]
+                                    return (
+                                        <Controller
+                                            key={listItem}
+                                            name={fieldName}
+                                            control={control}
+                                            rules={{ required: true }}
+                                            render={({ field }) => (
+                                                <Select
+                                                    {...field}
+                                                    value={typeof field.value === "string" ? field.value : null}
+                                                    label={listItem}
+                                                    styles={{
+                                                        label: {
+                                                            fontWeight: "lighter",
+                                                        },
+                                                        wrapper: {
+                                                            "--input-bd-focus": hasError
+                                                                ? "tomato"
+                                                                : "var(--mantine-color-secondary-0)",
+                                                            "--input-invalid": "tomato",
+                                                            border: hasError ? "2px solid tomato" : undefined,
+                                                        },
+                                                    }}
+                                                    data={item.data ?? []}
+                                                />
+                                            )}
+                                        />
+                                    )
+                                })}
                             </Stack>
                         </Fieldset>
                     )
@@ -178,48 +202,62 @@ function SchemaToComponents({ schema, formHook, renderFilter = {} }: SchemaToCom
                                 {item?.description}
                             </Text>
                             <Stack>
-                                {(item.list ?? []).map((listItem: string, index: number) => (
-                                    <Controller
-                                        key={listItem}
-                                        name={`${item.id}-${index}`}
-                                        control={control}
-                                        // rules={{ required: true }}
-                                        render={({ field }) => (
-                                            <Box my="md">
-                                                <Text
+                                {(item.list ?? []).map((listItem: string, index: number) => {
+                                    const fieldName = `${item.id}-${index}`
+                                    const hasError = !!errors[fieldName]
+                                    return (
+                                        <Controller
+                                            key={listItem}
+                                            name={fieldName}
+                                            control={control}
+                                            // rules={{ required: true }}
+                                            render={({ field }) => (
+                                                <Box
+                                                    my="md"
                                                     style={{
-                                                        fontSize: "unset",
+                                                        border: hasError ? "2px solid tomato" : undefined,
+                                                        borderRadius: "8px",
+                                                        padding: hasError ? "8px" : undefined,
                                                     }}
                                                 >
-                                                    {listItem}
-                                                </Text>
-                                                <Slider
-                                                    {...field}
-                                                    value={typeof field.value === "number" ? field.value : 0}
-                                                    step={1}
-                                                    min={0}
-                                                    max={(item.marks ?? []).length - 1}
-                                                    defaultValue={0}
-                                                    marks={(item.marks ?? []).map((x: number) => ({
-                                                        value: x,
-                                                        label: String(x),
-                                                    }))}
-                                                    label={null}
-                                                    styles={{
-                                                        root: {
-                                                            "--slider-color": "var(--mantine-color-secondary-0)",
-                                                        },
-                                                    }}
-                                                />
-                                            </Box>
-                                        )}
-                                    />
-                                ))}
+                                                    <Text
+                                                        style={{
+                                                            fontSize: "unset",
+                                                        }}
+                                                    >
+                                                        {listItem}
+                                                    </Text>
+                                                    <Slider
+                                                        {...field}
+                                                        value={typeof field.value === "number" ? field.value : 0}
+                                                        step={1}
+                                                        min={0}
+                                                        max={(item.marks ?? []).length - 1}
+                                                        defaultValue={0}
+                                                        marks={(item.marks ?? []).map((x: number) => ({
+                                                            value: x,
+                                                            label: String(x),
+                                                        }))}
+                                                        label={null}
+                                                        styles={{
+                                                            root: {
+                                                                "--slider-color": hasError
+                                                                    ? "tomato"
+                                                                    : "var(--mantine-color-secondary-0)",
+                                                            },
+                                                        }}
+                                                    />
+                                                </Box>
+                                            )}
+                                        />
+                                    )
+                                })}
                             </Stack>
                         </Fieldset>
                     )
                 }
                 case "checkboxList": {
+                    const hasError = !!errors[item.id]
                     return (
                         <Controller
                             name={item.id}
@@ -233,6 +271,7 @@ function SchemaToComponents({ schema, formHook, renderFilter = {} }: SchemaToCom
                                     description={item?.description}
                                     maxValues={item?.maxValues}
                                     data={item.data ?? []}
+                                    hasError={hasError}
                                 />
                             )}
                         />
