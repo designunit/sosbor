@@ -512,7 +512,6 @@ function Tab7({ schema, setTabIndex, globalFormValues, onSubmitData, submitText 
             "Переехал",
             "Проживаю временно (приехал (-а) на работу / по другим обстоятельствам)",
         ].includes(questoinValue),
-        [schema[36].id]: ["Проживаю с рождения"].includes(questoinValue),
     }
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
