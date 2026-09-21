@@ -104,3 +104,44 @@ export type BestSubmission = {
     isPoint?: [number, number]
     comments: number
 }
+
+// Export page types
+export type FeatureRecord = {
+    id: string
+    content: string
+    feature?: {
+        type: "Feature"
+        properties: Record<string, unknown>
+        geometry?: { type: "Point"; coordinates?: [number, number] }
+    }
+    isBanned: boolean
+    created: string
+    updated: string
+}
+
+export type SurveyAnswerItem = {
+    id: string
+    text: string
+    value: string | string[] | number
+}
+
+export type SurveyRecord = {
+    id: string
+    data: SurveyAnswerItem[]
+    created: string
+    updated: string
+}
+
+export type FeatureRow = {
+    id: string
+    content: string
+    lng: number | null
+    lat: number | null
+    created: string
+}
+
+export type ExportDataState =
+    | { status: "idle" }
+    | { status: "loading" }
+    | { status: "error"; message: string }
+    | { status: "ready"; features: FeatureRow[]; surveys: SurveyRecord[] }

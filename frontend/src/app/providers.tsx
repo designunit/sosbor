@@ -1,14 +1,13 @@
 "use client"
 
-import { MantineProvider } from "@mantine/core"
-import { ModalsProvider } from "@mantine/modals"
+import { createTheme, MantineProvider } from "@mantine/core"
 import { MapProvider } from "react-map-gl/mapbox"
 import { SWRConfig } from "swr"
-import { IdeaModal } from "@/components/IdeaModal"
-import { SurveyModal } from "@/components/SurveyModal"
 import { FormContextProvider } from "@/contexts/form"
 import { NavbarContextProvider } from "@/contexts/navbar"
-import { theme } from "@/theme"
+import { themeColors } from "@/theme"
+
+const globalTheme = createTheme({ colors: themeColors })
 
 export function Providers({ children }: { children: React.ReactNode }) {
     return (
@@ -24,15 +23,8 @@ export function Providers({ children }: { children: React.ReactNode }) {
             <MapProvider>
                 <FormContextProvider>
                     <NavbarContextProvider>
-                        <MantineProvider theme={theme} defaultColorScheme="light">
-                            <ModalsProvider
-                                modals={{
-                                    idea: IdeaModal,
-                                    survey: SurveyModal,
-                                }}
-                            >
-                                {children}
-                            </ModalsProvider>
+                        <MantineProvider theme={globalTheme} defaultColorScheme="light">
+                            {children}
                         </MantineProvider>
                     </NavbarContextProvider>
                 </FormContextProvider>

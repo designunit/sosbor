@@ -4,13 +4,14 @@ import { AppShell, Button, Stack } from "@mantine/core"
 import { useDisclosure, useMediaQuery } from "@mantine/hooks"
 import Link from "next/link"
 import { Suspense, useContext } from "react"
+import { PublicProviders } from "@/app/public-providers"
 import { Header } from "@/components/Header"
 import { SubmissionFeed } from "@/components/SubmissionFeed"
 import { NavbarContext } from "@/contexts/navbar"
 import { useOpenSurveyModal } from "@/hooks/useOpenSurveyModal"
 import { navButtons } from "@/lib/navigation"
 
-export default function MapLayout({ children }: { children: React.ReactNode }) {
+function MapLayoutContent({ children }: { children: React.ReactNode }) {
     const { drawer, setDrawer } = useContext(NavbarContext)
     const isMobile = useMediaQuery("(max-width: 768px)", true)
     const [mobileOpened, { toggle: toggleMobile }] = useDisclosure()
@@ -121,5 +122,13 @@ export default function MapLayout({ children }: { children: React.ReactNode }) {
                 {children}
             </AppShell.Main>
         </AppShell>
+    )
+}
+
+export default function MapLayout({ children }: { children: React.ReactNode }) {
+    return (
+        <PublicProviders>
+            <MapLayoutContent>{children}</MapLayoutContent>
+        </PublicProviders>
     )
 }
